@@ -1,21 +1,19 @@
 package tr.optimus.iptv;
 
 import android.app.Activity;
+import android.app.DownloadManager;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
+import android.database.Cursor;
 import android.graphics.Color;
-import android.graphics.Insets;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.SystemClock;
+import android.os.Environment;
+import android.os.StatFs;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowInsets;
-import android.view.WindowInsetsController;
 import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
@@ -25,11 +23,11 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -48,9 +46,7 @@ public class MainActivity extends Activity {
     private static final int REQ_FILE = 11;
     private static final int CHUNK = 400000;
     private static final int MAX_BODY = 80 * 1024 * 1024;
-    private static final int BG_DARK = Color.parseColor("#0D1014");
-    private static final int BG_LIGHT = Color.parseColor("#EEF0F3");
-    private static final long EXIT_WINDOW_MS = 2000;
+    private static final String BG = "#0D1014";
 
     static MainActivity self;
 
@@ -59,10 +55,6 @@ public class MainActivity extends Activity {
     private View customView;
     private WebChromeClient.CustomViewCallback customCb;
     private ValueCallback<Uri[]> fileCb;
-    private boolean darkUi = true;
-    private boolean edgeToEdge;
-    private long lastBack;
-    private int[] insetsDp = {0, 0, 0, 0};
 
     private final ExecutorService pool = Executors.newFixedThreadPool(4);
     private final ConcurrentHashMap<Integer, String> bodies = new ConcurrentHashMap<Integer, String>();
@@ -72,26 +64,21 @@ public class MainActivity extends Activity {
         super.onCreate(state);
         self = this;
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        getWindow().setStatusBarColor(Color.parseColor(BG));
+        getWindow().setNavigationBarColor(Color.parseColor(BG));
 
         root = new FrameLayout(this);
+        root.setBackgroundColor(Color.parseColor(BG));
         web = new WebView(this);
-        // Pencere arka planı (tema rengi) sayfa çizilene kadar görünür: beyaz parlama olmaz
-        web.setBackgroundColor(Color.TRANSPARENT);
-        web.setOverScrollMode(View.OVER_SCROLL_NEVER);
+        web.setBackgroundColor(Color.parseColor(BG));
         root.addView(web, new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         setContentView(root);
-        setupSystemBars();
-
-        if ((getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0) {
-            WebView.setWebContentsDebuggingEnabled(true);
-        }
 
         WebSettings s = web.getSettings();
         s.setJavaScriptEnabled(true);
         s.setDomStorageEnabled(true);
         s.setAllowFileAccess(true);
-        // hls.js / mpegts.js akışları doğrudan çeker: file:// sayfasından CORS sınırı olmadan
         s.setAllowFileAccessFromFileURLs(true);
         s.setAllowUniversalAccessFromFileURLs(true);
         s.setMediaPlaybackRequiresUserGesture(false);
@@ -112,11 +99,6 @@ public class MainActivity extends Activity {
                     // açacak uygulama yok
                 }
                 return true;
-            }
-
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                pushInsets();
             }
         });
 
@@ -159,89 +141,11 @@ public class MainActivity extends Activity {
             }
         });
 
-        if (state != null) {
-            web.restoreState(state);
-        }
-        if (web.getUrl() == null) {
-            web.loadUrl("file:///android_asset/index.html");
-        }
+        web.loadUrl("file:///android_asset/index.html");
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle out) {
-        super.onSaveInstanceState(out);
-        web.saveState(out);
-    }
-
-    /**
-     * Android 11+: uçtan uca çizim (kamera deliği ve sistem çubukları dahil). Güvenli alan boşlukları
-     * sayfaya CSS değişkeni olarak iletilir, klavye açıkken sayfa klavyenin üstünde kalır.
-     * Daha eski sürümlerde düz renkli sistem çubukları kullanılır.
-     */
-    private void setupSystemBars() {
-        Window w = getWindow();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            WindowManager.LayoutParams lp = w.getAttributes();
-            lp.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
-            w.setAttributes(lp);
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            edgeToEdge = true;
-            w.setDecorFitsSystemWindows(false);
-            w.setStatusBarColor(Color.TRANSPARENT);
-            w.setNavigationBarColor(Color.TRANSPARENT);
-            w.setNavigationBarContrastEnforced(false);
-            root.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
-                @Override
-                public WindowInsets onApplyWindowInsets(View v, WindowInsets insets) {
-                    Insets bars = insets.getInsets(WindowInsets.Type.systemBars() | WindowInsets.Type.displayCutout());
-                    Insets ime = insets.getInsets(WindowInsets.Type.ime());
-                    boolean imeOn = insets.isVisible(WindowInsets.Type.ime());
-                    v.setPadding(0, 0, 0, imeOn ? ime.bottom : 0);
-                    float d = getResources().getDisplayMetrics().density;
-                    insetsDp = new int[]{
-                            Math.round(bars.top / d), Math.round(bars.right / d),
-                            imeOn ? 0 : Math.round(bars.bottom / d), Math.round(bars.left / d)};
-                    pushInsets();
-                    return WindowInsets.CONSUMED;
-                }
-            });
-        } else {
-            w.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-        }
-        applyBarColors();
-    }
-
-    private void pushInsets() {
-        if (web == null) {
-            return;
-        }
-        web.evaluateJavascript("(function(s){s.setProperty('--native-inset-top','" + insetsDp[0] + "px');"
-                + "s.setProperty('--native-inset-right','" + insetsDp[1] + "px');"
-                + "s.setProperty('--native-inset-bottom','" + insetsDp[2] + "px');"
-                + "s.setProperty('--native-inset-left','" + insetsDp[3] + "px')})(document.documentElement.style)", null);
-    }
-
-    /** Sistem çubuğu simgeleri temaya uyar: açık temada koyu simgeler, koyu temada açık simgeler. */
-    private void applyBarColors() {
-        Window w = getWindow();
-        int bg = darkUi ? BG_DARK : BG_LIGHT;
-        root.setBackgroundColor(bg);
-        if (edgeToEdge) {
-            WindowInsetsController c = w.getInsetsController();
-            if (c != null) {
-                int light = WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
-                        | WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS;
-                c.setSystemBarsAppearance(darkUi ? 0 : light, light);
-            }
-        } else {
-            w.setStatusBarColor(bg);
-            w.setNavigationBarColor(bg);
-            View d = w.getDecorView();
-            int flags = d.getSystemUiVisibility();
-            int light = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
-            d.setSystemUiVisibility(darkUi ? (flags & ~light) : (flags | light));
-        }
+    private DownloadManager dm() {
+        return (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
     }
 
     /** Başka bir ekrandan sayfaya JavaScript gönderir. */
@@ -277,29 +181,13 @@ public class MainActivity extends Activity {
         try {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.mxtech.videoplayer.pro")));
         } catch (ActivityNotFoundException e) {
-            try {
-                startActivity(new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("https://play.google.com/store/apps/details?id=com.mxtech.videoplayer.pro")));
-            } catch (ActivityNotFoundException ignored) {
-                // tarayıcı da yok
-            }
+            startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://play.google.com/store/apps/details?id=com.mxtech.videoplayer.pro")));
         }
         js("window.__mxMissing&&window.__mxMissing()");
     }
 
     private void immersive(boolean on) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            WindowInsetsController c = getWindow().getInsetsController();
-            if (c != null) {
-                if (on) {
-                    c.setSystemBarsBehavior(WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
-                    c.hide(WindowInsets.Type.systemBars());
-                } else {
-                    c.show(WindowInsets.Type.systemBars());
-                }
-            }
-            return;
-        }
         View d = getWindow().getDecorView();
         if (on) {
             d.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN
@@ -309,8 +197,7 @@ public class MainActivity extends Activity {
                     | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
         } else {
-            d.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-            applyBarColors();
+            d.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
         }
     }
 
@@ -341,32 +228,13 @@ public class MainActivity extends Activity {
         }
     }
 
-    /**
-     * Geri: önce tam ekran, sonra sayfadaki açık öğeler (arama, liste yükleme paneli…), en sonda
-     * "çıkmak için tekrar basın". Uygulama ilk geri hareketinde kapanmaz.
-     */
     @Override
     public void onBackPressed() {
         if (customView != null) {
             hideCustom();
-            return;
+        } else {
+            super.onBackPressed();
         }
-        web.evaluateJavascript("(function(){try{return !!(window.__nativeBack&&window.__nativeBack());}catch(e){return false;}})()",
-                new ValueCallback<String>() {
-                    @Override
-                    public void onReceiveValue(String handled) {
-                        if ("true".equals(handled)) {
-                            return;
-                        }
-                        long now = SystemClock.elapsedRealtime();
-                        if (now - lastBack < EXIT_WINDOW_MS) {
-                            finish();
-                        } else {
-                            lastBack = now;
-                            Toast.makeText(MainActivity.this, "Çıkmak için tekrar geri tuşuna basın", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
     }
 
     @Override
@@ -381,9 +249,7 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onDestroy() {
-        if (self == this) {
-            self = null;
-        }
+        self = null;
         pool.shutdownNow();
         root.removeAllViews();
         web.destroy();
@@ -404,25 +270,92 @@ public class MainActivity extends Activity {
         }
 
         @JavascriptInterface
-        public boolean hasVlc() {
+        public boolean hasDownloads() {
             return true;
         }
 
+        /** Sistem indirme yöneticisine bir indirme ekler; indirme numarasını döndürür, hata olursa -1. */
         @JavascriptInterface
-        public String version() {
-            return BuildConfig.VERSION_NAME;
+        public double startDownload(String url, String filename, String title, boolean wifiOnly) {
+            try {
+                DownloadManager.Request r = new DownloadManager.Request(Uri.parse(url));
+                r.setTitle(title == null ? filename : title);
+                r.setDescription("OPTİMUS İptv Player PRO");
+                r.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                r.setDestinationInExternalFilesDir(MainActivity.this, Environment.DIRECTORY_MOVIES, filename);
+                r.addRequestHeader("User-Agent", "Mozilla/5.0 (Linux; Android) OPTIMUS-IPTV");
+                if (wifiOnly) {
+                    r.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI);
+                }
+                r.setAllowedOverMetered(!wifiOnly);
+                r.setAllowedOverRoaming(!wifiOnly);
+                return (double) dm().enqueue(r);
+            } catch (Exception e) {
+                return -1;
+            }
         }
 
-        /** Sayfanın teması değişince sistem çubuklarını uyarlar. */
+        /** Verilen indirme numaralarının durumunu JSON olarak döndürür. */
         @JavascriptInterface
-        public void setTheme(final boolean dark) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    darkUi = dark;
-                    applyBarColors();
+        public String downloads(String idsJson) {
+            Cursor c = null;
+            try {
+                JSONArray ids = new JSONArray(idsJson);
+                long[] arr = new long[ids.length()];
+                for (int i = 0; i < arr.length; i++) {
+                    arr[i] = ids.getLong(i);
                 }
-            });
+                c = dm().query(new DownloadManager.Query().setFilterById(arr));
+                JSONArray out = new JSONArray();
+                if (c != null) {
+                    while (c.moveToNext()) {
+                        JSONObject o = new JSONObject();
+                        o.put("id", c.getLong(c.getColumnIndexOrThrow(DownloadManager.COLUMN_ID)));
+                        o.put("status", c.getInt(c.getColumnIndexOrThrow(DownloadManager.COLUMN_STATUS)));
+                        o.put("bytes", c.getLong(c.getColumnIndexOrThrow(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR)));
+                        o.put("total", c.getLong(c.getColumnIndexOrThrow(DownloadManager.COLUMN_TOTAL_SIZE_BYTES)));
+                        o.put("reason", c.getInt(c.getColumnIndexOrThrow(DownloadManager.COLUMN_REASON)));
+                        String uri = c.getString(c.getColumnIndexOrThrow(DownloadManager.COLUMN_LOCAL_URI));
+                        o.put("uri", uri == null ? "" : uri);
+                        out.put(o);
+                    }
+                }
+                return out.toString();
+            } catch (Exception e) {
+                return "[]";
+            } finally {
+                if (c != null) {
+                    c.close();
+                }
+            }
+        }
+
+        /** İndirmeyi durdurur ve dosyasını siler. */
+        @JavascriptInterface
+        public void removeDownload(double id) {
+            try {
+                dm().remove((long) id);
+            } catch (Exception e) {
+                // zaten silinmiş
+            }
+        }
+
+        @JavascriptInterface
+        public double freeBytes() {
+            try {
+                File d = getExternalFilesDir(Environment.DIRECTORY_MOVIES);
+                if (d == null) {
+                    d = getFilesDir();
+                }
+                return (double) new StatFs(d.getAbsolutePath()).getAvailableBytes();
+            } catch (Exception e) {
+                return 0;
+            }
+        }
+
+        @JavascriptInterface
+        public boolean hasVlc() {
+            return true;
         }
 
         @JavascriptInterface
@@ -431,7 +364,7 @@ public class MainActivity extends Activity {
                 @Override
                 public void run() {
                     PlayerActivity p = PlayerActivity.instance;
-                    if (p != null && !p.isFinishing()) {
+                    if (p != null) {
                         p.load(url, name);
                     } else {
                         Intent i = new Intent(MainActivity.this, PlayerActivity.class);
@@ -518,17 +451,14 @@ public class MainActivity extends Activity {
                     byte[] buf = new byte[16384];
                     int n;
                     int total = 0;
-                    try {
-                        while ((n = in.read(buf)) != -1) {
-                            total += n;
-                            if (total > MAX_BODY) {
-                                throw new IOException("Yanıt çok büyük");
-                            }
-                            out.write(buf, 0, n);
+                    while ((n = in.read(buf)) != -1) {
+                        total += n;
+                        if (total > MAX_BODY) {
+                            throw new IOException("Yanıt çok büyük");
                         }
-                    } finally {
-                        in.close();
+                        out.write(buf, 0, n);
                     }
+                    in.close();
                     body = new String(out.toByteArray(), "UTF-8");
                 }
                 bodies.put(id, body);

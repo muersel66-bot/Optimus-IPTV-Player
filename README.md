@@ -1,63 +1,47 @@
 # ⚡OPTİMUS™⚡ İptv Player PRO (Android)
 
-IPTV-Player für Android-Handys und Android TV: M3U-Listen, **Xtream Codes** und **Stalker-Portale**, Wiedergabe mit dem eingebauten **VLC-Motor** (Dolby Digital, Dolby Digital Plus, DTS), alternativ Web-Player oder MX Player.
+Oynatıcı sayfası (`app/src/main/assets/index.html`) bir WebView içinde çalışır.
+Uygulamada M3U, Xtream ve Stalker girişleri doğrudan çalışır (CORS sınırı yoktur).
 
-> Türkische Originalanleitung: [docs/README.tr.md](docs/README.tr.md)
+## APK'yı bilgisayarsız / Android Studio'suz derleme (GitHub)
+1. github.com'da ücretsiz hesap açın, yeni bir **boş depo** oluşturun.
+2. Bu klasörün içeriğini depoya yükleyin ("Add file > Upload files"). `.github` klasörü de yüklenmeli.
+3. Depoda **Actions** sekmesini açın. "APK derle" çalışır (yaklaşık 3-5 dakika).
+   Çalışmazsa "APK derle > Run workflow" düğmesine basın.
+4. Bitince çalıştırmanın sayfasında **Artifacts** altından `OPTIMUS-IPTV-PRO-apk` dosyasını indirin, zip içindeki `app-release.apk` dosyasını telefona kurun.
+   (Telefonda "bilinmeyen kaynaklardan kuruluma izin ver" açık olmalı.)
 
-## 📲 Download
+## Android Studio ile
+Klasörü açın, Build > Build APK(s). Çıktı: `app/build/outputs/apk/release/app-release.apk`.
+Gerekli: JDK 17, Android SDK 34.
 
-Die fertige APK gibt es unter **[Releases](../../releases/latest)**:
+## Ses: Dolby Digital, Dolby Digital Plus, DTS
+Uygulama varsayılan olarak **VLC motoru** (libVLC) ile oynatır. AC-3, E-AC-3 (Dolby Digital Plus), DTS ve DTS-HD sesleri
+cihazın donanım desteğine bakmadan yazılımla çözülür; RTMP, RTSP ve UDP akışları da açılır.
+- Oynatma ekranında kodek görünür (örnek: "Ses: Dolby Digital Plus 5.1"). "Ses" düğmesi ses parçasını seçtirir.
+- Kanal değiştirme: kumandada yukarı/aşağı, dokunmatikte "Önceki/Sonraki".
+- Sayfanın üstündeki "Motor" düğmesi VLC ile tarayıcı oynatıcısı arasında geçiş yapar.
+- Ses telefon/TV hoparlörüne stereo veya cihazın desteklediği kanal sayısıyla gider; HDMI "passthrough" yoktur.
+- **MX Player Pro:** "Motor" düğmesini "MX Player"a getirirseniz yayınlar yüklü olan MX Player Pro'da (yoksa MX Player'da) açılır.
+  Uygulama MX Player'ı içermez, ayrıca kurulması gerekir. Kanal değiştirmek için MX'ten çıkıp listeden başka kanal seçilir.
+  Dolby/DTS desteği MX Player'ın kendi ayarlarına ve ses kodek paketine bağlıdır.
+- VLC çözücüleri APK'yı birkaç on MB büyütür ve işlemci kullanır.
 
-- `OPTIMUS-IPTV-PRO-<version>-arm64-v8a.apk` – für fast alle aktuellen Handys (empfohlen)
-- `OPTIMUS-IPTV-PRO-<version>-armeabi-v7a.apk` – ältere 32-Bit-Geräte / TV-Boxen
-- `OPTIMUS-IPTV-PRO-<version>-universal.apk` – läuft überall
+## Film ve dizi indirme (çevrimdışı izleme)
+- Film ve dizi bölümlerinin yanındaki ⬇ düğmesi dosyayı Android'in indirme yöneticisiyle indirir; bildirim gösterir, kesilirse devam eder.
+- Dizilerde sezon başlığındaki "Sezonu indir" tüm bölümleri sıraya alır (iki dokunuşla onay).
+- İndirmeler **birer birer** yapılır (sağlayıcıların eşzamanlı bağlantı sınırı için). Kuyruk uygulama açıkken ilerler.
+- **İndirilenler** bölümünde ilerleme, boş alan, "Yalnızca Wi-Fi'da indir", oynat, iptal ve sil vardır.
+- İndirilen dosya, listeden açılınca otomatik olarak çevrimdışı (VLC ile) oynatılır.
+- Dosyalar uygulamaya özel alana (Android/data/.../files/Movies) iner; uygulama silinirse dosyalar da silinir. Ek izin gerekmez.
 
-Auf dem Handy öffnen und „Installation aus unbekannten Quellen" für den Browser/Dateimanager erlauben. Mindestens Android 8.0.
+## Robot efektleri
+- Açılışta robotlu "SİSTEM BAŞLATILIYOR" animasyonu (oturum başına bir kez, dokununca geçilir) ve kısa robot sesleri.
+- Neon parlayan logo, tarama çizgili ana ekran, parlayan düğmeler ve seçili kanal vurgusu.
+- Başlıktaki **FX** düğmesi efektleri ve sesleri açar/kapatır. Cihazda "hareketi azalt" açıksa açılış animasyonu atlanır.
 
-## Funktionen
-
-- M3U per Link, Datei oder Text · Xtream-Login · Stalker-Portal (MAC)
-- Kategorien, Suche, Favoriten, letzter Sender wird gemerkt
-- VLC-Player: Senderwechsel (◀ ▶, Fernbedienung ↑↓/CH±), Tonspur- und Untertitelwahl, Bildformat, Auto-Reconnect, Bild-im-Bild
-- Audio-Codec-Anzeige (z. B. „Ses: Dolby Digital Plus 5.1")
-- Einzelvideos (URL oder Datei) mit .srt/.vtt-Untertiteln im Web-Player
-- Hell / Dunkel / System, randlose Darstellung mit Kamera-Loch-Unterstützung, Zurück-Geste mit Exit-Bestätigung
-
-## Selbst bauen
-
-**Ohne PC (GitHub Actions):** Jeder Push baut die APKs (Reiter *Actions* → Lauf → *Artifacts*).
-Ein Release mit APKs entsteht automatisch, wenn ein Tag gepusht wird:
-
-```bash
-git tag v1.4.0 && git push origin v1.4.0
-```
-
-oder über *Actions → „APK bauen & veröffentlichen" → Run workflow* mit Release-Tag.
-
-**Lokal / Android Studio:** JDK 17 + Android SDK 34, dann
-
-```bash
-./gradlew assembleRelease
-# → app/build/outputs/apk/release/*.apk
-```
-
-## Signatur
-
-`app/optimus.keystore` ist ein **öffentlicher Beispiel-Schlüssel** (damit Updates über ältere Versionen installierbar bleiben). Für einen eigenen Schlüssel in GitHub unter *Settings → Secrets and variables → Actions* anlegen:
-
-| Secret | Inhalt |
-|---|---|
-| `SIGNING_KEYSTORE_BASE64` | `base64 -w0 mein.keystore` |
-| `SIGNING_STORE_PASSWORD` | Keystore-Passwort |
-| `SIGNING_KEY_ALIAS` | Alias |
-| `SIGNING_KEY_PASSWORD` | Schlüssel-Passwort |
-
-Hinweis: Nach einem Schlüsselwechsel muss die alte App einmal deinstalliert werden.
-
-## Aufbau
-
-- `app/src/main/assets/index.html` – Oberfläche (läuft in einer WebView), `assets/lib/` – hls.js & mpegts.js
-- `MainActivity.java` – WebView-Hülle, nativer Netzwerk-Bridge (kein CORS), Systemleisten/Insets, Zurück-Logik
-- `PlayerActivity.java` – Vollbild-VLC-Player
-
-Lizenzen: App MIT (siehe `LICENSE`); hls.js Apache-2.0; mpegts.js Apache-2.0; libVLC LGPL-2.1+.
+## Notlar
+- Alt sürüm: Android 8.0 (API 26) ve üstü. Android TV'de de açılır.
+- İmza anahtarı (`app/optimus.keystore`) herkese açık örnek bir anahtardır. Kendi anahtarınızı kullanmak için
+  `app/build.gradle` içindeki `signingConfigs` bölümünü değiştirin.
+- Oynatıcı kütüphaneleri (hls.js, mpegts.js) internetten yüklenir, cihaz çevrimiçi olmalı.
