@@ -1,0 +1,91 @@
+plugins {
+    id 'com.android.application'
+}
+
+// Sürüm: CI'da etiketten (v1.4.0 → 1.4.0) veya ortam değişkenlerinden gelebilir
+def appVersionName = System.getenv('APP_VERSION_NAME') ?: '1.4.0'
+def appVersionCode = (System.getenv('APP_VERSION_CODE') ?: '5').toInteger()
+
+android {
+    namespace 'tr.optimus.iptv'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId 'tr.optimus.iptv'
+        minSdk 26
+        targetSdk 34
+        versionCode appVersionCode
+        versionName appVersionName
+
+        // Boyutu küçültmek için yalnızca telefon/TV işlemci mimarileri
+        ndk {
+            abiFilters 'arm64-v8a', 'armeabi-v7a'
+        }
+    }
+
+    buildFeatures {
+        buildConfig true
+    }
+
+    // Sabit imza anahtarı: yeni sürümler eskisinin üzerine kurulabilir.
+    // Kendi anahtarınız için SIGNING_STORE_FILE / SIGNING_STORE_PASSWORD / SIGNING_KEY_ALIAS / SIGNING_KEY_PASSWORD
+    // ortam değişkenlerini verin (GitHub Actions'ta depo "secrets" ile, bkz. README).
+    signingConfigs {
+        optimus {
+            storeFile file(System.getenv('SIGNING_STORE_FILE') ?: 'optimus.keystore')
+            storePassword System.getenv('SIGNING_STORE_PASSWORD') ?: 'optimus123'
+            keyAlias System.getenv('SIGNING_KEY_ALIAS') ?: 'optimus'
+            keyPassword System.getenv('SIGNING_KEY_PASSWORD') ?: 'optimus123'
+        }
+    }
+
+    // Telefonların çoğu (arm64) için ayrı, daha küçük APK + her cihazda çalışan "universal" APK
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'arm64-v8a', 'armeabi-v7a'
+            universalApk true
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.optimus
+        }
+        debug {
+            signingConfig signingConfigs.optimus
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    lint {
+        abortOnError false
+        checkReleaseBuilds false
+    }
+}
+
+// ABI'ye göre farklı versionCode: universal < armeabi-v7a < arm64-v8a, hepsi aynı imzayla güncellenebilir
+def abiCodes = ['armeabi-v7a': 1, 'arm64-v8a': 2]
+android.applicationVariants.configureEach { variant ->
+    variant.outputs.each { output ->
+        def abi = output.getFilter(com.android.build.OutputFile.ABI)
+        def suffix = abi ?: 'universal'
+        output.outputFileName = "OPTIMUS-IPTV-PRO-${variant.versionName}-${suffix}.apk"
+        if (abi != null) {
+            output.versionCodeOverride = variant.versionCode * 10 + abiCodes.get(abi, 0)
+        } else {
+            output.versionCodeOverride = variant.versionCode * 10
+        }
+    }
+}
+
+dependencies {
+    // VLC çekirdeği: Dolby Digital (AC-3), Dolby Digital Plus (E-AC-3), DTS ve diğer sesleri çözer
+    implementation 'org.videolan.android:libvlc-all:3.6.0'
+}
