@@ -5,6 +5,9 @@ on:
     branches: [main, master]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -25,3 +28,14 @@ jobs:
         with:
           name: OPTIMUS-IPTV-PRO-apk
           path: app/build/outputs/apk/release/*.apk
+
+      - name: Sürüm adını oku
+        id: ver
+        run: echo "name=$(grep -oP "versionName '\K[^']+" app/build.gradle)" >> "$GITHUB_OUTPUT"
+
+      # Uygulama içi güncelleme bu sürümü (Releases) kontrol eder
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.ver.outputs.name }}
+          name: OPTİMUS İptv Player PRO ${{ steps.ver.outputs.name }}
+          files: app/build/outputs/apk/release/*.apk
