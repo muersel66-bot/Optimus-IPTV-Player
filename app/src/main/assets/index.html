@@ -451,6 +451,59 @@ body.fsp .stage:not(.fsvis) { cursor: none; }
 .fsb.txt { border-radius: 22px; }
 #fsSeek { width: 100%; accent-color: #19e3ff; }
 body.fsp .stage video { object-fit: contain; }
+
+/* ---------- TV: sağ üstte küçük ekran / büyük ekran ---------- */
+.fsopen { display: flex; align-items: center; width: auto; gap: 6px; padding: 0 12px 0 9px; }
+#fsBack { display: flex; align-items: center; gap: 6px; }
+body.tv.fsp { zoom: 1; }
+body.tv.fsp .stage { max-height: none; width: 100vw; height: 100vh; }
+.fsopen span, #fsBack span { font: 600 13px var(--font-body); }
+#fsBack svg { width: 20px; height: 20px; }
+body.tv .fsopen { height: 46px; padding: 0 16px 0 12px; opacity: 1; }
+body.tv .fsopen span { font-size: 15px; }
+body.tv.fsp .fsopen { display: none; }
+
+/* ---------- cihaz uyumu: TV başlık ve küçük telefon ---------- */
+body.tv .hib { width: 46px; height: 46px; }
+body.tv .hicons { gap: 4px; }
+.htop > * { min-width: 0; }
+@media (max-width: 700px) and (orientation: portrait) {
+  .app .keys, .app .epg .epgnext, .app #epgDesc { display: none; }
+  .app .stage { max-height: 34vh; }
+  .app .epg { padding: 8px 12px; }
+}
+@media (max-width: 480px) and (orientation: portrait) {
+  .app .vctl { display: none; }
+  .lcat .field { padding: 7px 14px; font-size: 15px; }
+  .lcat { gap: 6px; padding: 8px 12px; }
+  .lcat .tab { padding: 6px 12px; }
+}
+
+/* ---------- kategori ayrıntıları ---------- */
+.catctl { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 13px; color: var(--muted); }
+.catgrow { flex: 1; }
+.catctl .btn { padding: 5px 10px; font-size: 13px; }
+.catgrid.detail { grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)); }
+.catgrid.detail .catcard.virt { min-height: 64px; }
+.catgrid.detail .catcard { gap: 5px; min-height: 120px; }
+.catgrid.detail .catcard > span { font-size: 15px; font-weight: 700; }
+.catbar { display: block; height: 4px; border-radius: 4px; background: rgba(255,255,255,.12); overflow: hidden; }
+.catbar u { display: block; height: 100%; background: linear-gradient(90deg, #19e3ff, #7a5cff); text-decoration: none; }
+.cattags { color: #ffcf3d; font-size: 12px; }
+.catcard[aria-pressed="true"] .cattags { color: inherit; }
+.catlogos { display: flex; gap: 4px; }
+.catlogos img { width: 28px; height: 28px; object-fit: contain; border-radius: 6px; background: rgba(255,255,255,.1); }
+.catsmp { color: var(--muted); font-size: 12px; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.catcard[aria-pressed="true"] .catsmp { color: inherit; opacity: .85; }
+
+/* pencereler her temada koyu: açık sistem temasında okunaklı kalsın */
+.modal .mbox { --panel: #1a1d36; --panel-2: #262b4e; --line: rgba(255,255,255,.16); --muted: #a3abcc; --text: #eef1fb; background: #1a1d36; color: #eef1fb; }
+.modal .mbox .field { background: #262b4e; color: #eef1fb; border-color: rgba(255,255,255,.16); }
+.modal .mbox .field::placeholder { color: #8d95b8; }
+.modal .mbox .btn.ghost { color: #eef1fb; border-color: rgba(255,255,255,.22); background: transparent; }
+.modal .mbox .icon-btn { color: #eef1fb; border-color: rgba(255,255,255,.22); }
+.modal .mbox .mhead strong { color: #eef1fb; }
+#catSearch { flex: 0 0 auto; height: auto; min-height: 0; }
 /* ---------- Ayarlar ekranı ---------- */
 body.set-open .app, body.set-open #home { display: none; }
 body.set-open { background: linear-gradient(120deg, #1a1236 0%, #2a1747 60%, #321a4a 100%) fixed; color: #f1f3fb; }
@@ -475,6 +528,7 @@ body.noposters #homeRows { display: none; }
 body.noepg .epg { display: none; }
 .hint.ok { color: #5ee08a; }
 .hint.bad { color: #ff7a7a; }
+.qrvid { width: 100%; max-height: 50vh; border-radius: 12px; background: #000; margin: 8px 0; }
 video::cue { font-size: var(--subsz, 100%); color: var(--subcol, #fff); background: rgba(0,0,0,.65); }
 /* ---------- robot efektleri ---------- */
 :root { --fx: #19e3ff; --fx2: #7a5cff; }
@@ -552,6 +606,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
   <div class="mbox" role="dialog" aria-modal="true" aria-labelledby="catTitle">
     <div class="mhead"><strong id="catTitle">Kategoriler</strong><button class="icon-btn" id="catClose" type="button" aria-label="Kapat">✕</button></div>
     <input class="field" id="catSearch" type="search" placeholder="Kategori ara" aria-label="Kategori ara" autocomplete="off">
+    <div class="catctl"><span id="catSum"></span><span class="catgrow"></span><button class="btn ghost" id="catSort" type="button"></button><button class="btn ghost" id="catView" type="button"></button></div>
     <div class="catgrid" id="catGrid"></div>
     <button class="btn ghost" id="catManage" type="button">Gizli kategorileri yönet</button>
   </div>
@@ -619,8 +674,8 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
       <video id="video" controls playsinline autoplay></video>
       <div class="badge" id="badge" hidden><i></i>Canlı</div>
       <div class="status" id="status"></div>
-      <button type="button" class="fsopen" id="fsOpen" aria-label="Tam ekran oynatıcı" title="Tam ekran oynatıcı"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5 M20 9V4h-5 M4 15v5h5 M20 15v5h-5"/></svg></button>
-      <div class="fsbar" id="fsTop"><button type="button" class="fsb" id="fsBack" aria-label="Geri"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><div class="fst"><b id="fsName"></b><small id="fsInfo"></small></div><span id="fsClock"></span></div>
+      <button type="button" class="fsopen" id="fsOpen" aria-label="Büyük ekran" title="Büyük ekran"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5 M20 9V4h-5 M4 15v5h5 M20 15v5h-5"/></svg><span>Büyük ekran</span></button>
+      <div class="fsbar" id="fsTop"><button type="button" class="fsb txt" id="fsBack" aria-label="Küçük ekran"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg><span>Küçük ekran</span></button><div class="fst"><b id="fsName"></b><small id="fsInfo"></small></div><span id="fsClock"></span></div>
       <div class="fsbar fsbot" id="fsCtl">
         <input type="range" id="fsSeek" min="0" max="1000" value="0" aria-label="Konum">
         <div class="fsrow">
@@ -852,7 +907,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
   }
   document.querySelectorAll("#secTabs button").forEach(function (b) { b.onclick = function () { setSec(b.dataset.sec); }; });
 
-  function openItem(c) { if (c.seriesId) openSeries(c); else { play(c.id); fsMaybe(c.id); } }
+  function openItem(c) { if (c.seriesId) openSeries(c); else { var same = current === c.id; if (IS_TV && same && !video.paused && !extOn()) { fsOpen(); return; } play(c.id); fsMaybe(c.id, same); } }
 
   function seriesHead() {
     var li = document.createElement("li"); li.className = "shead";
@@ -1491,7 +1546,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
     if (typing) { if (e.key === "Escape") e.target.blur(); return; }
     if (e.key === "ArrowDown") { e.preventDefault(); step(1); }
     else if (e.key === "ArrowUp") { e.preventDefault(); step(-1); }
-    else if (e.key === "f" || e.key === "F") { if (document.fullscreenElement) document.exitFullscreen(); else if ($("stage").requestFullscreen) $("stage").requestFullscreen().catch(function () {}); }
+    else if (e.key === "f" || e.key === "F") { if (document.fullscreenElement) document.exitFullscreen(); else if (fsIsOpen()) fsClose(); else fsOpen(); }
     else if (e.key === "m" || e.key === "M") { video.muted = !video.muted; }
     else if (e.key === " ") { e.preventDefault(); if (video.paused) video.play().catch(function () {}); else video.pause(); }
     else if ((e.key === "ArrowRight" || e.key === "ArrowLeft") && isFinite(video.duration) && video.duration > 0) { e.preventDefault(); video.currentTime = Math.max(0, video.currentTime + (e.key === "ArrowRight" ? 10 : -10)); }
@@ -1712,7 +1767,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
   setInterval(tickDl, 2000);
 
   /* ---------- ayarlar: kategoriler, gizli, güncelleme, destek ---------- */
-  var APP_VERSION = "4.15";
+  var APP_VERSION = "4.22";
   var hiddenCats = {}, unlocked = false, mTab = "home", mSec = "live", mMsg = "";
   try { hiddenCats = JSON.parse(store("sinyal.hidden") || "{}") || {}; } catch (e) { hiddenCats = {}; }
   function hKey(kind, g) { return kind + "|" + g; }
@@ -2156,7 +2211,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
         "Oynat": "Play", "Video dosyası seç": "Choose video file", "Altyazı seç": "Choose subtitles",
         "Cihazınızdaki video dosyaları tarayıcı oynatıcısında açılır (mp4, webm, çoğu mkv). Altyazı için .srt veya .vtt seçin.": "Video files on your device open in the browser player (mp4, webm, most mkv). For subtitles choose .srt or .vtt.",
         "Kanal ara ( / )": "Search channels ( / )", "Kanal ara": "Search channels", "Kategoriler": "Categories",
-        "☰ Kategoriler": "☰ Categories", "Kategori ara": "Search categories", "Gizli kategorileri yönet": "Manage hidden categories", "Eşleşen kategori yok.": "No matching categories.", "＋ Ekle": "＋ Add", "Bağlantıyı kaydet": "Save link", "Sil": "Delete", "Geçerli bir bağlantı girin.": "Enter a valid link.", "Adres http:// veya https:// ile başlamalıdır.": "The address must start with http:// or https://.", "Bu bağlantı zaten kayıtlı.": "This link is already saved.", "Bağlantı kaydedildi.": "Link saved.", "Kayıtlı bağlantıya dokunarak listeyi yükleyebilirsiniz.": "Tap a saved link to load its list.", " · hesap bilgisi gizli": " · account details hidden", "Favorilere eklendi.": "Added to favorites.", "Favorilerden çıkarıldı.": "Removed from favorites.", "Ana Ekran": "Home", "Devam et": "Continue", "Canlı Yayın": "Live TV", "Filmler": "Movies", "Diziler": "Series", "Liste ekle": "Add list", "Merkez": "Center", "Açılışta ana ekranı göster: Açık": "Show home screen at start: On", "Açılışta ana ekranı göster: Kapalı": "Show home screen at start: Off", "Tümünü gör ›": "See all ›", "Favoriler": "Favorites", "Canlı Kanallar": "Live channels", "Geçmiş": "History", "Güncelle": "Update", "Yeni sürüm mevcut: ": "New version available: ", "Uygulama güncellemesi": "App update", "Güncelleme kaynağı": "Update source", "GitHub deposu (sahip/depo) veya https:// JSON adresi": "GitHub repository (owner/repo) or https:// JSON address", "Güncellemeyi kontrol et": "Check for updates", "İndir ve kur": "Download and install", "İndir": "Download", "Uygulama güncel.": "The app is up to date.", "Kontrol ediliyor…": "Checking…", "İndiriliyor…": "Downloading…", "Mevcut sürüm: ": "Current version: ", "Önce güncelleme kaynağını girin.": "Enter an update source first.", "Adres https:// ile başlamalıdır.": "The address must start with https://.", "Sürüm bulunamadı. Depo herkese açık olmalı ve en az bir sürüm yayınlanmış olmalı.": "No release found. The repository must be public with at least one published release.", "Güncelleme kontrol edilemedi.": "Could not check for updates.", "Bu sürümde APK dosyası yok.": "This release has no APK file.", "İndirme başlatılamadı (adres https olmalı).": "Could not start the download (the address must be https).", "İndirme iptal edildi.": "Download cancelled.", "İndirme başarısız oldu.": "Download failed.", "Kurulum ekranı açıldı. Kurulumu onaylayın.": "The install screen opened. Confirm the installation.", "Bilinmeyen kaynaklardan kurulum için izin verin, sonra yeniden deneyin.": "Allow installing from unknown sources, then try again.", "Kurulum başlatılamadı.": "Could not start the installation.", "Güncelleme, aynı imzayla derlenmiş APK'yı eskisinin üzerine kurar; listeleriniz ve ayarlarınız korunur.": "The update installs an APK built with the same signature over the old one; your lists and settings are kept.", "Kanal": "Channels", "Film": "Movies", "Dizi": "Series", "Ara": "Search", "Listeyi yenile": "Refresh list", "‹ Geri": "‹ Back", "Kaynak ve ayarlar": "Source and settings", "✕ Kapat": "✕ Close", "Program bilgisi yok": "No program info", "Bu kanal için şu anki program bilgisi bulunamadı.": "No current program info for this channel.", "4K görüntü testi": "4K picture test", "Ekranınızın ve cihazın 4K Ultra HD kodeklerini sınar; test deseniyle keskinliği gözle kontrol edin.": "Tests your screen and the device's 4K Ultra HD codecs; use the test pattern to check sharpness by eye.", "4K testini çalıştır": "Run 4K test", "Test ediliyor…": "Testing…", "Test desenini göster": "Show test pattern", "Ekran çözünürlüğü": "Screen resolution", "Oynatıcı motoru": "Player engine", "Akıcı": "Smooth", "Çözemiyor": "Cannot decode", "Ayarlar": "Settings", "Çalma Listesi Ekle": "Add Playlist", "Ebeveyn Kontrolü": "Parental Control", "Çalma Listesini Değiştir": "Change Playlist", "Dil Değiştir": "Change Language", "Düzeni Değiştir": "Change Layout", "Canlı Kategorileri Gizle": "Hide Live Categories", "Vod Kategorilerini Gizle": "Hide VOD Categories", "Seri Kategorilerini Gizle": "Hide Series Categories", "Geçmiş Kanallarını Temizle": "Clear Channel History", "Film Geçmişini Temizle": "Clear Movie History", "Dizi Geçmişini Temizle": "Clear Series History", "Canlı Kanal Sıralama": "Live Channel Order", "Canlı Yayın Formatı": "Live Stream Format", "Harici Oynatıcılar": "External Players", "Otomatik güncelleme: Açık": "Auto update: On", "Otomatik güncelleme: Kapalı": "Auto update: Off", "Zaman Formatı": "Time Format", "Altyazı Ayarları": "Subtitle Settings", "Cihaz Türünü Seçin": "Select Device Type", "Ebeveyn Kontrolü Açık": "Parental Control On", "Ebeveyn Kontrolü Kapalı": "Parental Control Off", "Şimdi Güncelle": "Update Now", "Kontrol Merkezi": "Control Center", "4K Görüntü Testi": "4K Picture Test", "Sil": "Delete", "İptal": "Cancel", "Kilidi aç": "Unlock", "Liste sırası": "List order", "Otomatik": "Automatic", "Telefon / Tablet": "Phone / Tablet", "Android TV (kumanda)": "Android TV (remote)", "Küçük": "Small", "Orta": "Medium", "Büyük": "Large", "Çok büyük": "Extra large", "Beyaz": "White", "Sarı": "Yellow", "Camgöbeği": "Cyan", "Boyut": "Size", "Renk": "Color", "Açılışta ana ekranı göster": "Show home screen at start", "Ana ekranda afiş satırları": "Poster rows on home screen", "Kompakt kanal listesi": "Compact channel list", "Program bilgisi kartı": "Program info card", "24 saat (13:05)": "24-hour (13:05)", "12 saat (1:05 PM)": "12-hour (1:05 PM)", "Geçmiş temizlendi.": "History cleared.", "Yeni sürüm": "New version", "Kanal seçince tam ekran oynatıcı": "Full-screen player on channel select", "Sığdır": "Fit", "Doldur": "Fill", "Uzat": "Stretch", "Sunucu Ekle": "Add Server", "Kaydet ve yükle": "Save and load", "Sadece kaydet": "Save only", "Kayıtlı sunucular": "Saved servers", "Sunucu kaydedildi.": "Server saved.", "M3U Listesi Ekle": "Add M3U List", "M3U Kanal Listesi Ekle": "Add M3U Channel List", "Dosyadan seç (.m3u / .m3u8)": "Choose file (.m3u / .m3u8)", "Metinden yükle": "Load from text", "Kayıtlı listeler": "Saved lists", "Liste kaydedildi.": "List saved.", "● Aktif · ": "● Active · ", "Aktifleştir · ": "Activate · ", "M3U bağlantısı aktif.": "M3U link is active.", "Bağlantıları denetle": "Check links", "⏳ Denetleniyor…": "⏳ Checking…", "Tüm Verileri Test Et": "Test All Data", "Testi başlat": "Start test", "Test ediliyor…": "Testing…", "Sunucu Değiştir": "Switch Server", "Geç · ": "Switch · ", "Geçmek istediğiniz sunucuya dokunun.": "Tap the server you want to switch to.", "Xtream sunucuları": "Xtream servers", "M3U bağlantıları": "M3U links", "+ M3U ekle": "+ Add M3U", "M3U / M3U8 Oynatıcı": "M3U / M3U8 Player", "Dosyadan aç (.m3u / .m3u8)": "Open file (.m3u / .m3u8)", "Oynat": "Play", "Sunucu Kategorileri": "Server Categories", "Aktif liste": "Active list", "Bu sunucuya geç": "Switch to this server", "⏳ Kategoriler sunucudan alınıyor…": "⏳ Loading categories from server…", "Tümü": "All", "★ Favoriler": "★ Favorites", "🕘 Geçmiş": "🕘 History", "Diğer": "Other",
+        "☰ Kategoriler": "☰ Categories", "Kategori ara": "Search categories", "Gizli kategorileri yönet": "Manage hidden categories", "Eşleşen kategori yok.": "No matching categories.", "＋ Ekle": "＋ Add", "Bağlantıyı kaydet": "Save link", "Sil": "Delete", "Geçerli bir bağlantı girin.": "Enter a valid link.", "Adres http:// veya https:// ile başlamalıdır.": "The address must start with http:// or https://.", "Bu bağlantı zaten kayıtlı.": "This link is already saved.", "Bağlantı kaydedildi.": "Link saved.", "Kayıtlı bağlantıya dokunarak listeyi yükleyebilirsiniz.": "Tap a saved link to load its list.", " · hesap bilgisi gizli": " · account details hidden", "Favorilere eklendi.": "Added to favorites.", "Favorilerden çıkarıldı.": "Removed from favorites.", "Ana Ekran": "Home", "Devam et": "Continue", "Canlı Yayın": "Live TV", "Filmler": "Movies", "Diziler": "Series", "Liste ekle": "Add list", "Merkez": "Center", "Açılışta ana ekranı göster: Açık": "Show home screen at start: On", "Açılışta ana ekranı göster: Kapalı": "Show home screen at start: Off", "Tümünü gör ›": "See all ›", "Favoriler": "Favorites", "Canlı Kanallar": "Live channels", "Geçmiş": "History", "Güncelle": "Update", "Yeni sürüm mevcut: ": "New version available: ", "Uygulama güncellemesi": "App update", "Güncelleme kaynağı": "Update source", "GitHub deposu (sahip/depo) veya https:// JSON adresi": "GitHub repository (owner/repo) or https:// JSON address", "Güncellemeyi kontrol et": "Check for updates", "İndir ve kur": "Download and install", "İndir": "Download", "Uygulama güncel.": "The app is up to date.", "Kontrol ediliyor…": "Checking…", "İndiriliyor…": "Downloading…", "Mevcut sürüm: ": "Current version: ", "Önce güncelleme kaynağını girin.": "Enter an update source first.", "Adres https:// ile başlamalıdır.": "The address must start with https://.", "Sürüm bulunamadı. Depo herkese açık olmalı ve en az bir sürüm yayınlanmış olmalı.": "No release found. The repository must be public with at least one published release.", "Güncelleme kontrol edilemedi.": "Could not check for updates.", "Bu sürümde APK dosyası yok.": "This release has no APK file.", "İndirme başlatılamadı (adres https olmalı).": "Could not start the download (the address must be https).", "İndirme iptal edildi.": "Download cancelled.", "İndirme başarısız oldu.": "Download failed.", "Kurulum ekranı açıldı. Kurulumu onaylayın.": "The install screen opened. Confirm the installation.", "Bilinmeyen kaynaklardan kurulum için izin verin, sonra yeniden deneyin.": "Allow installing from unknown sources, then try again.", "Kurulum başlatılamadı.": "Could not start the installation.", "Güncelleme, aynı imzayla derlenmiş APK'yı eskisinin üzerine kurar; listeleriniz ve ayarlarınız korunur.": "The update installs an APK built with the same signature over the old one; your lists and settings are kept.", "Kanal": "Channels", "Film": "Movies", "Dizi": "Series", "Ara": "Search", "Listeyi yenile": "Refresh list", "‹ Geri": "‹ Back", "Kaynak ve ayarlar": "Source and settings", "✕ Kapat": "✕ Close", "Program bilgisi yok": "No program info", "Bu kanal için şu anki program bilgisi bulunamadı.": "No current program info for this channel.", "4K görüntü testi": "4K picture test", "Ekranınızın ve cihazın 4K Ultra HD kodeklerini sınar; test deseniyle keskinliği gözle kontrol edin.": "Tests your screen and the device's 4K Ultra HD codecs; use the test pattern to check sharpness by eye.", "4K testini çalıştır": "Run 4K test", "Test ediliyor…": "Testing…", "Test desenini göster": "Show test pattern", "Ekran çözünürlüğü": "Screen resolution", "Oynatıcı motoru": "Player engine", "Akıcı": "Smooth", "Çözemiyor": "Cannot decode", "Ayarlar": "Settings", "Çalma Listesi Ekle": "Add Playlist", "Ebeveyn Kontrolü": "Parental Control", "Çalma Listesini Değiştir": "Change Playlist", "Dil Değiştir": "Change Language", "Düzeni Değiştir": "Change Layout", "Canlı Kategorileri Gizle": "Hide Live Categories", "Vod Kategorilerini Gizle": "Hide VOD Categories", "Seri Kategorilerini Gizle": "Hide Series Categories", "Geçmiş Kanallarını Temizle": "Clear Channel History", "Film Geçmişini Temizle": "Clear Movie History", "Dizi Geçmişini Temizle": "Clear Series History", "Canlı Kanal Sıralama": "Live Channel Order", "Canlı Yayın Formatı": "Live Stream Format", "Harici Oynatıcılar": "External Players", "Otomatik güncelleme: Açık": "Auto update: On", "Otomatik güncelleme: Kapalı": "Auto update: Off", "Zaman Formatı": "Time Format", "Altyazı Ayarları": "Subtitle Settings", "Cihaz Türünü Seçin": "Select Device Type", "Ebeveyn Kontrolü Açık": "Parental Control On", "Ebeveyn Kontrolü Kapalı": "Parental Control Off", "Şimdi Güncelle": "Update Now", "Kontrol Merkezi": "Control Center", "4K Görüntü Testi": "4K Picture Test", "Sil": "Delete", "İptal": "Cancel", "Kilidi aç": "Unlock", "Liste sırası": "List order", "Otomatik": "Automatic", "Telefon / Tablet": "Phone / Tablet", "Android TV (kumanda)": "Android TV (remote)", "Küçük": "Small", "Orta": "Medium", "Büyük": "Large", "Çok büyük": "Extra large", "Beyaz": "White", "Sarı": "Yellow", "Camgöbeği": "Cyan", "Boyut": "Size", "Renk": "Color", "Açılışta ana ekranı göster": "Show home screen at start", "Ana ekranda afiş satırları": "Poster rows on home screen", "Kompakt kanal listesi": "Compact channel list", "Program bilgisi kartı": "Program info card", "24 saat (13:05)": "24-hour (13:05)", "12 saat (1:05 PM)": "12-hour (1:05 PM)", "Geçmiş temizlendi.": "History cleared.", "Yeni sürüm": "New version", "Kanal seçince tam ekran oynatıcı": "Full-screen player on channel select", "Sığdır": "Fit", "Doldur": "Fill", "Uzat": "Stretch", "Sunucu Ekle": "Add Server", "Kaydet ve yükle": "Save and load", "Sadece kaydet": "Save only", "Kayıtlı sunucular": "Saved servers", "Sunucu kaydedildi.": "Server saved.", "M3U Listesi Ekle": "Add M3U List", "M3U Kanal Listesi Ekle": "Add M3U Channel List", "Dosyadan seç (.m3u / .m3u8)": "Choose file (.m3u / .m3u8)", "Metinden yükle": "Load from text", "Kayıtlı listeler": "Saved lists", "Liste kaydedildi.": "List saved.", "● Aktif · ": "● Active · ", "Aktifleştir · ": "Activate · ", "M3U bağlantısı aktif.": "M3U link is active.", "Bağlantıları denetle": "Check links", "⏳ Denetleniyor…": "⏳ Checking…", "Tüm Verileri Test Et": "Test All Data", "Testi başlat": "Start test", "Test ediliyor…": "Testing…", "Sunucu Değiştir": "Switch Server", "Geç · ": "Switch · ", "Geçmek istediğiniz sunucuya dokunun.": "Tap the server you want to switch to.", "Xtream sunucuları": "Xtream servers", "M3U bağlantıları": "M3U links", "+ M3U ekle": "+ Add M3U", "M3U / M3U8 Oynatıcı": "M3U / M3U8 Player", "Dosyadan aç (.m3u / .m3u8)": "Open file (.m3u / .m3u8)", "Oynat": "Play", "Sunucu Kategorileri": "Server Categories", "Aktif liste": "Active list", "Bu sunucuya geç": "Switch to this server", "⏳ Kategoriler sunucudan alınıyor…": "⏳ Loading categories from server…", "QR Kodu ile Sunucu Ekle": "Add Server via QR Code", "Kamerayı başlat": "Start camera", "Resimden oku (galeri)": "Read from image (gallery)", "Metni çöz": "Decode text", "Sunucuları yedekle": "Back up servers", "Yedekten yükle": "Restore from backup", "İçe aktar": "Import", "Kopyala": "Copy", "Yeniden tara": "Scan again", "QR ile ekle": "Add via QR", "Büyük ekran": "Big screen", "Küçük ekran": "Small screen", "kategori": "categories", "Sıra: çok kanal": "Order: most channels", "Sıra: A–Z": "Order: A–Z", "Görünüm: ayrıntılı": "View: detailed", "Görünüm: kompakt": "View: compact", "Oynatıcıyı Etkinleştir": "Activate Player", "▶ Test yayınını oynat": "▶ Play test stream", "Sorun mu var? Uygulama içi oynatıcıya geç": "Problem? Switch to in-app player", "Tümü": "All", "★ Favoriler": "★ Favorites", "🕘 Geçmiş": "🕘 History", "Diğer": "Other",
         "Kanal listesi": "Channel list", "Kanallar": "Channels", "Favori": "Favorite", "Oynatıcı": "Player",
         "Henüz liste yüklenmedi.": "No list loaded yet.", "Aramanızla eşleşen kanal yok.": "No channels match your search.",
         "Henüz favori yok. Kanalın yanındaki yıldıza dokunun.": "No favorites yet. Tap the star next to a channel.",
@@ -2268,7 +2323,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
         "Oynat": "Abspielen", "Video dosyası seç": "Videodatei wählen", "Altyazı seç": "Untertitel wählen",
         "Cihazınızdaki video dosyaları tarayıcı oynatıcısında açılır (mp4, webm, çoğu mkv). Altyazı için .srt veya .vtt seçin.": "Videodateien auf Ihrem Gerät öffnen im Browser-Player (mp4, webm, die meisten mkv). Für Untertitel .srt oder .vtt wählen.",
         "Kanal ara ( / )": "Kanäle suchen ( / )", "Kanal ara": "Kanäle suchen", "Kategoriler": "Kategorien",
-        "☰ Kategoriler": "☰ Kategorien", "Kategori ara": "Kategorie suchen", "Gizli kategorileri yönet": "Versteckte Kategorien verwalten", "Eşleşen kategori yok.": "Keine passenden Kategorien.", "＋ Ekle": "＋ Hinzufügen", "Bağlantıyı kaydet": "Link speichern", "Sil": "Löschen", "Geçerli bir bağlantı girin.": "Geben Sie einen gültigen Link ein.", "Adres http:// veya https:// ile başlamalıdır.": "Die Adresse muss mit http:// oder https:// beginnen.", "Bu bağlantı zaten kayıtlı.": "Dieser Link ist bereits gespeichert.", "Bağlantı kaydedildi.": "Link gespeichert.", "Kayıtlı bağlantıya dokunarak listeyi yükleyebilirsiniz.": "Tippen Sie auf einen gespeicherten Link, um die Liste zu laden.", " · hesap bilgisi gizli": " · Kontodaten verborgen", "Favorilere eklendi.": "Zu Favoriten hinzugefügt.", "Favorilerden çıkarıldı.": "Aus Favoriten entfernt.", "Ana Ekran": "Startseite", "Devam et": "Weiterschauen", "Canlı Yayın": "Live-TV", "Filmler": "Filme", "Diziler": "Serien", "Liste ekle": "Liste hinzufügen", "Merkez": "Zentrale", "Açılışta ana ekranı göster: Açık": "Startseite beim Start zeigen: An", "Açılışta ana ekranı göster: Kapalı": "Startseite beim Start zeigen: Aus", "Tümünü gör ›": "Alle ansehen ›", "Favoriler": "Favoriten", "Canlı Kanallar": "Live-Kanäle", "Geçmiş": "Verlauf", "Güncelle": "Aktualisieren", "Yeni sürüm mevcut: ": "Neue Version verfügbar: ", "Uygulama güncellemesi": "App-Update", "Güncelleme kaynağı": "Update-Quelle", "GitHub deposu (sahip/depo) veya https:// JSON adresi": "GitHub-Repository (Besitzer/Repo) oder https://-JSON-Adresse", "Güncellemeyi kontrol et": "Nach Updates suchen", "İndir ve kur": "Herunterladen und installieren", "İndir": "Herunterladen", "Uygulama güncel.": "Die App ist aktuell.", "Kontrol ediliyor…": "Prüfe…", "İndiriliyor…": "Wird heruntergeladen…", "Mevcut sürüm: ": "Aktuelle Version: ", "Önce güncelleme kaynağını girin.": "Geben Sie zuerst eine Update-Quelle ein.", "Adres https:// ile başlamalıdır.": "Die Adresse muss mit https:// beginnen.", "Sürüm bulunamadı. Depo herkese açık olmalı ve en az bir sürüm yayınlanmış olmalı.": "Keine Version gefunden. Das Repository muss öffentlich sein und mindestens eine veröffentlichte Version haben.", "Güncelleme kontrol edilemedi.": "Update-Prüfung fehlgeschlagen.", "Bu sürümde APK dosyası yok.": "Diese Version enthält keine APK-Datei.", "İndirme başlatılamadı (adres https olmalı).": "Download konnte nicht gestartet werden (Adresse muss https sein).", "İndirme iptal edildi.": "Download abgebrochen.", "İndirme başarısız oldu.": "Download fehlgeschlagen.", "Kurulum ekranı açıldı. Kurulumu onaylayın.": "Der Installationsbildschirm wurde geöffnet. Bestätigen Sie die Installation.", "Bilinmeyen kaynaklardan kurulum için izin verin, sonra yeniden deneyin.": "Erlauben Sie die Installation aus unbekannten Quellen und versuchen Sie es erneut.", "Kurulum başlatılamadı.": "Installation konnte nicht gestartet werden.", "Güncelleme, aynı imzayla derlenmiş APK'yı eskisinin üzerine kurar; listeleriniz ve ayarlarınız korunur.": "Das Update installiert ein mit derselben Signatur gebautes APK über das alte; Ihre Listen und Einstellungen bleiben erhalten.", "Kanal": "Kanäle", "Film": "Filme", "Dizi": "Serien", "Ara": "Suchen", "Listeyi yenile": "Liste aktualisieren", "‹ Geri": "‹ Zurück", "Kaynak ve ayarlar": "Quelle und Einstellungen", "✕ Kapat": "✕ Schließen", "Program bilgisi yok": "Keine Programminfo", "Bu kanal için şu anki program bilgisi bulunamadı.": "Keine aktuelle Programminfo für diesen Kanal.", "4K görüntü testi": "4K-Bildtest", "Ekranınızın ve cihazın 4K Ultra HD kodeklerini sınar; test deseniyle keskinliği gözle kontrol edin.": "Prüft Ihren Bildschirm und die 4K-Ultra-HD-Codecs des Geräts; prüfen Sie die Schärfe mit dem Testbild.", "4K testini çalıştır": "4K-Test starten", "Test ediliyor…": "Wird getestet…", "Test desenini göster": "Testbild anzeigen", "Ekran çözünürlüğü": "Bildschirmauflösung", "Oynatıcı motoru": "Player-Engine", "Akıcı": "Flüssig", "Çözemiyor": "Nicht decodierbar", "Ayarlar": "Einstellungen", "Çalma Listesi Ekle": "Playlist hinzufügen", "Ebeveyn Kontrolü": "Kindersicherung", "Çalma Listesini Değiştir": "Playlist wechseln", "Dil Değiştir": "Sprache ändern", "Düzeni Değiştir": "Layout ändern", "Canlı Kategorileri Gizle": "Live-Kategorien ausblenden", "Vod Kategorilerini Gizle": "VOD-Kategorien ausblenden", "Seri Kategorilerini Gizle": "Serien-Kategorien ausblenden", "Geçmiş Kanallarını Temizle": "Kanalverlauf löschen", "Film Geçmişini Temizle": "Filmverlauf löschen", "Dizi Geçmişini Temizle": "Serienverlauf löschen", "Canlı Kanal Sıralama": "Live-Kanalreihenfolge", "Canlı Yayın Formatı": "Live-Stream-Format", "Harici Oynatıcılar": "Externe Player", "Otomatik güncelleme: Açık": "Auto-Update: An", "Otomatik güncelleme: Kapalı": "Auto-Update: Aus", "Zaman Formatı": "Zeitformat", "Altyazı Ayarları": "Untertitel-Einstellungen", "Cihaz Türünü Seçin": "Gerätetyp wählen", "Ebeveyn Kontrolü Açık": "Kindersicherung An", "Ebeveyn Kontrolü Kapalı": "Kindersicherung Aus", "Şimdi Güncelle": "Jetzt aktualisieren", "Kontrol Merkezi": "Kontrollzentrum", "4K Görüntü Testi": "4K-Bildtest", "Sil": "Löschen", "İptal": "Abbrechen", "Kilidi aç": "Entsperren", "Liste sırası": "Listenreihenfolge", "Otomatik": "Automatisch", "Telefon / Tablet": "Telefon / Tablet", "Android TV (kumanda)": "Android TV (Fernbedienung)", "Küçük": "Klein", "Orta": "Mittel", "Büyük": "Groß", "Çok büyük": "Sehr groß", "Beyaz": "Weiß", "Sarı": "Gelb", "Camgöbeği": "Cyan", "Boyut": "Größe", "Renk": "Farbe", "Açılışta ana ekranı göster": "Startseite beim Start zeigen", "Ana ekranda afiş satırları": "Poster-Reihen auf der Startseite", "Kompakt kanal listesi": "Kompakte Kanalliste", "Program bilgisi kartı": "Programminfo-Karte", "24 saat (13:05)": "24 Stunden (13:05)", "12 saat (1:05 PM)": "12 Stunden (1:05 PM)", "Geçmiş temizlendi.": "Verlauf gelöscht.", "Yeni sürüm": "Neue Version", "Kanal seçince tam ekran oynatıcı": "Vollbild-Player bei Kanalwahl", "Sığdır": "Einpassen", "Doldur": "Füllen", "Uzat": "Strecken", "Sunucu Ekle": "Server hinzufügen", "Kaydet ve yükle": "Speichern und laden", "Sadece kaydet": "Nur speichern", "Kayıtlı sunucular": "Gespeicherte Server", "Sunucu kaydedildi.": "Server gespeichert.", "M3U Listesi Ekle": "M3U-Liste hinzufügen", "M3U Kanal Listesi Ekle": "M3U-Kanalliste hinzufügen", "Dosyadan seç (.m3u / .m3u8)": "Datei wählen (.m3u / .m3u8)", "Metinden yükle": "Aus Text laden", "Kayıtlı listeler": "Gespeicherte Listen", "Liste kaydedildi.": "Liste gespeichert.", "Bağlantıları denetle": "Links prüfen", "⏳ Denetleniyor…": "⏳ Wird geprüft…", "Tüm Verileri Test Et": "Alle Daten testen", "Testi başlat": "Test starten", "Sunucu Değiştir": "Server wechseln", "Geç · ": "Wechseln · ", "Geçmek istediğiniz sunucuya dokunun.": "Tippen Sie auf den gewünschten Server.", "Xtream sunucuları": "Xtream-Server", "M3U bağlantıları": "M3U-Links", "+ M3U ekle": "+ M3U hinzufügen", "M3U / M3U8 Oynatıcı": "M3U / M3U8-Player", "Dosyadan aç (.m3u / .m3u8)": "Datei öffnen (.m3u / .m3u8)", "Oynat": "Abspielen", "Sunucu Kategorileri": "Server-Kategorien", "Aktif liste": "Aktive Liste", "Bu sunucuya geç": "Zu diesem Server wechseln", "⏳ Kategoriler sunucudan alınıyor…": "⏳ Kategorien werden geladen…", "Tümü": "Alle", "★ Favoriler": "★ Favoriten", "🕘 Geçmiş": "🕘 Verlauf", "Diğer": "Andere",
+        "☰ Kategoriler": "☰ Kategorien", "Kategori ara": "Kategorie suchen", "Gizli kategorileri yönet": "Versteckte Kategorien verwalten", "Eşleşen kategori yok.": "Keine passenden Kategorien.", "＋ Ekle": "＋ Hinzufügen", "Bağlantıyı kaydet": "Link speichern", "Sil": "Löschen", "Geçerli bir bağlantı girin.": "Geben Sie einen gültigen Link ein.", "Adres http:// veya https:// ile başlamalıdır.": "Die Adresse muss mit http:// oder https:// beginnen.", "Bu bağlantı zaten kayıtlı.": "Dieser Link ist bereits gespeichert.", "Bağlantı kaydedildi.": "Link gespeichert.", "Kayıtlı bağlantıya dokunarak listeyi yükleyebilirsiniz.": "Tippen Sie auf einen gespeicherten Link, um die Liste zu laden.", " · hesap bilgisi gizli": " · Kontodaten verborgen", "Favorilere eklendi.": "Zu Favoriten hinzugefügt.", "Favorilerden çıkarıldı.": "Aus Favoriten entfernt.", "Ana Ekran": "Startseite", "Devam et": "Weiterschauen", "Canlı Yayın": "Live-TV", "Filmler": "Filme", "Diziler": "Serien", "Liste ekle": "Liste hinzufügen", "Merkez": "Zentrale", "Açılışta ana ekranı göster: Açık": "Startseite beim Start zeigen: An", "Açılışta ana ekranı göster: Kapalı": "Startseite beim Start zeigen: Aus", "Tümünü gör ›": "Alle ansehen ›", "Favoriler": "Favoriten", "Canlı Kanallar": "Live-Kanäle", "Geçmiş": "Verlauf", "Güncelle": "Aktualisieren", "Yeni sürüm mevcut: ": "Neue Version verfügbar: ", "Uygulama güncellemesi": "App-Update", "Güncelleme kaynağı": "Update-Quelle", "GitHub deposu (sahip/depo) veya https:// JSON adresi": "GitHub-Repository (Besitzer/Repo) oder https://-JSON-Adresse", "Güncellemeyi kontrol et": "Nach Updates suchen", "İndir ve kur": "Herunterladen und installieren", "İndir": "Herunterladen", "Uygulama güncel.": "Die App ist aktuell.", "Kontrol ediliyor…": "Prüfe…", "İndiriliyor…": "Wird heruntergeladen…", "Mevcut sürüm: ": "Aktuelle Version: ", "Önce güncelleme kaynağını girin.": "Geben Sie zuerst eine Update-Quelle ein.", "Adres https:// ile başlamalıdır.": "Die Adresse muss mit https:// beginnen.", "Sürüm bulunamadı. Depo herkese açık olmalı ve en az bir sürüm yayınlanmış olmalı.": "Keine Version gefunden. Das Repository muss öffentlich sein und mindestens eine veröffentlichte Version haben.", "Güncelleme kontrol edilemedi.": "Update-Prüfung fehlgeschlagen.", "Bu sürümde APK dosyası yok.": "Diese Version enthält keine APK-Datei.", "İndirme başlatılamadı (adres https olmalı).": "Download konnte nicht gestartet werden (Adresse muss https sein).", "İndirme iptal edildi.": "Download abgebrochen.", "İndirme başarısız oldu.": "Download fehlgeschlagen.", "Kurulum ekranı açıldı. Kurulumu onaylayın.": "Der Installationsbildschirm wurde geöffnet. Bestätigen Sie die Installation.", "Bilinmeyen kaynaklardan kurulum için izin verin, sonra yeniden deneyin.": "Erlauben Sie die Installation aus unbekannten Quellen und versuchen Sie es erneut.", "Kurulum başlatılamadı.": "Installation konnte nicht gestartet werden.", "Güncelleme, aynı imzayla derlenmiş APK'yı eskisinin üzerine kurar; listeleriniz ve ayarlarınız korunur.": "Das Update installiert ein mit derselben Signatur gebautes APK über das alte; Ihre Listen und Einstellungen bleiben erhalten.", "Kanal": "Kanäle", "Film": "Filme", "Dizi": "Serien", "Ara": "Suchen", "Listeyi yenile": "Liste aktualisieren", "‹ Geri": "‹ Zurück", "Kaynak ve ayarlar": "Quelle und Einstellungen", "✕ Kapat": "✕ Schließen", "Program bilgisi yok": "Keine Programminfo", "Bu kanal için şu anki program bilgisi bulunamadı.": "Keine aktuelle Programminfo für diesen Kanal.", "4K görüntü testi": "4K-Bildtest", "Ekranınızın ve cihazın 4K Ultra HD kodeklerini sınar; test deseniyle keskinliği gözle kontrol edin.": "Prüft Ihren Bildschirm und die 4K-Ultra-HD-Codecs des Geräts; prüfen Sie die Schärfe mit dem Testbild.", "4K testini çalıştır": "4K-Test starten", "Test ediliyor…": "Wird getestet…", "Test desenini göster": "Testbild anzeigen", "Ekran çözünürlüğü": "Bildschirmauflösung", "Oynatıcı motoru": "Player-Engine", "Akıcı": "Flüssig", "Çözemiyor": "Nicht decodierbar", "Ayarlar": "Einstellungen", "Çalma Listesi Ekle": "Playlist hinzufügen", "Ebeveyn Kontrolü": "Kindersicherung", "Çalma Listesini Değiştir": "Playlist wechseln", "Dil Değiştir": "Sprache ändern", "Düzeni Değiştir": "Layout ändern", "Canlı Kategorileri Gizle": "Live-Kategorien ausblenden", "Vod Kategorilerini Gizle": "VOD-Kategorien ausblenden", "Seri Kategorilerini Gizle": "Serien-Kategorien ausblenden", "Geçmiş Kanallarını Temizle": "Kanalverlauf löschen", "Film Geçmişini Temizle": "Filmverlauf löschen", "Dizi Geçmişini Temizle": "Serienverlauf löschen", "Canlı Kanal Sıralama": "Live-Kanalreihenfolge", "Canlı Yayın Formatı": "Live-Stream-Format", "Harici Oynatıcılar": "Externe Player", "Otomatik güncelleme: Açık": "Auto-Update: An", "Otomatik güncelleme: Kapalı": "Auto-Update: Aus", "Zaman Formatı": "Zeitformat", "Altyazı Ayarları": "Untertitel-Einstellungen", "Cihaz Türünü Seçin": "Gerätetyp wählen", "Ebeveyn Kontrolü Açık": "Kindersicherung An", "Ebeveyn Kontrolü Kapalı": "Kindersicherung Aus", "Şimdi Güncelle": "Jetzt aktualisieren", "Kontrol Merkezi": "Kontrollzentrum", "4K Görüntü Testi": "4K-Bildtest", "Sil": "Löschen", "İptal": "Abbrechen", "Kilidi aç": "Entsperren", "Liste sırası": "Listenreihenfolge", "Otomatik": "Automatisch", "Telefon / Tablet": "Telefon / Tablet", "Android TV (kumanda)": "Android TV (Fernbedienung)", "Küçük": "Klein", "Orta": "Mittel", "Büyük": "Groß", "Çok büyük": "Sehr groß", "Beyaz": "Weiß", "Sarı": "Gelb", "Camgöbeği": "Cyan", "Boyut": "Größe", "Renk": "Farbe", "Açılışta ana ekranı göster": "Startseite beim Start zeigen", "Ana ekranda afiş satırları": "Poster-Reihen auf der Startseite", "Kompakt kanal listesi": "Kompakte Kanalliste", "Program bilgisi kartı": "Programminfo-Karte", "24 saat (13:05)": "24 Stunden (13:05)", "12 saat (1:05 PM)": "12 Stunden (1:05 PM)", "Geçmiş temizlendi.": "Verlauf gelöscht.", "Yeni sürüm": "Neue Version", "Kanal seçince tam ekran oynatıcı": "Vollbild-Player bei Kanalwahl", "Sığdır": "Einpassen", "Doldur": "Füllen", "Uzat": "Strecken", "Sunucu Ekle": "Server hinzufügen", "Kaydet ve yükle": "Speichern und laden", "Sadece kaydet": "Nur speichern", "Kayıtlı sunucular": "Gespeicherte Server", "Sunucu kaydedildi.": "Server gespeichert.", "M3U Listesi Ekle": "M3U-Liste hinzufügen", "M3U Kanal Listesi Ekle": "M3U-Kanalliste hinzufügen", "Dosyadan seç (.m3u / .m3u8)": "Datei wählen (.m3u / .m3u8)", "Metinden yükle": "Aus Text laden", "Kayıtlı listeler": "Gespeicherte Listen", "Liste kaydedildi.": "Liste gespeichert.", "Bağlantıları denetle": "Links prüfen", "⏳ Denetleniyor…": "⏳ Wird geprüft…", "Tüm Verileri Test Et": "Alle Daten testen", "Testi başlat": "Test starten", "Sunucu Değiştir": "Server wechseln", "Geç · ": "Wechseln · ", "Geçmek istediğiniz sunucuya dokunun.": "Tippen Sie auf den gewünschten Server.", "Xtream sunucuları": "Xtream-Server", "M3U bağlantıları": "M3U-Links", "+ M3U ekle": "+ M3U hinzufügen", "M3U / M3U8 Oynatıcı": "M3U / M3U8-Player", "Dosyadan aç (.m3u / .m3u8)": "Datei öffnen (.m3u / .m3u8)", "Oynat": "Abspielen", "Sunucu Kategorileri": "Server-Kategorien", "Aktif liste": "Aktive Liste", "Bu sunucuya geç": "Zu diesem Server wechseln", "⏳ Kategoriler sunucudan alınıyor…": "⏳ Kategorien werden geladen…", "QR Kodu ile Sunucu Ekle": "Server per QR-Code hinzufügen", "Kamerayı başlat": "Kamera starten", "Resimden oku (galeri)": "Aus Bild lesen (Galerie)", "Metni çöz": "Text auswerten", "Sunucuları yedekle": "Server sichern", "Yedekten yükle": "Aus Sicherung laden", "İçe aktar": "Importieren", "Kopyala": "Kopieren", "Yeniden tara": "Erneut scannen", "QR ile ekle": "Per QR hinzufügen", "Büyük ekran": "Großer Bildschirm", "Küçük ekran": "Kleiner Bildschirm", "Sıra: çok kanal": "Reihenfolge: meiste Kanäle", "Sıra: A–Z": "Reihenfolge: A–Z", "Görünüm: ayrıntılı": "Ansicht: detailliert", "Görünüm: kompakt": "Ansicht: kompakt", "Oynatıcıyı Etkinleştir": "Player aktivieren", "▶ Test yayınını oynat": "▶ Teststream abspielen", "Sorun mu var? Uygulama içi oynatıcıya geç": "Problem? Zum In-App-Player wechseln", "Tümü": "Alle", "★ Favoriler": "★ Favoriten", "🕘 Geçmiş": "🕘 Verlauf", "Diğer": "Andere",
         "Kanal listesi": "Kanalliste", "Kanallar": "Kanäle", "Favori": "Favorit", "Oynatıcı": "Player",
         "Henüz liste yüklenmedi.": "Noch keine Liste geladen.", "Aramanızla eşleşen kanal yok.": "Keine Kanäle zur Suche gefunden.",
         "Henüz favori yok. Kanalın yanındaki yıldıza dokunun.": "Noch keine Favoriten. Den Stern neben einem Kanal antippen.",
@@ -2566,8 +2621,8 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
     if (fsIsOpen()) return; document.body.classList.add("fsp"); video.controls = false; fsSync(); fsShow();
     if (IS_TV) setTimeout(function () { if (fsIsOpen()) $("fsPlay").focus(); }, 400);
   }
-  function fsClose() { if (!fsIsOpen()) return; document.body.classList.remove("fsp"); $("stage").classList.remove("fsvis"); video.controls = true; clearTimeout(fsTimer); }
-  function fsMaybe(id) { var c = channels[id]; if (c && fsAuto() && !extOn() && !(HAS_DL && localFor(c.url))) fsOpen(); }
+  function fsClose() { if (!fsIsOpen()) return; document.body.classList.remove("fsp"); setTimeout(function () { var a = document.activeElement; if (a && a !== document.body && a.offsetParent !== null && !a.closest(".fsbar")) return; var t = document.querySelector(".ch[aria-current=\"true\"]") || $("fsOpen"); if (t && t.offsetParent !== null) { try { t.focus(); } catch (e) {} } }, 0); $("stage").classList.remove("fsvis"); video.controls = true; clearTimeout(fsTimer); }
+  function fsMaybe(id, same) { var c = channels[id]; if (!c || extOn() || (HAS_DL && localFor(c.url))) return; if (IS_TV) { if (same) fsOpen(); return; } if (fsAuto()) fsOpen(); }
   $("fsOpen").onclick = fsOpen; $("fsBack").onclick = fsClose;
   $("fsPrev").onclick = function () { step(-1); fsShow(); }; $("fsNext").onclick = function () { step(1); fsShow(); };
   $("fsPlay").onclick = function () { if (video.paused) video.play().catch(function () {}); else video.pause(); fsSync(); fsShow(); };
@@ -2593,7 +2648,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
 
   /* ---------- Ayarlar ekranı (kutular) ---------- */
   var ICONS = {
-    list: "M4 5h16v14H4z M8 9h8 M8 13h8", swap: "M4 8h14 M14 4l4 4-4 4 M20 16H6 M10 12l-4 4 4 4", check: "M4 12l5 5L20 6 M4 20h16", m3u: "M5 3h10l4 4v14H5z M15 3v4h4 M8 12h8 M8 16h8", server: "M4 4h16v6H4z M4 14h16v6H4z M8 7h.01 M8 17h.01 M12 7h6 M12 17h6", lock: "M7 11V8a5 5 0 0 1 10 0v3 M5 11h14v9H5z M12 15v2", translate: "M4 6h9 M8.5 4v2 M6 6c1 4 4 7 7 8 M12 6c-1 4-4 7-7 8 M13 20l4-9 4 9 M14.5 17h5",
+    list: "M4 5h16v14H4z M8 9h8 M8 13h8", qr: "M4 4h6v6H4z M14 4h6v6h-6z M4 14h6v6H4z M14 14h2v2h-2z M18 14h2v2h-2z M14 18h2v2h-2z M18 18h2v2h-2z", swap: "M4 8h14 M14 4l4 4-4 4 M20 16H6 M10 12l-4 4 4 4", check: "M4 12l5 5L20 6 M4 20h16", m3u: "M5 3h10l4 4v14H5z M15 3v4h4 M8 12h8 M8 16h8", server: "M4 4h16v6H4z M4 14h16v6H4z M8 7h.01 M8 17h.01 M12 7h6 M12 17h6", lock: "M7 11V8a5 5 0 0 1 10 0v3 M5 11h14v9H5z M12 15v2", translate: "M4 6h9 M8.5 4v2 M6 6c1 4 4 7 7 8 M12 6c-1 4-4 7-7 8 M13 20l4-9 4 9 M14.5 17h5",
     grid: "M4 4h6v6H4z M14 4h6v6h-6z M4 14h6v6H4z M14 17l3-3 3 3-3 3z", eyeoff: "M3 12s3.5-6 9-6 9 6 9 6-3.5 6-9 6-9-6-9-6z M4 4l16 16 M12 9a3 3 0 0 1 3 3",
     trash: "M5 7h14 M9 7V4h6v3 M7 7l1 13h8l1-13 M10 11v6 M14 11v6", sort: "M5 4v16 M3 18l2 2 2-2 M12 6h8 M12 12h6 M12 18h4", tv: "M4 8h16v11H4z M9 4l3 4 3-4",
     play: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z M10 8l6 4-6 4z", auto: "M20 12a8 8 0 1 1-2.6-5.9 M20 4v5h-5", clock: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z M12 7v5l3 2",
@@ -2601,12 +2656,29 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
     gear: "M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z M12 2.5v3 M12 18.5v3 M2.5 12h3 M18.5 12h3 M5.3 5.3l2.1 2.1 M16.6 16.6l2.1 2.1 M18.7 5.3l-2.1 2.1 M7.4 16.6l-2.1 2.1", uhd: "M3 6h18v12H3z M8 10v4h3 M11 10v4 M14 14v-4l3 4v-4"
   };
   var sdBuild = null;
-  function sdOpen(title, build) {
-    sdBuild = build; $("sdTitle").textContent = title; sdRender(); $("sdlg").hidden = false;
-    var f = $("sdBody").querySelector("button, input"); if (f) f.focus();
+  function sdFirst() {
+    var l = $("sdBody").querySelectorAll("button, input, textarea, select");
+    for (var i = 0; i < l.length; i++) { if (l[i].type === "file" || l[i].hidden || l[i].disabled || !l[i].offsetParent) continue; return l[i]; }
+    return $("sdClose");
   }
-  function sdRender() { var b = $("sdBody"); b.textContent = ""; if (sdBuild) sdBuild(b); }
-  function sdClose() { $("sdlg").hidden = true; sdBuild = null; if (!$("settings").hidden) renderSettings(); }
+  var sdOpener = null;
+  function sdOpen(title, build) {
+    if ($("sdlg").hidden) { var ae = document.activeElement; sdOpener = ae && ae.dataset && ae.dataset.i !== undefined ? { i: ae.dataset.i } : (ae && ae.id ? { id: ae.id } : null); }
+    sdBuild = build; $("sdTitle").textContent = title; sdRender(); $("sdlg").hidden = false;
+    var f = sdFirst(); if (f) f.focus();
+  }
+  function sdRender() {
+    var b = $("sdBody"), had = b.contains(document.activeElement) || (!$("sdlg").hidden && document.activeElement === document.body);
+    b.textContent = ""; if (sdBuild) sdBuild(b);
+    if (had && !$("sdlg").hidden) { var f = sdFirst(); if (f) f.focus(); }
+  }
+  var sdOnClose = null;
+  function sdClose() { if (sdOnClose) { try { sdOnClose(); } catch (e) {} sdOnClose = null; } $("sdlg").hidden = true; sdBuild = null; if (!$("settings").hidden) renderSettings(); sdRestore(); }
+  function sdRestore() {
+    var o = sdOpener; sdOpener = null; if (!o) return; var t = null;
+    if (o.i !== undefined && !$("settings").hidden) t = $("setGrid").querySelector('[data-i="' + o.i + '"]'); else if (o.id) t = document.getElementById(o.id);
+    if (t && t.offsetParent !== null) { try { t.focus(); } catch (e) {} }
+  }
   $("sdClose").onclick = sdClose;
   $("sdlg").addEventListener("click", function (e) { if (e.target === $("sdlg")) sdClose(); });
   document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !$("sdlg").hidden) sdClose(); });
@@ -2713,6 +2785,43 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
 
 
 
+
+  /* ---------- oynatıcıyı etkinleştir + test ---------- */
+  var TEST_URLS = ["https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8", "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"];
+  function engLabel(e) { return e === "vlc" ? "VLC" : e === "mx" ? "MX Player" : "Uygulama içi (web)"; }
+  function runPlayerTest(idx) {
+    idx = idx || 0; var url = TEST_URLS[idx], eng = engine();
+    sdClose(); hideSettings(); hideHome();
+    playDirect(url, "Test yayını");
+    if (eng !== "web") { setTimeout(function () { say("Test yayını " + engLabel(eng) + " ile açıldı.", "Görüntü ve ses geldiyse oynatıcı çalışıyor. Gelmediyse Ayarlar > Oynatıcıyı Etkinleştir’den başka motor seçin."); }, 600); return; }
+    var t0 = Date.now(), done = false;
+    function chk() {
+      if (done) return;
+      if (!video.paused && video.currentTime > 0.3 && video.readyState >= 2) { done = true; say("✓ Oynatıcı çalışıyor.", "Test yayını oynatıldı (" + engLabel("web") + ")."); return; }
+      if (Date.now() - t0 > 12000) {
+        done = true;
+        if (idx + 1 < TEST_URLS.length) { runPlayerTest(idx + 1); return; }
+        say("✗ Test yayını oynatılamadı.", "İnternet bağlantısını kontrol edin" + (window.Native && Native.hasVlc ? " veya Ayarlar > Oynatıcıyı Etkinleştir’den VLC’yi seçin." : "."));
+        return;
+      }
+      setTimeout(chk, 400);
+    }
+    setTimeout(chk, 800);
+  }
+  function dlgEngine() {
+    sdOpen("Oynatıcıyı Etkinleştir", function (b) {
+      var nat = !!(window.Native && Native.hasVlc), cur = engine();
+      b.appendChild(el("p", "", "Etkin oynatıcı: " + engLabel(cur)));
+      var opts = [["web", "Uygulama içi (web) — her cihazda"]];
+      if (nat) { opts.unshift(["mx", "MX Player" + (window.Native && Native.hasMx && !Native.hasMx() ? " (kurulu değil)" : "")]); opts.unshift(["vlc", "VLC — Dolby / DTS / 4K (önerilen)"]); }
+      sdChoices(b, opts, cur, function (v) { store("sinyal.engine", v); if (window.__engSync) window.__engSync(); });
+      if (!nat) b.appendChild(el("p", "hint", "VLC ve MX seçenekleri yalnızca Android uygulamasında vardır."));
+      b.appendChild(el("p", "hint", "Seçtiğiniz oynatıcıyla herkese açık bir test yayınını oynatıp çalışıp çalışmadığını denetleyebilirsiniz."));
+      b.appendChild(btn("▶ Test yayınını oynat", function () { runPlayerTest(0); }));
+      if (nat && cur !== "web") b.appendChild(btn("Sorun mu var? Uygulama içi oynatıcıya geç", function () { store("sinyal.engine", "web"); if (window.__engSync) window.__engSync(); sdRender(); }, true));
+    });
+  }
+
   /* ---------- M3U / M3U8 oynatıcı (tek bağlantı) ---------- */
   function playDirect(url, name) {
     var tok = ++playTok; current = -1; destroyHls(); badge.hidden = true;
@@ -2804,6 +2913,163 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
       });
       b.appendChild(btn("Bu sunucuya geç", function () { loadServer(x); }));
     });
+  }
+
+
+  /* ---------- QR kod ile sunucu ekle + yedek ---------- */
+  var QR = { cam: null, stream: null, raf: 0, det: null, busy: false, res: null, msg: "", jsq: false };
+  function qrStop() { if (QR.raf) { clearTimeout(QR.raf); QR.raf = 0; } if (QR.stream) { QR.stream.getTracks().forEach(function (t) { try { t.stop(); } catch (e) {} }); QR.stream = null; } }
+  function parseQr(text) {
+    var t = String(text || "").trim(); if (!t) return null;
+    var name = "", m;
+    try { var j = JSON.parse(t); if (j && typeof j === "object") {
+      var sv = j.server || j.host || j.url || j.portal, us = j.user || j.username, pw = j.pass || j.password;
+      name = j.name || "";
+      if (sv && us && pw) return { type: "xtream", name: name, server: normUrl(sv).replace(/\/(player_api|get|panel_api)\.php.*$/i, "").replace(/\/+$/, ""), user: String(us), pass: String(pw) };
+      if (sv && /^https?:|^[\w.-]+[:/]/.test(sv)) return { type: "m3u", name: name, url: normUrl(sv) };
+    } } catch (e) {}
+    if ((m = t.match(/^(?:xtream|optimus|iptv):\/\/(.+)$/i))) {
+      var parts = m[1].split(/[|;,\n]/).map(function (x) { return x.trim(); }).filter(Boolean);
+      if (parts.length >= 3) return { type: "xtream", name: parts[3] || "", server: normUrl(parts[0]).replace(/\/+$/, ""), user: parts[1], pass: parts[2] };
+    }
+    var lines = t.split(/\r?\n/).map(function (x) { return x.trim(); }).filter(Boolean);
+    if (lines.length >= 3 && lines.length <= 4 && !/\s/.test(lines[1]) && !/^https?:\/\/\S+\s/.test(lines[0])) return { type: "xtream", name: lines[3] || "", server: normUrl(lines[0]).replace(/\/+$/, ""), user: lines[1], pass: lines[2] };
+    if (lines.length === 1 && !/\s/.test(t) && /^(https?:\/\/\S+|[\w-]+(\.[\w-]+)+(:\d+)?(\/\S*)?|localhost(:\d+)?(\/\S*)?)$/i.test(t)) {
+      var u = normUrl(t);
+      try {
+        var x = new URL(u), us2 = x.searchParams.get("username") || x.searchParams.get("user"), pw2 = x.searchParams.get("password") || x.searchParams.get("pass");
+        if (us2 && pw2) return { type: "xtream", name: name, server: x.origin, user: us2, pass: pw2 };
+        var pm = x.pathname.match(/^\/(?:live|movie|series)?\/?([^\/]+)\/([^\/]+)\/\d+/);
+        if (pm && /\/(live|movie|series)\//.test(x.pathname)) return { type: "xtream", name: name, server: x.origin, user: decodeURIComponent(pm[1]), pass: decodeURIComponent(pm[2]) };
+      } catch (e) {}
+      return { type: "m3u", name: name, url: u };
+    }
+    return null;
+  }
+  function qrSave(r, name, load) {
+    name = (name || "").trim();
+    if (r.type === "xtream") {
+      var a = getServers(), x = { name: name || r.name || linkName(r.server), server: r.server, user: r.user, pass: r.pass }, i = -1;
+      a.forEach(function (o, k) { if (o.server === x.server && o.user === x.user) i = k; });
+      if (i >= 0) a[i] = x; else a.push(x);
+      saveServers(a);
+      if (load) loadServer(x); else { QR.res = null; QR.msg = "✓ Sunucu kaydedildi: " + x.name; sdRender(); }
+    } else {
+      pendingLinkName = name || r.name || ""; addLink(r.url, true); setTimeout(function () { pendingLinkName = ""; }, 8000);
+      if (load) { sdClose(); hideSettings(); hideHome(); $("urlIn").value = r.url; $("m3uTop").value = r.url; $("urlBtn").click(); }
+      else { QR.res = null; QR.msg = "✓ M3U bağlantısı kaydedildi"; sdRender(); }
+    }
+  }
+  function qrHandle(text) {
+    var r = parseQr(text);
+    if (!r) { QR.msg = "✗ Bu QR kodundan sunucu bilgisi okunamadı."; QR.res = null; sdRender(); return false; }
+    qrStop(); QR.res = r; QR.msg = ""; sdRender(); return true;
+  }
+  function qrDecodeImage(src) {
+    return new Promise(function (res, rej) {
+      var im = new Image(); im.onload = function () {
+        function viaJs() {
+          loadJsQr().then(function () {
+            var c = document.createElement("canvas"), sc = Math.min(1, 1200 / Math.max(im.width, im.height)); c.width = Math.round(im.width * sc); c.height = Math.round(im.height * sc);
+            var cx = c.getContext("2d"); cx.drawImage(im, 0, 0, c.width, c.height);
+            var d = cx.getImageData(0, 0, c.width, c.height), q = window.jsQR(d.data, c.width, c.height);
+            q ? res(q.data) : rej(new Error("QR kodu bulunamadı"));
+          }).catch(rej);
+        }
+        if (window.BarcodeDetector) { new BarcodeDetector({ formats: ["qr_code"] }).detect(im).then(function (a) { if (a.length) res(a[0].rawValue); else viaJs(); }).catch(viaJs); } else viaJs();
+      }; im.onerror = function () { rej(new Error("Resim açılamadı")); }; im.src = src;
+    });
+  }
+  function loadJsQr() {
+    if (window.jsQR) return Promise.resolve();
+    return new Promise(function (res, rej) { var sc = document.createElement("script"); sc.src = "https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js"; sc.onload = function () { window.jsQR ? res() : rej(new Error("QR çözücü yüklenemedi")); }; sc.onerror = function () { rej(new Error("QR çözücü yüklenemedi (internet gerekli)")); }; document.head.appendChild(sc); });
+  }
+  function qrStart(videoEl) {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { QR.msg = "✗ Bu cihazda kamera erişimi yok. “Resimden oku” veya metin yapıştırmayı kullanın."; sdRender(); return; }
+    QR.msg = "Kamera açılıyor…"; sdRender();
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: "environment" } }, audio: false }).then(function (st) {
+      QR.stream = st; QR.msg = "QR kodunu kameraya gösterin…"; sdRender();
+      var v = $("qrVideo"); if (!v) return; v.srcObject = st; v.setAttribute("playsinline", ""); v.play().catch(function () {});
+      var det = window.BarcodeDetector ? new BarcodeDetector({ formats: ["qr_code"] }) : null, cv = document.createElement("canvas"), usingJs = !det;
+      function tick() {
+        if (!QR.stream) return;
+        var go = function (txt) { if (txt) { qrHandle(txt); } else QR.raf = setTimeout(tick, 250); };
+        if (v.readyState < 2) { QR.raf = setTimeout(tick, 250); return; }
+        if (det) det.detect(v).then(function (a) { go(a.length ? a[0].rawValue : ""); }).catch(function () { go(""); });
+        else if (window.jsQR) { var w = v.videoWidth, h = v.videoHeight; if (!w) { go(""); return; } var sc = Math.min(1, 640 / w); cv.width = Math.round(w * sc); cv.height = Math.round(h * sc); var cx = cv.getContext("2d"); cx.drawImage(v, 0, 0, cv.width, cv.height); var q = window.jsQR(cx.getImageData(0, 0, cv.width, cv.height).data, cv.width, cv.height); go(q ? q.data : ""); }
+        else go("");
+      }
+      if (usingJs) loadJsQr().then(tick).catch(function (e) { QR.msg = "✗ " + e.message + ". “Resimden oku” veya metin yapıştırmayı kullanın."; qrStop(); sdRender(); }); else tick();
+    }).catch(function (e) { QR.msg = "✗ Kamera açılamadı (" + (e && e.name === "NotAllowedError" ? "izin verilmedi" : e && e.message ? e.message : "hata") + ")."; sdRender(); });
+  }
+  function backupJson() { return JSON.stringify({ app: "optimus-iptv", v: 1, servers: getServers(), links: getLinks() }, null, 1); }
+  function importBackup(text) {
+    var j; try { j = JSON.parse(text); } catch (e) { return "✗ Yedek metni okunamadı."; }
+    if (!j || (!Array.isArray(j.servers) && !Array.isArray(j.links))) return "✗ Bu bir sunucu yedeği değil.";
+    var sv = getServers(), ln = getLinks(), ns = 0, nl = 0;
+    (j.servers || []).forEach(function (x) { if (x && x.server && x.user && x.pass && !sv.some(function (o) { return o.server === x.server && o.user === x.user; })) { sv.push({ name: String(x.name || linkName(x.server)), server: String(x.server), user: String(x.user), pass: String(x.pass) }); ns++; } });
+    (j.links || []).forEach(function (x) { if (x && /^https?:\/\//i.test(x.url || "") && !ln.some(function (o) { return o.url === x.url; })) { ln.push({ name: String(x.name || linkName(x.url)), url: String(x.url) }); nl++; } });
+    saveServers(sv); store("sinyal.links", JSON.stringify(ln)); renderLinks();
+    return "✓ İçe aktarıldı: " + ns + " sunucu, " + nl + " M3U bağlantısı.";
+  }
+  function qrCamCheck() {
+    if (QR.cam !== null) return;
+    if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) { QR.cam = false; return; }
+    QR.cam = true;
+    navigator.mediaDevices.enumerateDevices().then(function (d) {
+      QR.cam = d.some(function (x) { return x.kind === "videoinput"; });
+      if (!QR.cam && !$("sdlg").hidden && !QR.res && !QR.stream) sdRender();
+    }).catch(function () {});
+  }
+  function dlgQr() {
+    QR.res = null; QR.msg = ""; qrCamCheck();
+    sdOpen("QR Kodu ile Sunucu Ekle", function (b) {
+      if (QR.res) {
+        var r = QR.res;
+        b.appendChild(el("p", "", r.type === "xtream" ? "Xtream sunucusu bulundu" : "M3U bağlantısı bulundu"));
+        b.appendChild(el("p", "hint", r.type === "xtream" ? r.server + " · kullanıcı: " + r.user + " · şifre: " + r.pass.replace(/./g, "•") : r.url));
+        var nm = input("qrName", "text", "Ad (isteğe bağlı)", "Ad"); nm.value = r.name || ""; b.appendChild(nm);
+        var row = el("div", "row");
+        row.appendChild(btn("Kaydet ve yükle", function () { qrSave(r, nm.value, true); }));
+        row.appendChild(btn("Sadece kaydet", function () { qrSave(r, nm.value, false); }, true));
+        row.appendChild(btn("Yeniden tara", function () { QR.res = null; QR.msg = ""; sdRender(); }, true));
+        b.appendChild(row); return;
+      }
+      if (QR.cam === false) b.appendChild(el("p", "hint", "Bu cihazda kamera yok" + (IS_TV ? " (Android TV)" : "") + ". QR içeriğini telefondan okutup aşağıya yapıştırın, bir resim seçin veya yedekten yükleyin."));
+      else b.appendChild(btn(QR.stream ? "Kamera açık" : "Kamerayı başlat", function () { if (!QR.stream) qrStart(); }, !!QR.stream));
+      var v = document.createElement("video"); v.id = "qrVideo"; v.className = "qrvid"; v.muted = true; v.setAttribute("playsinline", ""); v.hidden = !QR.stream; b.appendChild(v);
+      if (QR.stream) { v.srcObject = QR.stream; v.play().catch(function () {}); }
+      if (QR.msg) b.appendChild(el("p", QR.msg.charAt(0) === "✗" ? "hint bad" : QR.msg.charAt(0) === "✓" ? "hint ok" : "hint", QR.msg));
+      var fi = document.createElement("input"); fi.type = "file"; fi.accept = "image/*"; fi.hidden = true;
+      fi.onchange = function () { var f = fi.files && fi.files[0]; if (!f) return; var u = URL.createObjectURL(f); QR.msg = "Resim okunuyor…"; sdRender(); qrDecodeImage(u).then(qrHandle).catch(function (e) { QR.msg = "✗ " + (e && e.message ? e.message : "QR okunamadı"); sdRender(); }); };
+      b.appendChild(fi); if (QR.cam !== false || !IS_TV) b.appendChild(btn("Resimden oku (galeri)", function () { fi.click(); }, true));
+      var ta = el("textarea", "field"); ta.placeholder = "veya QR içeriğini / bağlantıyı buraya yapıştırın"; ta.setAttribute("aria-label", "QR içeriği"); b.appendChild(ta);
+      b.appendChild(btn("Metni çöz", function () { if (ta.value.trim()) qrHandle(ta.value); }, true));
+      b.appendChild(el("p", "hint", "Desteklenen içerik: Xtream bağlantısı (…get.php?username=…&password=…), M3U adresi, xtream://sunucu|kullanıcı|şifre veya JSON {server,user,pass,name}."));
+      /* kayıtlı sunucular + yedek */
+      var sv = getServers();
+      b.appendChild(el("p", "", "Kayıtlı sunucular: " + sv.length + " · M3U bağlantıları: " + getLinks().length));
+      var r2 = el("div", "row");
+      r2.appendChild(btn("Sunucuları yedekle", function () { QR.bk = backupJson(); sdBuild = dlgBackup; sdRender(); }, true));
+      r2.appendChild(btn("Yedekten yükle", function () { QR.bk = ""; sdBuild = dlgBackup; sdRender(); }, true));
+      b.appendChild(r2);
+    });
+    sdOnClose = qrStop;
+  }
+  function dlgBackup(b) {
+    var imp = !QR.bk; var ta = el("textarea", "field"); ta.value = QR.bk || ""; ta.placeholder = "Yedek metnini buraya yapıştırın"; ta.setAttribute("aria-label", "Yedek"); if (!imp) ta.readOnly = true; ta.rows = 8; b.appendChild(ta);
+    var msg = el("p", "hint", ""), row = el("div", "row");
+    if (!imp) {
+      row.appendChild(btn("Kopyala", function () { ta.select(); var ok = false; try { ok = document.execCommand("copy"); } catch (e) {} if (navigator.clipboard) navigator.clipboard.writeText(ta.value).then(function () { msg.textContent = "✓ Kopyalandı."; }, function () { msg.textContent = ok ? "✓ Kopyalandı." : "Metni seçip kopyalayın."; }); else msg.textContent = ok ? "✓ Kopyalandı." : "Metni seçip kopyalayın."; }));
+      row.appendChild(btn("Dosya olarak indir", function () { try { var a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([ta.value], { type: "application/json" })); a.download = "optimus-sunucular.json"; document.body.appendChild(a); a.click(); a.remove(); msg.textContent = "İndirme başlatıldı."; } catch (e) { msg.textContent = "İndirilemedi; metni kopyalayın."; } }, true));
+    } else {
+      row.appendChild(btn("İçe aktar", function () { msg.textContent = importBackup(ta.value); }));
+      var fi = document.createElement("input"); fi.type = "file"; fi.accept = ".json,application/json,text/plain"; fi.hidden = true;
+      fi.onchange = function () { var f = fi.files && fi.files[0]; if (!f) return; var rd = new FileReader(); rd.onload = function () { ta.value = String(rd.result); msg.textContent = importBackup(ta.value); }; rd.readAsText(f); };
+      b.appendChild(fi); row.appendChild(btn("Dosyadan seç", function () { fi.click(); }, true));
+    }
+    row.appendChild(btn("‹ Geri", function () { dlgQr(); }, true));
+    b.append(row, msg);
   }
 
   /* ---------- tüm verileri test et ---------- */
@@ -2910,6 +3176,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
       r.appendChild(btn("Kaydet ve yükle", function () { read(true); }));
       r.appendChild(btn("Sadece kaydet", function () { read(false); }, true));
       form.onsubmit = function (e) { e.preventDefault(); read(true); };
+      r.appendChild(btn("QR ile ekle", dlgQr, true));
       b.append(form, r, msg);
       var a = getServers();
       if (a.length) {
@@ -2987,6 +3254,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
       ["lock", "Ebeveyn Kontrolü", function () { openModal("hidden"); }],
       ["m3u", "M3U Listesi Ekle", dlgM3u],
       ["play", "M3U / M3U8 Oynatıcı", dlgPlayer],
+      ["qr", "QR Kodu ile Sunucu Ekle", dlgQr],
       ["server", "Sunucu Ekle", dlgServer],
       ["swap", "Sunucu Değiştir", dlgSwitch],
       ["grid", "Sunucu Kategorileri", function () { SVC.src = "active"; dlgSvCats(); }],
@@ -3007,6 +3275,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
       ["trash", "Dizi Geçmişini Temizle", function () { clearHist("series", "Dizi Geçmişini Temizle"); }],
       ["sort", "Canlı Kanal Sıralama", function () { sdOpen("Canlı Kanal Sıralama", function (b) { sdChoices(b, [["default", "Liste sırası"], ["az", "A → Z"], ["za", "Z → A"]], store("sinyal.sort") || "default", function (v) { store("sinyal.sort", v === "default" ? null : v); applyFilter(); }); }); }],
       ["tv", "Canlı Yayın Formatı", function () { sdOpen("Canlı Yayın Formatı", function (b) { sdChoices(b, [["auto", "Otomatik (listedeki gibi)"], ["m3u8", "M3U8 (HLS)"], ["ts", "TS (MPEG-TS)"]], store("sinyal.livefmt") || "auto", function (v) { store("sinyal.livefmt", v === "auto" ? null : v); }); b.appendChild(el("p", "hint", "Yalnızca Xtream canlı yayın adresleri değişir. Sonraki oynatmada geçerli olur.")); }); }],
+      ["play", "Oynatıcıyı Etkinleştir", dlgEngine],
       ["play", "Harici Oynatıcılar", function () { sdOpen("Harici Oynatıcılar", function (b) {
         if (!(window.Native && Native.hasVlc)) { b.appendChild(el("p", "", "Harici oynatıcılar yalnızca Android uygulamasında kullanılabilir.")); return; }
         sdChoices(b, [["vlc", "VLC (Dolby / DTS / 4K)"], ["mx", "MX Player"], ["web", "Uygulama içi (web)"]], engine(), function (v) { store("sinyal.engine", v); if (window.__engSync) window.__engSync(); });
@@ -3048,26 +3317,46 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
   applyLayout(); applySubs();
 
   /* ---------- kategori gezgini ---------- */
+  var catSortMode = "az", catDetail = true;
   function catList() {
-    var cnt = {}, names = [], vis = channels.filter(function (c) { return c.kind === sec && !isHidden(c); });
-    vis.forEach(function (c) { if (!(c.group in cnt)) { cnt[c.group] = 0; names.push(c.group); } cnt[c.group]++; });
-    names.sort(function (a, b) { return a.localeCompare(b, "tr"); });
+    var cnt = {}, names = [], st = {}, vis = channels.filter(function (c) { return c.kind === sec && !isHidden(c); });
+    var seenU = {}; hist.forEach(function (x) { seenU[x.url] = 1; });
+    vis.forEach(function (c) {
+      if (!(c.group in cnt)) { cnt[c.group] = 0; names.push(c.group); st[c.group] = { fav: 0, k4: 0, seen: 0, sample: [], logos: [] }; }
+      cnt[c.group]++; var o = st[c.group];
+      if (favs[c.url]) o.fav++; if (is4k(c)) o.k4++; if (seenU[c.url]) o.seen++;
+      if (o.sample.length < 3) o.sample.push(c.name);
+      if (o.logos.length < 4 && c.logo && /^https?:/i.test(c.logo)) o.logos.push(c.logo);
+    });
+    names.sort(function (a, b) { return catSortMode === "n" ? (cnt[b] - cnt[a]) || a.localeCompare(b, "tr") : a.localeCompare(b, "tr"); });
     var v = [["Tümü", vis.length], ["★ Favoriler", vis.filter(function (c) { return favs[c.url]; }).length], ["🕘 Geçmiş", vis.filter(function (c) { return hist.some(function (x) { return x.url === c.url; }); }).length]];
     var k = vis.filter(is4k).length; if (k) v.push([K4, k]);
-    return { virt: v, items: names.map(function (n) { return [n, cnt[n]]; }) };
+    return { virt: v, items: names.map(function (n) { return [n, cnt[n], st[n]]; }), total: vis.length };
   }
   function renderCats() {
     var g = $("catGrid"), q = tr($("catSearch").value.trim()), d = catList(); g.textContent = "";
-    function card(n, c, virt) {
+    var mx = 1; d.items.forEach(function (x) { if (x[1] > mx) mx = x[1]; });
+    $("catSum").textContent = d.items.length + " kategori · " + d.total + " " + (sec === "movie" ? "film" : sec === "series" ? "dizi" : "kanal");
+    $("catSort").textContent = catSortMode === "n" ? "Sıra: çok kanal" : "Sıra: A–Z";
+    $("catView").textContent = catDetail ? "Görünüm: ayrıntılı" : "Görünüm: kompakt";
+    g.classList.toggle("detail", catDetail);
+    function card(n, c, virt, stt) {
       var b = document.createElement("button"); b.type = "button"; b.className = "catcard" + (virt ? " virt" : "");
       b.setAttribute("aria-pressed", String(n === group));
       var t = document.createElement("b"); t.textContent = n; var m = document.createElement("span"); m.textContent = String(c);
       b.append(t, m);
+      if (catDetail && stt) {
+        var bar = document.createElement("i"); bar.className = "catbar"; var fl = document.createElement("u"); fl.style.width = Math.max(4, Math.round(c / mx * 100)) + "%"; bar.appendChild(fl); b.appendChild(bar);
+        var tags = []; if (stt.fav) tags.push("★ " + stt.fav); if (stt.k4) tags.push("4K " + stt.k4); if (stt.seen) tags.push("🕘 " + stt.seen);
+        if (tags.length) { var tg = document.createElement("small"); tg.className = "cattags"; tg.textContent = tags.join("  ·  "); b.appendChild(tg); }
+        if (stt.logos.length) { var lg = document.createElement("div"); lg.className = "catlogos"; stt.logos.forEach(function (u) { var im = new Image(); im.decoding = "async"; im.alt = ""; im.referrerPolicy = "no-referrer"; im.src = u; im.onerror = function () { im.remove(); }; lg.appendChild(im); }); b.appendChild(lg); }
+        if (stt.sample.length) { var sm = document.createElement("small"); sm.className = "catsmp"; sm.textContent = stt.sample.join(", ") + (c > stt.sample.length ? "…" : ""); b.appendChild(sm); }
+      }
       b.onclick = function () { group = n; closeCats(); buildTabs(); applyFilter(); $("list").scrollTop = 0; };
       g.appendChild(b);
     }
     d.virt.forEach(function (x) { if (!q || tr(x[0]).indexOf(q) > -1) card(x[0], x[1], true); });
-    d.items.forEach(function (x) { if (!q || tr(x[0]).indexOf(q) > -1) card(x[0], x[1], false); });
+    d.items.forEach(function (x) { if (!q || tr(x[0]).indexOf(q) > -1) card(x[0], x[1], false, x[2]); });
     if (!g.children.length) { var e = document.createElement("p"); e.className = "hint"; e.textContent = "Eşleşen kategori yok."; g.appendChild(e); }
   }
   function openCats() {
@@ -3080,6 +3369,9 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
   $("catClose").onclick = closeCats;
   $("catBox").addEventListener("click", function (e) { if (e.target === $("catBox")) closeCats(); });
   $("catSearch").oninput = renderCats;
+  try { catSortMode = store("sinyal.catsort") === "n" ? "n" : "az"; catDetail = store("sinyal.catdetail") !== "0"; } catch (e) {}
+  $("catSort").onclick = function () { catSortMode = catSortMode === "n" ? "az" : "n"; store("sinyal.catsort", catSortMode); renderCats(); $("catSort").focus(); };
+  $("catView").onclick = function () { catDetail = !catDetail; store("sinyal.catdetail", catDetail ? "1" : "0"); renderCats(); $("catView").focus(); };
   $("catManage").onclick = function () { $("catBox").hidden = true; openModal("cats"); };
   document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !$("catBox").hidden) closeCats(); });
 
@@ -3146,7 +3438,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
   function hue(str) { var h = 0; for (var i = 0; i < str.length; i++) h = (h * 31 + str.charCodeAt(i)) % 360; return h; }
   function homeOpen(c) {
     hideHome(); setSec(c.kind === "episode" ? "series" : c.kind);
-    if (c.seriesId) openSeries(c); else { play(c.id); fsMaybe(c.id); }
+    if (c.seriesId) openSeries(c); else { var same = current === c.id; if (IS_TV && same && !video.paused && !extOn()) { fsOpen(); return; } play(c.id); fsMaybe(c.id, same); }
   }
   function posterRow(title, items, all, square) {
     if (!items.length) return;
@@ -3296,7 +3588,11 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
       if (k === "PageDown" || k === "ChannelDown") { e.preventDefault(); step(1); return; }
       if (k === "PageUp" || k === "ChannelUp") { e.preventDefault(); step(-1); return; }
       if (k !== "ArrowDown" && k !== "ArrowUp" && k !== "ArrowLeft" && k !== "ArrowRight") return;
-      if (typing && (k === "ArrowLeft" || k === "ArrowRight")) return;
+      if (typing && (k === "ArrowLeft" || k === "ArrowRight")) {
+        var t = e.target, ss = null, se = null; try { ss = t.selectionStart; se = t.selectionEnd; } catch (x) {}
+        var atEdge = ss === null || (ss === se && (k === "ArrowRight" ? se >= (t.value || "").length : ss <= 0));
+        if (!atEdge) return;
+      }
       if (tag === "select") return;
       e.preventDefault(); e.stopImmediatePropagation(); spatial(k);
     }, true);

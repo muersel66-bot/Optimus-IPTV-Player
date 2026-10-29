@@ -171,6 +171,27 @@ Ayarlar > Sunucu Kategorileri: aktif listenin kategorileri (Canlı/Film/Dizi, ka
 ## http:// adresleri (v4.15)
 M3U adreslerinde http:// yazılmasa da otomatik eklenir (örn. sunucu:8080/liste.m3u); düz http bağlantılar desteklenir. Adres alanlarında tarayıcının katı URL doğrulaması kapatıldı, Enter ile gönderilebilir.
 
+## QR kod ile sunucu ekle + yedek (v4.16)
+Ayarlar > QR Kodu ile Sunucu Ekle: kamerayla (veya galeriden resim / yapıştırılan metinle) QR okunur. Desteklenenler: Xtream bağlantısı (get.php?username=…&password=…, /live/kullanıcı/şifre/…), M3U adresi, xtream://sunucu|kullanıcı|şifre, JSON {server,user,pass,name}. Okunan sunucu önizlenir, kaydedilir (ve istenirse yüklenir). “Sunucuları yedekle / Yedekten yükle” ile sunucular ve M3U bağlantıları metin veya .json dosyası olarak dışa/içe aktarılır. Android: CAMERA izni eklendi (kamera ilk kullanımda izin ister). Cihazda BarcodeDetector yoksa QR çözücü (jsQR) internetten yüklenir.
+
+## Android TV uyumu (v4.17)
+Ayarlar ve tüm pencerelerde kumanda (D-pad) ile gezinme doğrulandı: tüm kutulara ulaşılır, pencere açılınca odak pencerenin içine geçer, Geri tuşu kapatır. Kamerası olmayan TV’de QR penceresi kamera düğmesini gizler ve resim / metin yapıştırma / yedekten yükleme yollarını önerir. Pencere yeniden çizilince odak kaybolması giderildi.
+
+## TV kumanda iyileştirmeleri (v4.18)
+Ana ekranda arama kutusundan sağ tuşla üst düğmelere (yenile, liste ekle, sunucu değiştir, ayarlar) geçilebilir (imleç metnin sonundaysa). Pencere (ör. QR, sunucu) kapanınca odak, onu açan kutuya döner. Ayarlar’daki 29 öğenin tamamına yön tuşlarıyla ulaşılır; geri okuna yukarı tuşuyla çıkılır.
+
+## TV: küçük ekran / büyük ekran (v4.19)
+TV’de kanal seçince yayın sağ üstteki küçük ekranda açılır, liste solda kalır. Aynı kanala tekrar OK’a basınca (veya ekrandaki “Büyük ekran” düğmesiyle, ya da F tuşuyla) yayın yeniden başlamadan büyük ekrana geçer; Geri / “Küçük ekran” küçük ekrana döner ve odak listeye geri gelir. Büyük ekranda denetimler gizliyken ↑/↓ kanal değiştirir.
+
+## TV + telefon uyum taraması (v4.20)
+7 ekran boyutunda (telefon 360×640, 390×844, yatay 844×390, tablet dikey/yatay, TV 1280×720 ve 1920×1080) ana ekran, liste, Ayarlar ve pencereler taşma/kırpılma için tarandı. Düzeltmeler: TV 1280×720’de üst simgeler taşıyordu (küçültüldü); küçük dikey telefonda kanal listesi ekran altında kalıyordu (kompakt başlık/arama, gizlenen hız çubuğu ve program ayrıntısı).
+
+## Ayrıntılı kategoriler (v4.21)
+Kategori penceresi her kategori için kanal sayısı çubuğu, favori / 4K / izlenen sayıları, küçük logolar ve örnek kanal adlarını gösterir. Üstte toplam kategori ve kanal sayısı, “Sıra: A–Z / çok kanal” ve “Görünüm: ayrıntılı / kompakt” seçenekleri vardır (tercih hatırlanır). Pencereler açık sistem temasında da okunaklı (koyu) görünür.
+
+## Oynatıcıyı etkinleştir (v4.22)
+Ayarlar > Oynatıcıyı Etkinleştir: etkin oynatıcı (VLC / MX Player / uygulama içi) seçilir ve “Test yayınını oynat” ile herkese açık bir HLS test yayını seçili motorla açılır. Uygulama içi motorda 12 sn içinde görüntü gelmezse yedek test adresi denenir ve sonuç (çalışıyor / çalışmıyor) gösterilir; VLC/MX’te görüntü gelip gelmediğini kullanıcı görür. “Sorun mu var?” düğmesi tek dokunuşla uygulama içi oynatıcıya geçirir.
+
 ## Notlar
 - Alt sürüm: Android 8.0 (API 26) ve üstü. Android TV'de de açılır.
 - İmza anahtarı (`app/optimus.keystore`) herkese açık örnek bir anahtardır. Kendi anahtarınızı kullanmak için

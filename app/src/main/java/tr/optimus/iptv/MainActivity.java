@@ -1,5 +1,6 @@
 package tr.optimus.iptv;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.DownloadManager;
 import android.app.UiModeManager;
@@ -7,6 +8,7 @@ import android.content.res.Configuration;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
@@ -18,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
+import android.webkit.PermissionRequest;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
@@ -47,6 +50,7 @@ import java.util.concurrent.Executors;
 public class MainActivity extends Activity {
 
     private static final int REQ_FILE = 11;
+    private static final int REQ_CAM = 12;
     private static final int CHUNK = 400000;
     private static final int MAX_BODY = 80 * 1024 * 1024;
     private static final String BG = "#0D1014";
@@ -58,6 +62,7 @@ public class MainActivity extends Activity {
     private View customView;
     private WebChromeClient.CustomViewCallback customCb;
     private ValueCallback<Uri[]> fileCb;
+    private PermissionRequest camReq;
 
     private final ExecutorService pool = Executors.newFixedThreadPool(4);
     private final ConcurrentHashMap<Integer, String> bodies = new ConcurrentHashMap<Integer, String>();
@@ -126,6 +131,32 @@ public class MainActivity extends Activity {
             @Override
             public void onHideCustomView() {
                 hideCustom();
+            }
+
+            /** QR tarama için kamera izni (yalnızca video yakalama istekleri). */
+            @Override
+            public void onPermissionRequest(final PermissionRequest request) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        boolean video = false;
+                        for (String r : request.getResources()) {
+                            if (PermissionRequest.RESOURCE_VIDEO_CAPTURE.equals(r)) {
+                                video = true;
+                            }
+                        }
+                        if (!video) {
+                            request.deny();
+                            return;
+                        }
+                        if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                            request.grant(new String[] {PermissionRequest.RESOURCE_VIDEO_CAPTURE});
+                        } else {
+                            camReq = request;
+                            requestPermissions(new String[] {Manifest.permission.CAMERA}, REQ_CAM);
+                        }
+                    }
+                });
             }
 
             @Override
@@ -218,6 +249,19 @@ public class MainActivity extends Activity {
         if (customCb != null) {
             customCb.onCustomViewHidden();
             customCb = null;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] results) {
+        super.onRequestPermissionsResult(requestCode, permissions, results);
+        if (requestCode == REQ_CAM && camReq != null) {
+            if (results.length > 0 && results[0] == PackageManager.PERMISSION_GRANTED) {
+                camReq.grant(new String[] {PermissionRequest.RESOURCE_VIDEO_CAPTURE});
+            } else {
+                camReq.deny();
+            }
+            camReq = null;
         }
     }
 
