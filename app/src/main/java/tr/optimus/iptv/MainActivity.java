@@ -2,6 +2,8 @@ package tr.optimus.iptv;
 
 import android.app.Activity;
 import android.app.DownloadManager;
+import android.app.UiModeManager;
+import android.content.res.Configuration;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -24,7 +26,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
@@ -85,6 +86,9 @@ public class MainActivity extends Activity {
         s.setMediaPlaybackRequiresUserGesture(false);
         s.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
 
+        web.setFocusable(true);
+        web.setFocusableInTouchMode(true);
+        web.requestFocus();
         web.addJavascriptInterface(new Net(), "Native");
 
         web.setWebViewClient(new WebViewClient() {
@@ -233,9 +237,61 @@ public class MainActivity extends Activity {
     public void onBackPressed() {
         if (customView != null) {
             hideCustom();
-        } else {
-            super.onBackPressed();
+            return;
         }
+        // Sayfa önce kendi geri adımını dener (pencere, sezon, arama); yoksa uygulamadan çıkar
+        web.evaluateJavascript("(function(){return !!(window.__back&&window.__back());})()", new ValueCallback<String>() {
+            @Override
+            public void onReceiveValue(String v) {
+                if (!"true".equals(v)) {
+                    MainActivity.super.onBackPressed();
+                }
+            }
+        });
+    }
+
+    /** TV kumandası: renkli tuşlar, menü, bilgi, rehber ve son kanal tuşları sayfaya iletilir. */
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent e) {
+        if (e.getAction() == KeyEvent.ACTION_DOWN && e.getRepeatCount() == 0 && customView == null) {
+            String a = null;
+            switch (e.getKeyCode()) {
+                case KeyEvent.KEYCODE_PROG_RED:
+                    a = "red";
+                    break;
+                case KeyEvent.KEYCODE_PROG_GREEN:
+                    a = "green";
+                    break;
+                case KeyEvent.KEYCODE_PROG_YELLOW:
+                    a = "yellow";
+                    break;
+                case KeyEvent.KEYCODE_PROG_BLUE:
+                    a = "blue";
+                    break;
+                case KeyEvent.KEYCODE_MENU:
+                    a = "menu";
+                    break;
+                case KeyEvent.KEYCODE_INFO:
+                    a = "info";
+                    break;
+                case KeyEvent.KEYCODE_GUIDE:
+                    a = "cats";
+                    break;
+                case KeyEvent.KEYCODE_LAST_CHANNEL:
+                    a = "last";
+                    break;
+                case KeyEvent.KEYCODE_BOOKMARK:
+                    a = "fav";
+                    break;
+                default:
+                    break;
+            }
+            if (a != null) {
+                web.evaluateJavascript("window.__rc&&window.__rc('" + a + "')", null);
+                return true;
+            }
+        }
+        return super.dispatchKeyEvent(e);
     }
 
     @Override
@@ -272,7 +328,17 @@ public class MainActivity extends Activity {
 
         @JavascriptInterface
         public boolean hasDownloads() {
-            return true;
+            // Bazı TV kutularında indirme yöneticisi yoktur veya kapalıdır
+            try {
+                if (dm() == null) {
+                    return false;
+                }
+                int st = getPackageManager().getApplicationEnabledSetting("com.android.providers.downloads");
+                return st != android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_DISABLED
+                        && st != android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_DISABLED_USER;
+            } catch (Exception e) {
+                return true;
+            }
         }
 
         /** Sistem indirme yöneticisine bir indirme ekler; indirme numarasını döndürür, hata olursa -1. */
@@ -352,6 +418,81 @@ public class MainActivity extends Activity {
             } catch (Exception e) {
                 return 0;
             }
+        }
+
+        /** "sürümAdı|sürümKodu" döndürür. */
+        @JavascriptInterface
+        public String appVersion() {
+            try {
+                android.content.pm.PackageInfo pi = getPackageManager().getPackageInfo(getPackageName(), 0);
+                return pi.versionName + "|" + pi.versionCode;
+            } catch (Exception e) {
+                return "";
+            }
+        }
+
+        /** Yeni APK'yı indirme yöneticisiyle indirir; indirme numarasını döndürür, hata olursa -1. */
+        @JavascriptInterface
+        public double startApkDownload(String url) {
+            try {
+                if (!url.startsWith("https://")) {
+                    return -1;
+                }
+                File dir = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+                if (dir != null) {
+                    File old = new File(dir, "optimus-update.apk");
+                    if (old.exists()) {
+                        old.delete();
+                    }
+                }
+                DownloadManager.Request r = new DownloadManager.Request(Uri.parse(url));
+                r.setTitle("OPTİMUS güncellemesi");
+                r.setDescription("OPTİMUS İptv Player PRO");
+                r.setMimeType("application/vnd.android.package-archive");
+                r.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                r.setDestinationInExternalFilesDir(MainActivity.this, Environment.DIRECTORY_DOWNLOADS, "optimus-update.apk");
+                return (double) dm().enqueue(r);
+            } catch (Exception e) {
+                return -1;
+            }
+        }
+
+        /** İndirilen APK için sistem kurulum ekranını açar. Dönüş: ok, perm (izin gerekli), nofile, err. */
+        @JavascriptInterface
+        public String installApk(double id) {
+            try {
+                if (!getPackageManager().canRequestPackageInstalls()) {
+                    Intent s = new Intent(android.provider.Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,
+                            Uri.parse("package:" + getPackageName()));
+                    s.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(s);
+                    return "perm";
+                }
+                Uri u = dm().getUriForDownloadedFile((long) id);
+                if (u == null) {
+                    return "nofile";
+                }
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setDataAndType(u, "application/vnd.android.package-archive");
+                i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+                return "ok";
+            } catch (Exception e) {
+                return "err";
+            }
+        }
+
+        @JavascriptInterface
+        public boolean isTv() {
+            try {
+                UiModeManager um = (UiModeManager) getSystemService(Context.UI_MODE_SERVICE);
+                if (um != null && um.getCurrentModeType() == Configuration.UI_MODE_TYPE_TELEVISION) {
+                    return true;
+                }
+            } catch (Exception ignored) {
+                // algılanamazsa telefon varsay
+            }
+            return !getPackageManager().hasSystemFeature("android.hardware.touchscreen");
         }
 
         @JavascriptInterface
