@@ -24,6 +24,7 @@ import android.widget.TextView;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
+import org.videolan.libvlc.interfaces.IMedia;
 import org.videolan.libvlc.util.VLCVideoLayout;
 
 import java.util.ArrayList;
@@ -478,7 +479,7 @@ public class PlayerActivity extends Activity {
     /** Akıştaki ses kodeklerini gösterir (örneğin "Dolby Digital Plus 5.1"). */
     private void showCodecs() {
         try {
-            Media m = player.getMedia();
+            IMedia m = player.getMedia();
             if (m == null) {
                 return;
             }
