@@ -192,6 +192,118 @@ Kategori penceresi her kategori için kanal sayısı çubuğu, favori / 4K / izl
 ## Oynatıcıyı etkinleştir (v4.22)
 Ayarlar > Oynatıcıyı Etkinleştir: etkin oynatıcı (VLC / MX Player / uygulama içi) seçilir ve “Test yayınını oynat” ile herkese açık bir HLS test yayını seçili motorla açılır. Uygulama içi motorda 12 sn içinde görüntü gelmezse yedek test adresi denenir ve sonuç (çalışıyor / çalışmıyor) gösterilir; VLC/MX’te görüntü gelip gelmediğini kullanıcı görür. “Sorun mu var?” düğmesi tek dokunuşla uygulama içi oynatıcıya geçirir.
 
+## Yeni ana ekran (v4.23)
+- Örnek ekrana göre başlatıcı: Canlı / Filmler / Seri / Hesap / Çalma Listesini Değiştir + Ayarlar / Yeniden Yükle / ÇIKIŞ.
+- Sağ üstte liste süre dolumu (Xtream), sağ altta sürüm. TV'de kumanda ile gezinme, telefonda alt alta düzen.
+- ÇIKIŞ: Android'de uygulamayı kapatır (Native.exitApp).
+
+## Yeni Ayarlar ekranı (v4.24)
+- Örnek ekrana göre mor zemin, pembe kutular, 4 sütun; sıra örnektekiyle aynı, cihaz kimliği/anahtarı 20. kutudan sonra.
+
+## Yeni Canlı ekran (v4.25)
+- Örnek ekrana göre: üstte Anasayfa | Canlı | Filmler | Seri + arama, solda grup çubukları, ortada kanal listesi, sağda yayın + program listesi, altta Yakala / Favorilere Ekle / Arama.
+
+## Yeni Filmler / Seri ekranı (v4.26)
+- Afiş ızgarası: solda kategori listesi + Geri/Arama, sağda sıralama kutusu, grup başlığı ve puan etiketli afişler. Bir afişe basınca tam ekran oynatır; Geri ile dönünce yayın durur.
+
+## Seri ekranı (v4.27)
+- Filmlerle aynı afiş ızgarası, solda klaket simgesi; ızgara geniş ekranda 5 sütun. Bir diziye basınca bölüm listesi açılır.
+
+## Oynatıcı seçimi (v4.28)
+- Canlı ekranda ve tam ekran çubuğunda "Oynatıcı: VLC/MX/Dahili" düğmesi: VLC, MX Player veya uygulama içi oynatıcıyı seçip kanalı hemen o oynatıcıyla açar.
+
+## Profesyonel oynatıcı (v4.29)
+- Tam ekran çubuğunda ⚙ Pro paneli: hız, kalite (HLS), ses dili, altyazı, görüntü oranı, uyku zamanlayıcı, istatistik, PiP. ±10 sn düğmeleri, ses kaydırıcısı, çift dokunuşla ileri/geri, J/L/[ ]/I kısayolları, film ve bölümlerde kaldığın yerden devam.
+
+## Harici Oynatıcılar penceresi (v4.30)
+- Örnek düzen: Varsayılan / VLC Oynatıcı / MX Oynatıcı onay kutuları, TAMAM / İPTAL. Canlı ekrandaki "Oynatıcı" düğmesi de aynı pencereyi açar.
+
+## Player Değiştir (v4.31)
+- Üst çubukta (tüm bölümlerde), canlı ekran düğmelerinde ve tam ekran çubuğunda "Player Değiştir" düğmesi; seçili oynatıcı yanında görünür.
+
+## Oynatıcı Ayarları (v4.32)
+- Ayarlar > Oynatıcı Ayarları: oynatıcı seçimi, varsayılan görüntü oranı ve hız, arabellek, tam ekran, düşük gecikme, kaldığın yerden devam, altyazı / format kısayolları, test yayını.
+
+## Harici Oynatıcılar düzeltmesi (v4.33)
+- Kumandayla bir satır seçince odak başa atlıyordu; düzeltildi. Hiç seçim yapılmamışsa "Varsayılan" işaretli gelir (örnek ekran gibi).
+
+## İntroyu atla (v4.34)
+- Açılış animasyonunda "İntroyu Atla" düğmesi; kumandada herhangi bir tuş da atlar. Ayarlar > Açılış İntrosu ile tamamen kapatılabilir.
+- Dizi bölümlerinde tam ekranda ilk 4 dakikada "İntroyu Atla" düğmesi (N tuşu): varsayılan 85 sn ileri; süre Oynatıcı Ayarları'ndan değişir.
+
+## Eklenen Sunucular (v4.35)
+- Ayarlar > Eklenen Sunucular: her Xtream sunucusu ve M3U bağlantısı ayrı kart; durum, bitiş tarihi, bağlantı sayısı, Aktif et / Denetle / Sil.
+
+## Sunucu kaydet / sil (v4.36)
+- Eklenen Sunucular: kaydedilmemiş etkin sunucu/bağlantıda Kaydet düğmesi, Düzenle, onaylı Sil ve Tümünü sil.
+
+## Yeni logo görünümü (v4.37)
+- Ana ekranda dönen renkli halka, yörünge kıvılcımı, nabız gibi parlayan hale ve krom OPTİMUS yazısı; liste ekranında renk değiştiren logo parıltısı. Robot efektleri (FX) kapalıyken animasyonlar durur.
+
+## 4K ve Ses Ayarları (v4.38)
+- Ayarlar > 4K ve Ses Ayarları: kalite tercihi (otomatik / en yüksek / 1080p / 720p), 4K-HEVC yayınlarda otomatik VLC, ses seviyesi (kalıcı), tercih edilen ses dili, ses testi, 4K testi, varsayılanlara sıfırla.
+
+## 4K Desteği (v4.39)
+- "4K ve Ses Ayarları" penceresinde "Bu cihazın 4K desteği" bölümü: ekran çözünürlüğü, HDR, H.264/HEVC/VP9/AV1 desteği, 4K HEVC akıcılık testi.
+- PlayerActivity (VLC): 4K/UHD görünümlü yayınlarda 5 sn önbellek; video yüksekliği ≥2000 ise ekranın en yüksek çözünürlük/yenileme moduna geçiş (Android 6+).
+
+## Sunucu Seç (v4.40)
+- Ayarlar'da "Sunucu Seç" kutusu; ana ekran sunucu simgesi ve "Çalma Listesini Değiştir" de bu pencereyi açar. Kayıtlı Xtream sunucuları ve M3U bağlantıları işaretlenerek seçilir, TAMAM ile yüklenir; aktif olan "● aktif" görünür.
+
+## HDR10+ Desteği (v4.41)
+- "4K ve Ses Ayarları"nda ekranın HDR10 / HDR10+ / Dolby Vision / HLG desteği listelenir (Android'de `Native.hdrTypes()`, API 24+).
+- Adında HDR, HDR10+, Dolby Vision, DV veya HLG geçen yayınlar otomatik VLC ile açılır (ayarlardan kapatılabilir).
+
+## Görüntü ve Ses Biçimleri (v4.42)
+- Kanal adı/kategorisinde geçen 4K, HDR10, HDR10+, HLG, Dolby Vision, Dolby Atmos, DTS:X ve Dolby Audio (DD / DD+ / AC3 / E-AC-3) etiketleri listede rozet olarak gösterilir.
+- HDR ve Dolby/DTS etiketli yayınlar Android'de otomatik VLC ile açılır (4K ve Ses Ayarları'ndan kapatılabilir).
+
+## Sunucu Listesi Kalıcı (v4.43)
+- Giriş yapılan her Xtream sunucusu otomatik olarak kayıtlı listeye eklenir.
+- Sunucu, M3U bağlantısı, aktif kaynak ve favoriler Android'de ayrıca yerel belleğe (SharedPreferences `optimus_kv`, `Native.saveKV/loadKV`) yazılır; WebView verisi silinirse açılışta geri yüklenir. Uygulamayı kaldırıp yeniden kurunca bellek de silinir; bunun için "Sunucuları yedekle" kullanın.
+
+## Film ve Dizi İndirme (v4.44)
+- Filmler posterlerinde sol üstte ⬇ düğmesi (indirirken yüzde, bitince ✓, tekrar dokununca oynat/iptal).
+- Dizi posterindeki ⬇ diziyi açar; bölümlerde ⬇ ve "Sezonu indir" kullanılır.
+- Tam ekran oynatıcıda film/bölüm için "⬇ İndir" düğmesi.
+- İndirilenler sekmesi/ana ekran kutusu ve Wi-Fi kısıtı daha önce vardı; indirmeler Android DownloadManager ile sırayla yapılır.
+
+## 4K Yayın Oynatma (v4.45)
+- Tarayıcı oynatıcısı bir yayını çözemezse (HEVC/4K kalite, ölümcül medya hatası, açılamayan biçim, 6 sn sonra hâlâ siyah ekran) Android'de otomatik VLC'ye geçilir; her yayın için bir kez denenir.
+- HLS listesi yalnızca HEVC/4K sunuyorsa ve tarayıcı HEVC çözemiyorsa doğrudan VLC açılır.
+- 4K ve Ses Ayarları'ndaki "4K / HEVC yayınları otomatik VLC ile aç" anahtarı bu geçişi de kapatır.
+
+## Yeni Logo Arka Planı (v4.46)
+- Uygulama simgesi (adaptif ikon) arka planı koyu lacivertten mor→macenta→kırmızı degradeye (+ merkezde yumuşak ışık) değiştirildi: `res/drawable/ic_bg.xml`.
+- Android TV afişi (`banner.png`) aynı degrade ile yeniden çizildi (ızgarasız).
+- Rengi değiştirmek için `ic_bg.xml` içindeki startColor/centerColor/endColor değerlerini düzenleyin.
+
+## QR ile Uzaktan Erişim (v4.47)
+- Ayarlar > "QR ile Uzaktan Erişim": cihaz yerel ağda küçük bir sunucu açar (`RemoteServer.java`, port 8765+) ve ekranda QR kodu gösterir.
+- Telefon kamerasıyla QR okutulunca `assets/remote.html` açılır: yön tuşları, TAMAM, Geri, Ana, CH ±, ses, oynat/duraklat, tam ekran ve "Sunucu / M3U gönder" formu.
+- Adres her başlatmada değişen 6 haneli anahtar içerir; yalnızca aynı Wi-Fi ağından erişilir. Durdur düğmesiyle kapatılır.
+- Not: Sunucu cihazın kendi ağında düz HTTP kullanır; ortak/güvenilmez ağlarda açık bırakmayın.
+
+## QR ile Sunucu Al / Paylaş (v4.48)
+- "QR Kodu ile Sunucu Al": kamera / galeri / yapıştırma ile Xtream sunucusu veya M3U adresini içe alır (jsQR gerekirse internetten yüklenir).
+- Yeni: "Eklenen Sunucular"da her sunucu ve M3U bağlantısında "QR göster" düğmesi; başka cihaz bu kodu okutarak sunucuyu alır. Kod `xtream://sunucu|kullanıcı|şifre|ad` biçimindedir (şifre içerir!).
+- QR üretici sürüm 1–10'a genişletildi (~210 bayta kadar).
+
+## Telefon Kamerasıyla QR Tarama (v4.49)
+- "QR Kodu ile Sunucu Al" penceresinde "📷 Telefon kamerasıyla tara": Google Play Hizmetleri kod tarayıcısı (`play-services-code-scanner`, `Native.scanQr()`) açılır; kamera izni gerekmez, sonuç `__qrResult` ile sayfaya gelir.
+- Cihazda Play Hizmetleri yoksa veya tarayıcı açılamazsa uygulama içi kameraya (getUserMedia) otomatik geçilir. Android TV'de düğme gösterilmez.
+- build.gradle'a yeni bağımlılık eklendi; ilk derlemede Gradle bunu indirir.
+
+## Film ve Dizi Konu Bilgisi (v4.50)
+- Film/dizi posterlerinde ve bölüm satırlarında ℹ düğmesi; dizi bölüm listesinde "ℹ Konu"; tam ekran oynatıcıda "ℹ Konu".
+- Pencere: afiş, puan, tür, çıkış tarihi, süre, ülke, yönetmen, oyuncular, konu ve fragman kodu; Oynat / İndir / Favori düğmeleri.
+- Bilgi Xtream sunucusundan (`get_vod_info`, `get_series_info`) alınır ve önbelleğe konur; sunucu vermezse "konu bilgisi bulunamadı" yazar. Yalnızca Xtream girişinde çalışır (M3U listelerinde konu bilgisi yoktur).
+
+## İndirme Düğmeleri (v4.51)
+- Dizi posterindeki ⬇ artık "Diziyi İndir" penceresini açar: "Tüm dizi (N bölüm)" ve her sezon için ayrı düğme.
+- Dizi bölüm listesinin başında "Sezonu indir" yanında "⬇ Tüm dizi"; dizi bilgi penceresinde "⬇ İndir".
+- Film posterinde ⬇, bölüm/film satırlarında büyütülmüş ⬇ düğmesi, tam ekranda "⬇ İndir" (v4.44). İndirme yalnızca Android uygulamasında çalışır.
+
 ## Notlar
 - Alt sürüm: Android 8.0 (API 26) ve üstü. Android TV'de de açılır.
 - İmza anahtarı (`app/optimus.keystore`) herkese açık örnek bir anahtardır. Kendi anahtarınızı kullanmak için

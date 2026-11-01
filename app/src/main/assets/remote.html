@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="tr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>OPTİMUS Kumanda</title>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font:16px/1.4 system-ui,sans-serif;color:#fff;background:linear-gradient(160deg,#2a0b6e,#8a1fc8 55%,#e0214f);min-height:100vh;padding:16px 16px 40px;display:flex;flex-direction:column;align-items:center;gap:14px}
+h1{margin:6px 0 0;font-size:22px;letter-spacing:.06em}
+p.s{margin:0;opacity:.8;font-size:13px;text-align:center}
+.card{width:100%;max-width:420px;background:rgba(0,0,0,.35);border-radius:18px;padding:16px;backdrop-filter:blur(4px)}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+button{font:600 17px system-ui;color:#fff;background:rgba(255,255,255,.16);border:0;border-radius:14px;padding:16px 8px;touch-action:manipulation}
+button:active{background:rgba(255,255,255,.4)}
+.ok{background:#ffe033;color:#2a0b6e}
+.row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+.row2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px}
+input{width:100%;padding:13px;margin:6px 0;border-radius:12px;border:0;font:16px system-ui;background:rgba(255,255,255,.92);color:#111}
+.tabs{display:flex;gap:8px;margin-bottom:8px}.tabs button{flex:1;padding:10px}.tabs .on{background:#ffe033;color:#2a0b6e}
+.send{width:100%;margin-top:8px;background:#19c37d}
+#msg{min-height:22px;font-size:14px;text-align:center}
+</style></head><body>
+<h1>⚡ OPTİMUS KUMANDA</h1>
+<p class="s">Bu sayfa yalnızca aynı Wi-Fi ağındaki TV / cihazı yönetir.</p>
+<div class="card">
+  <div class="pad">
+    <span></span><button data-c="up" data-rep="1">▲</button><span></span>
+    <button data-c="left" data-rep="1">◀</button><button class="ok" data-c="ok">TAMAM</button><button data-c="right" data-rep="1">▶</button>
+    <span></span><button data-c="down" data-rep="1">▼</button><span></span>
+  </div>
+  <div class="row"><button data-c="back">↩ Geri</button><button data-c="home">⌂ Ana</button><button data-c="play">⏯</button></div>
+  <div class="row"><button data-c="chdown">CH −</button><button data-c="mute">🔇</button><button data-c="chup">CH +</button></div>
+  <div class="row2"><button data-c="voldown">Ses −</button><button data-c="volup">Ses +</button></div>
+  <div class="row2"><button data-c="fs">⛶ Tam ekran</button><button data-c="info">ℹ Bilgi</button></div>
+</div>
+<div class="card">
+  <strong>Sunucu / liste gönder</strong>
+  <div class="tabs"><button id="tx" class="on">Xtream</button><button id="tm">M3U adresi</button></div>
+  <div id="fx"><input id="sv" placeholder="Sunucu adresi (http://...)" autocapitalize="off" autocorrect="off"><input id="us" placeholder="Kullanıcı adı" autocapitalize="off"><input id="pw" placeholder="Şifre" autocapitalize="off"></div>
+  <div id="fm" hidden><input id="mu" placeholder="M3U adresi (http://...)" autocapitalize="off" autocorrect="off"></div>
+  <button class="send" id="go">TV'ye gönder</button>
+</div>
+<div id="msg"></div>
+<script>
+var K=new URLSearchParams(location.search).get("k")||"";
+function msg(t,ok){var m=document.getElementById("msg");m.textContent=t;m.style.color=ok===false?"#ffd0d0":"#d7ffe9";}
+function send(o){return fetch("/api?k="+encodeURIComponent(K),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(o)}).then(function(r){if(!r.ok)throw 0;return r.json();});}
+document.querySelectorAll("[data-c]").forEach(function(b){
+  var t=0,iv=0;function fire(){send({t:"key",c:b.dataset.c}).catch(function(){msg("Bağlantı yok",false);});if(navigator.vibrate)navigator.vibrate(10);}
+  function stop(){clearTimeout(t);clearInterval(iv);}
+  b.addEventListener("pointerdown",function(e){e.preventDefault();fire();if(b.dataset.rep){t=setTimeout(function(){iv=setInterval(fire,130);},450);}});
+  ["pointerup","pointerleave","pointercancel"].forEach(function(ev){b.addEventListener(ev,stop);});
+});
+var mode="x";
+function tab(m){mode=m;document.getElementById("tx").className=m==="x"?"on":"";document.getElementById("tm").className=m==="m"?"on":"";document.getElementById("fx").hidden=m!=="x";document.getElementById("fm").hidden=m!=="m";}
+document.getElementById("tx").onclick=function(){tab("x");};document.getElementById("tm").onclick=function(){tab("m");};
+document.getElementById("go").onclick=function(){
+  var o;
+  if(mode==="x"){o={t:"xtream",server:sv.value.trim(),user:us.value.trim(),pass:pw.value.trim()};if(!o.server||!o.user||!o.pass){msg("Üç alanı da doldurun.",false);return;}}
+  else{o={t:"m3u",url:mu.value.trim()};if(!/^https?:\/\//i.test(o.url)){msg("Adres http:// veya https:// ile başlamalı.",false);return;}}
+  msg("Gönderiliyor…");send(o).then(function(){msg("Gönderildi. TV'de yükleniyor.");}).catch(function(){msg("Gönderilemedi.",false);});
+};
+</script></body></html>

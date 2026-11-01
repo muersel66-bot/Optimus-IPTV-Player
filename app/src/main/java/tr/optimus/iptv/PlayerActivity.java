@@ -7,9 +7,11 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -387,10 +389,48 @@ public class PlayerActivity extends Activity {
         if (swDecode) {
             m.addOption(":avcodec-hw=none");
         }
-        m.addOption(":network-caching=3000");
+        m.addOption(":network-caching=" + (looksUhd(curName, url) ? "5000" : "3000"));
         player.setMedia(m);
         m.release();
         player.play();
+    }
+
+    /** Adında 4K / UHD / 2160 / HEVC geçen yayınlar için daha büyük ön bellek kullanılır. */
+    private static boolean looksUhd(String name, String url) {
+        String t = ((name == null ? "" : name) + " " + (url == null ? "" : url)).toLowerCase();
+        return t.contains("4k") || t.contains("uhd") || t.contains("2160") || t.contains("hevc") || t.contains("h265");
+    }
+
+    private boolean uhdModeSet = false;
+
+    /** 4K görüntü algılanınca TV / telefonun desteklediği en yüksek çözünürlüklü ekran moduna geçmeyi ister. */
+    private void requestUhdDisplayMode() {
+        if (uhdModeSet || Build.VERSION.SDK_INT < 23) {
+            return;
+        }
+        try {
+            Display d = getWindowManager().getDefaultDisplay();
+            Display.Mode[] modes = d.getSupportedModes();
+            Display.Mode best = null;
+            for (Display.Mode md : modes) {
+                if (best == null) {
+                    best = md;
+                    continue;
+                }
+                long a = (long) md.getPhysicalWidth() * md.getPhysicalHeight();
+                long b = (long) best.getPhysicalWidth() * best.getPhysicalHeight();
+                if (a > b || (a == b && md.getRefreshRate() > best.getRefreshRate())) {
+                    best = md;
+                }
+            }
+            if (best != null) {
+                WindowManager.LayoutParams lp = getWindow().getAttributes();
+                lp.preferredDisplayModeId = best.getModeId();
+                getWindow().setAttributes(lp);
+                uhdModeSet = true;
+            }
+        } catch (Throwable ignored) {
+        }
     }
 
     private void goNumber() {
@@ -492,6 +532,9 @@ public class PlayerActivity extends Activity {
                     Media.VideoTrack vt = (Media.VideoTrack) t;
                     int h = vt.height;
                     String q = h >= 2000 ? "4K Ultra HD" : h >= 1400 ? "2K" : h >= 1000 ? "Full HD" : h >= 700 ? "HD" : "";
+                    if (h >= 2000) {
+                        requestUhdDisplayMode();
+                    }
                     String vc = vt.codec == null ? "" : vt.codec.toLowerCase();
                     String vn = vc.startsWith("hev") || vc.startsWith("hvc") || vc.equals("h265") ? "HEVC" : vc.equals("h264") || vc.startsWith("avc") ? "H.264" : vc.startsWith("av01") ? "AV1" : vc.startsWith("vp9") || vc.equals("vp09") ? "VP9" : vc.toUpperCase();
                     if (vt.width > 0 && h > 0) {

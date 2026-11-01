@@ -75,7 +75,7 @@ button { cursor: pointer; }
 .icon-btn:hover { border-color: var(--accent); }
 
 .seg2 { display: flex; gap: 6px; }
-.modal { position: fixed; inset: 0; z-index: 50; background: rgba(0,0,0,.55); display: grid; place-items: center; padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+.modal { position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,.55); display: grid; place-items: center; padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
 .mbox { width: min(580px, 100%); max-height: 100%; overflow: auto; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; gap: 12px; }
 .mhead { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
 .mhead strong { font: 700 22px/1 var(--font-display); letter-spacing: .02em; text-transform: uppercase; }
@@ -106,7 +106,7 @@ button { cursor: pointer; }
 .chead strong { font-weight: 500; }
 .pill { font: 600 11px var(--font-display); letter-spacing: .1em; text-transform: uppercase; padding: 3px 9px; border-radius: 4px; border: 1px solid currentColor; }
 .pill.ok { color: var(--ok); } .pill.warn { color: var(--warn); } .pill.err { color: var(--tally); } .pill.skip { color: var(--muted); } .pill.run { color: var(--accent); }
-.dlb { background: none; border: 1px solid var(--line); border-radius: 6px; min-width: 40px; padding: 3px 6px; font: 500 12px var(--font-mono); color: var(--fg); }
+.dlb { background: none; border: 1px solid var(--line); border-radius: 6px; min-width: 46px; min-height: 34px; padding: 4px 8px; font: 600 14px var(--font-mono); color: var(--fg); flex: 0 0 auto; }
 .dlb:hover { border-color: var(--accent); }
 .dlhead { display: flex; flex-direction: column; gap: 8px; padding: 10px; background: var(--panel-2); border-bottom: 1px solid var(--line); }
 .dlhead p { margin: 0; color: var(--muted); font-size: 12px; }
@@ -420,7 +420,200 @@ body { background: linear-gradient(120deg, #12132f 0%, #1d1a43 45%, #2c1748 100%
   .lbtn span { display: none; }
   .app .col.player { position: sticky; top: 0; z-index: 5; background: #14142f; }
 }
+
+/* ---------- canlı ekran: örnek düzen (mavi-mor, gradyan çubuklar) ---------- */
+body { background: linear-gradient(180deg, #2b30b4 0%, #4a1fc6 50%, #38189a 100%) fixed; }
+.ltop { background: linear-gradient(180deg, #2d35c0, #2a2fae); border-bottom: 2px solid rgba(160,140,255,.5); gap: 0; padding: 8px 24px; }
+.lback { border-radius: 0; border-right: 2px solid #fff; padding: 4px 22px 4px 0; font-weight: 500; line-height: 1.1; }
+.seg2.lpills { background: none; border: 0; padding: 0 0 0 0; border-radius: 0; gap: 0; }
+.lpills button { border-radius: 0; background: transparent; color: #fff; padding: 4px clamp(14px, 2vw, 28px); border-right: 2px solid #fff; font-size: clamp(18px, 2.2vw, 28px); line-height: 1.1; }
+.lpills button[aria-pressed="true"] { background: transparent; color: #ffe033; }
+.lpills button[data-sec="dl"] { font-size: clamp(14px, 1.6vw, 20px); opacity: .85; }
+.lsearch { display: flex; align-items: center; gap: 8px; margin: 0 auto 0 clamp(14px, 2.5vw, 40px); flex: 0 1 min(450px, 36vw); min-width: 130px; padding: 0 14px; height: 46px; border: 3px solid #fff; border-radius: 999px; background: rgba(255,255,255,.08); }
+.lsearch svg { width: 24px; height: 24px; flex: 0 0 auto; fill: none; stroke: #fff; stroke-width: 2.6; stroke-linecap: round; }
+.lsearch .field { flex: 1; min-width: 0; background: transparent; border: 0; padding: 0; color: #fff; font-size: 18px; box-shadow: none; outline: 0; }
+.lsearch:focus-within { box-shadow: 0 0 0 3px #19e3ff; }
+.lacts { align-items: center; }
+.lacts #lSearch { display: none; }
+.llogo { height: 46px; width: 46px; border-radius: 50%; object-fit: cover; margin-left: 10px; box-shadow: 0 0 0 2px rgba(25,227,255,.8); }
+.lcols { grid-template-columns: minmax(190px, 24%) minmax(230px, 29%) minmax(0, 1fr); }
+.lcat, .lmid, .app .col.player { padding: 8px 8px; border-right: 2px solid rgba(160,140,255,.55); gap: 6px; }
+.lcat .tabs { gap: 6px; }
+.lcat .tab, .lmid .ch { border-radius: 4px; background: linear-gradient(100deg, #3a35d6, #6a22d8 60%, #8b20cf); color: #fff; box-shadow: inset 0 -1px 0 rgba(255,255,255,.15); font-weight: 600; }
+.lcat .tab { padding: 18px 16px; }
+.lcat .tab .tn { color: #fff; font-weight: 700; }
+.lcat .tab[aria-pressed="true"], .lmid .ch[aria-current="true"] { background: linear-gradient(100deg, #7a22d8, #c01fb4 70%, #d61fa0); color: #ffe033; }
+.lcat .tab[aria-pressed="true"] .tn { color: #ffe033; }
+.lcat .tab:focus, .lmid .ch:focus { outline: 0; box-shadow: 0 0 0 3px #fff; }
+.lmid { padding-top: 6px; }
+.lmid .ltitle, .lmid .count { display: none; }
+.lmid .ch { margin-bottom: 6px; min-height: 66px; }
+.lmid .ch .num { color: #fff; font-weight: 600; text-align: center; }
+.lmid .ch[aria-current="true"] .num { color: #ffe033; }
+.lmid .ch .meta > span:not(.fmts) { display: none; }
+.lmid .ch .meta > .fmts { display: flex; flex-wrap: wrap; white-space: normal; overflow: visible; text-overflow: clip; max-width: 100%; }
+.lmid .ch .meta .fmts .k4, .lmid .ch[aria-current="true"] .meta .fmts .k4 { color: #1a1030; font-weight: 800; }
+.lmid .ch .meta .fmts .k4.kh { color: #04122e; }
+.lmid .ch .meta .fmts .k4.ka { color: #1a0638; }
+body.vodgrid .lmid .ch .fmts { display: none; }
+.lmid .ch .meta b { font-weight: 600; font-size: clamp(15px, 1.7vw, 22px); }
+.lmid .ch[aria-current="true"] { background: linear-gradient(100deg, #7a22d8, #c01fb4 70%, #d61fa0) !important; color: #ffe033 !important; }
+.lmid .ch .k4 { display: inline-block; width: auto; padding: 1px 7px; margin-left: 8px; font-size: 11px; border-radius: 3px; color: #1a1030; vertical-align: middle; }
+.lmid .fav { opacity: .55; } .lmid .fav[aria-pressed="true"] { opacity: 1; color: #ffe033; }
+.app .col.player { padding: 0; gap: 0; background: linear-gradient(180deg, rgba(20,10,60,.2), #140a30 55%, #1c0b2a); }
+.app .stage { border-radius: 0; border: 0; max-height: 52vh; }
+.now { padding: 10px 16px 0; }
+.now h2 { margin: 0; font: 700 clamp(22px, 2.8vw, 38px) var(--font-body); color: #fff; }
+.now p, .now .info { display: none; }
+.epg { border: 0; border-radius: 0; background: transparent; padding: 4px 16px 0; flex: 1; min-height: 0; overflow: auto; }
+.epg .eh, .epg #epgDesc, .epg .epgnext { display: none; }
+.epgl p { margin: 0; padding: 7px 0; display: flex; gap: 18px; font: 500 clamp(15px, 1.8vw, 24px) var(--font-body); color: #fff; border: 0; }
+.epgl .et { flex: 0 0 auto; min-width: 9.5em; }
+.epgl .cur { color: #ffe033; }
+.epgl .epgnone { color: #b9b1e8; }
+.lact3 { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: clamp(8px, 1vw, 16px); padding: 10px 16px 14px; }
+.lb3 { border: 0; border-radius: 4px; background: #6f4fe0; color: #fff; font: 600 clamp(14px, 1.35vw, 22px) var(--font-body); padding: 12px clamp(10px, 1.2vw, 22px); box-shadow: 0 3px 10px rgba(0,0,0,.4); }
+.lb3:hover, .lb3:focus { outline: 0; background: #8a6cff; box-shadow: 0 0 0 3px #fff; }
+.vctl { display: none; }
+@media (max-width: 759px) {
+  .ltop { padding: 6px 8px; flex-wrap: wrap; }
+  .lsearch { order: 9; flex: 1 1 100%; margin: 6px 0 0; height: 40px; }
+  .lback { padding: 4px 8px 4px 0; font-size: 14px; }
+  .lpills button { padding: 4px 8px; font-size: 14px; }
+  .lpills button[data-sec="dl"] { display: none; }
+  .llogo { display: none; }
+  .seg2.lpills { flex: 0 1 auto; }
+  .lacts { margin-left: auto; }
+  .lcat .tab { padding: 8px 14px; }
+  .app .col.player { background: #1a0d3c; }
+  .lact3 { justify-content: stretch; padding: 8px 10px; } .lb3 { flex: 1; padding: 10px 6px; font-size: 14px; }
+  .now h2 { font-size: 18px; } .epgl p { font-size: 14px; }
+}
+
+/* ---------- film / dizi: afiş ızgarası (örnek düzen) ---------- */
+.lvodhead, .lvodbar { display: none; }
+body.vodgrid .lcols { grid-template-columns: minmax(200px, 25%) minmax(0, 1fr); }
+body.vodgrid .app .col.player { position: fixed !important; left: -99999px; top: 0; width: 480px; height: 300px; overflow: visible; }
+body.vodgrid .lcat { border-right: 2px solid rgba(160,140,255,.55); }
+body.vodgrid .lmid { border-right: 0; }
+body.vodgrid .lvodhead { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 4px 0 8px; }
+.lvodhead .vi-s { display: none; }
+body.vsec-series .lvodhead .vi-s { display: block; }
+body.vsec-series .lvodhead .vi-m { display: none; }
+.lvodhead > svg { width: clamp(80px, 12vh, 150px); height: clamp(80px, 12vh, 150px); fill: none; stroke: #fff; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.lvodrow { display: flex; justify-content: space-between; width: 100%; padding: 0 8px; }
+.lvb { display: inline-flex; align-items: center; gap: 8px; background: transparent; border: 0; color: #fff; font: 500 clamp(17px, 2vw, 26px) var(--font-body); padding: 6px 10px; border-radius: 6px; }
+.lvb svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.lvb:hover, .lvb:focus { outline: 0; box-shadow: 0 0 0 3px #fff; }
+body.vodgrid .lvodbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 10px 14px 6px; }
+.lvodbar select { background: #6f4fe0; color: #fff; border: 0; border-radius: 4px; font: 500 clamp(15px, 1.8vw, 24px) var(--font-body); padding: 12px 16px; max-width: 46%; }
+.lvodbar select:focus { outline: 0; box-shadow: 0 0 0 3px #fff; }
+.lvodbar b { font: 600 clamp(18px, 2.6vw, 38px) var(--font-body); color: #fff; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+body.vodgrid .lcat .tab[aria-pressed="true"] { box-shadow: 0 0 0 3px #ffe033; }
+body.vodgrid .lmid .list { display: grid; grid-template-columns: repeat(auto-fill, minmax(clamp(110px, 12vw, 230px), 1fr)); gap: clamp(10px, 1.4vw, 22px); align-content: start; grid-auto-rows: max-content; padding: 8px 14px 24px; }
+body.vodgrid .lmid .ch { display: flex; flex-direction: column; align-items: stretch; min-height: 0; padding: 0; margin: 0; gap: 0; border-radius: 6px; overflow: hidden; background: rgba(120,90,220,.35); border: 0; position: relative; box-shadow: none; }
+body.vodgrid .lmid .ch .num { display: none; }
+body.vodgrid .lmid .ch .logo { width: 100%; height: 0; padding-bottom: 150%; flex: 0 0 auto; border-radius: 0; display: block; line-height: 0; text-align: center; position: relative; font-size: 40px; background: linear-gradient(160deg, #4a2fc0, #2a1a7a); }
+body.vodgrid .lmid .ch .logo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+body.vodgrid .lmid .ch .rate { position: absolute; left: 6px; bottom: 6px; background: #2f6cf0; color: #fff; border-radius: 4px; padding: 3px 9px; font: 600 clamp(13px, 1.5vw, 20px) var(--font-body); }
+body.vodgrid .lmid .ch .meta { padding: 10px 10px 12px; }
+body.vodgrid .lmid .ch .meta b { font-size: clamp(13px, 1.5vw, 21px); display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+body.vodgrid .lmid .ch .k4 { display: none; }
+body.vodgrid .lmid .ch .fav { position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,.45); border-radius: 50%; width: 34px; height: 34px; padding: 0; font-size: 18px; }
+.inf { background: none; border: 1px solid var(--line); border-radius: 50%; width: 30px; height: 30px; min-width: 30px; padding: 0; font: 700 15px var(--font-body); color: var(--fg); flex: 0 0 auto; }
+.inf:hover, .inf:focus { border-color: var(--accent); outline: 0; }
+body.vodgrid .lmid .ch .inf { position: absolute; bottom: 8px; right: 6px; z-index: 3; width: 34px; height: 34px; border: 0; background: rgba(0,0,0,.65); color: #fff; }
+body.vodgrid .lmid .ch .inf:focus { box-shadow: 0 0 0 3px #ffe033; }
+body.vodgrid .lmid .ch .dlb { display: flex; position: absolute; top: 4px; left: 4px; z-index: 3; width: 34px; height: 34px; min-width: 0; padding: 0; align-items: center; justify-content: center; border: 0; border-radius: 50%; background: rgba(0,0,0,.6); color: #fff; font: 700 13px var(--font-body); }
+body.vodgrid .lmid .ch .dlb:focus { outline: 0; box-shadow: 0 0 0 3px #ffe033; }
+body.vodgrid .lmid .ch[aria-current="true"] { background: linear-gradient(100deg, #7a22d8, #c01fb4) !important; }
+body.vodgrid .lmid .ch:focus { box-shadow: 0 0 0 4px #ffe033; transform: scale(1.03); z-index: 2; }
+@media (min-width: 900px) { body.vodgrid .lmid .list { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+@media (max-width: 759px) {
+  body.vodgrid .lvodhead > svg { display: none; }
+  body.vodgrid .lvodhead { padding: 0; } .lvodrow { padding: 0 4px; }
+  body.vodgrid .lmid .list { grid-template-columns: repeat(3, 1fr); max-height: none; gap: 8px; padding: 8px 6px; }
+  .lvodbar select { font-size: 13px; padding: 8px 10px; } .lvodbar b { font-size: 15px; }
+}
+
+/* ---------- profesyonel oynatıcı ---------- */
+.fsb i { font: 700 10px var(--font-body); font-style: normal; position: absolute; margin-top: 2px; }
+.fsb.vod { position: relative; }
+.fsb[hidden] { display: none; }
+#fsVol { width: clamp(70px, 9vw, 130px); accent-color: #19e3ff; }
+#fsStats { position: absolute; left: 14px; top: 70px; z-index: 5; margin: 0; padding: 10px 14px; border-radius: 8px; background: rgba(0,0,0,.65); color: #9ff; font: 500 13px/1.5 var(--font-mono); pointer-events: none; }
+#fsStats[hidden], #fsToast[hidden] { display: none; }
+#fsToast { position: absolute; left: 50%; top: 18%; transform: translateX(-50%); z-index: 6; padding: 10px 22px; border-radius: 999px; background: rgba(0,0,0,.7); color: #fff; font: 600 clamp(18px, 2.4vw, 30px) var(--font-body); pointer-events: none; }
+.stage > #fsStats, .stage > #fsToast { display: none; }
+body.fsp .stage > #fsStats:not([hidden]) { display: block; }
+body.fsp .stage > #fsToast:not([hidden]) { display: block; }
+
+/* ---------- harici oynatıcı penceresi (örnek düzen) ---------- */
+#sdlg.pdlg .mbox { --fg: #fff; width: min(1000px, 94vw); padding: 0; gap: 0; border: 3px solid #fff; border-radius: 18px; background: linear-gradient(135deg, #5a2bf0 0%, #7a38ff 50%, #5a2be0 100%); color: #fff; overflow: hidden; }
+#sdlg.pdlg .mhead { padding: 18px 28px; border-bottom: 3px solid #fff; }
+#sdlg.pdlg .mhead strong { font: 500 clamp(24px, 3.2vw, 44px) var(--font-body); text-transform: none; letter-spacing: 0; color: #fff; }
+#sdlg.pdlg #sdClose { display: none; }
+#sdlg.pdlg .mbody { padding: 14px 16px 22px; gap: 8px; }
+.prow2 { display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%; min-height: clamp(60px, 9vh, 90px); padding: 0 clamp(16px, 2.4vw, 36px); border: 0; border-radius: 4px; background: rgba(205, 175, 255, .5); color: #fff; font: 600 clamp(20px, 2.6vw, 36px) var(--font-body); text-align: left; text-shadow: 0 1px 4px rgba(0,0,0,.3); }
+.pchk { flex: 0 0 auto; width: clamp(34px, 4vw, 54px); height: clamp(34px, 4vw, 54px); border: 4px solid #fff; border-radius: 6px; display: grid; place-items: center; color: #5a2be0; font: 700 clamp(22px, 2.8vw, 38px)/1 var(--font-body); text-shadow: none; }
+.prow2[aria-checked="true"] .pchk { background: #fff; }
+.prow2:hover, .prow2:focus { outline: 0; box-shadow: 0 0 0 4px #fff; background: rgba(225, 200, 255, .62); }
+.pfoot { display: flex; justify-content: flex-end; gap: clamp(14px, 2.4vw, 36px); margin-top: 18px; }
+.pbtn { min-width: clamp(130px, 20vw, 290px); padding: clamp(14px, 2vh, 22px) 18px; border: 0; border-radius: 4px; background: rgba(215, 185, 255, .6); color: #fff; font: 700 clamp(20px, 2.6vw, 36px) var(--font-body); box-shadow: 0 4px 12px rgba(0,0,0,.3); text-shadow: 0 1px 4px rgba(0,0,0,.35); }
+.pbtn:hover, .pbtn:focus { outline: 0; box-shadow: 0 0 0 4px #fff; background: rgba(235, 215, 255, .8); }
+
+#fsSkip { position: absolute; right: 22px; bottom: 120px; z-index: 6; padding: 12px 26px; border: 2px solid #fff; border-radius: 6px; background: rgba(20,10,60,.75); color: #fff; font: 700 clamp(16px, 1.8vw, 24px) var(--font-body); }
+#fsSkip[hidden] { display: none; }
+#fsSkip:hover, #fsSkip:focus { outline: 0; background: #fff; color: #1a0d4c; }
+.stage > #fsSkip { display: none; }
+body.fsp .stage > #fsSkip:not([hidden]) { display: block; }
+
+/* ---------- eklenen sunucular kartları ---------- */
+.svcard { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 6px; background: rgba(255,255,255,.05); }
+.svcard.act { border-color: #19e3ff; box-shadow: 0 0 0 1px #19e3ff inset; }
+.svh { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.svh b { font-size: 17px; overflow-wrap: anywhere; flex: 1 1 auto; }
+.svk { font: 700 11px var(--font-mono); padding: 2px 8px; border-radius: 999px; background: #6f4fe0; color: #fff; letter-spacing: .06em; }
+.svon { color: #19e3ff; font-weight: 700; font-size: 13px; }
+.svl { font: 400 13px var(--font-mono); color: var(--muted); overflow-wrap: anywhere; }
+.svst { font-size: 14px; min-height: 1.3em; }
+.svst.ok { color: #4be38a; } .svst.bad { color: #ff7a85; }
+.svsec { margin: 8px 0 0; font-weight: 700; }
+
+/* ---------- OPTİMUS logosu: parlayan halka, yörünge kıvılcımı, krom yazı ---------- */
+.lgx { --lg: clamp(84px, 13vh, 150px); position: relative; width: var(--lg); height: var(--lg); border-radius: 50%; display: grid; place-items: center; margin: 12px; }
+.lgx img { position: relative; z-index: 2; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 3px solid #0a0f2c; box-shadow: 0 0 0 2px rgba(255,255,255,.25), inset 0 0 18px rgba(0,0,0,.6); }
+.lgx::before { content: ""; position: absolute; inset: -9px; border-radius: 50%; z-index: 1; background: conic-gradient(from 0deg, #19e3ff, #4a6bff, #e91e63, #ffcf3d, #19e3ff); -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 calc(100% - 5px)); mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 calc(100% - 5px)); }
+.lgx::after { content: ""; position: absolute; inset: -34px; border-radius: 50%; z-index: 0; background: radial-gradient(circle, rgba(25,227,255,.42), rgba(74,107,255,.18) 45%, transparent 68%); pointer-events: none; }
+.lgx .lgo { position: absolute; inset: -9px; z-index: 3; border-radius: 50%; pointer-events: none; }
+.lgx .lgo::before { content: ""; position: absolute; left: 50%; top: -4px; width: 10px; height: 10px; margin-left: -5px; border-radius: 50%; background: #fff; box-shadow: 0 0 10px 3px #19e3ff, 0 0 22px 6px rgba(25,227,255,.7); }
+body.fx .lgx::before { animation: lgspin 7s linear infinite; }
+body.fx .lgx .lgo { animation: lgspin 3.2s linear infinite; }
+body.fx .lgx::after { animation: lgpulse 2.8s ease-in-out infinite; }
+body.fx .lgx img { animation: lgbreath 4s ease-in-out infinite; }
+@keyframes lgspin { to { transform: rotate(360deg); } }
+@keyframes lgpulse { 0%, 100% { opacity: .65; transform: scale(.94); } 50% { opacity: 1; transform: scale(1.06); } }
+@keyframes lgbreath { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.035); } }
+.hlogo .lgw, .lgw, #boot h2 { font: 800 clamp(26px, 4.2vw, 56px)/1 var(--font-display); letter-spacing: .16em; text-transform: uppercase; text-indent: .16em;
+  background: linear-gradient(110deg, transparent 38%, rgba(255,255,255,.95) 50%, transparent 62%) 0 0 / 250% 100% no-repeat, linear-gradient(180deg, #ffffff 0%, #e6f8ff 40%, #7fb4ff 52%, #ffffff 100%);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; filter: drop-shadow(0 0 14px rgba(25,227,255,.7)); }
+body.fx .lgw { animation: lgshine 4.5s ease-in-out infinite; }
+@keyframes lgshine { 0% { background-position: 160% 0, 0 0; } 60%, 100% { background-position: -60% 0, 0 0; } }
+.lgs { font: 600 clamp(11px, 1.3vw, 17px) var(--font-body); letter-spacing: .5em; text-indent: .5em; color: #bfe9ff; text-shadow: 0 0 10px rgba(25,227,255,.6); }
+.lgs i { font-style: normal; color: #ffcf3d; text-shadow: 0 0 10px rgba(255,207,61,.7); }
+#boot h2 { font-size: clamp(22px, 3.6vw, 44px); }
+#boot .rb img { box-shadow: 0 0 30px var(--fx), 0 0 80px rgba(25,227,255,.55), 0 0 0 3px rgba(255,255,255,.3); }
+.hlogo { gap: 4px; margin-top: 0; }
+.hlogo .lgs { font-size: clamp(11px, 1.4vw, 18px); }
+.llogo { box-shadow: 0 0 0 2px #19e3ff, 0 0 14px rgba(25,227,255,.8); }
+body.fx .llogo { animation: lgllogo 3s ease-in-out infinite; }
+@keyframes lgllogo { 0%, 100% { box-shadow: 0 0 0 2px #19e3ff, 0 0 10px rgba(25,227,255,.6); } 50% { box-shadow: 0 0 0 2px #e91e63, 0 0 22px rgba(233,30,99,.8); } }
+@media (max-width: 760px) { .lgx { --lg: 76px; margin: 8px; } .lgx::after { inset: -22px; } }
 .k4 { background: linear-gradient(90deg, #ffcf3d, #ff9f1a); letter-spacing: .06em; }
+.fmts { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 3px; white-space: normal; }
+.fmts .k4, .lmid .ch .fmts .k4 { margin-left: 0; font-size: 10px; padding: 0 6px; }
+.k4.kh { background: linear-gradient(90deg, #7ad7ff, #4a8cff); color: #04122e; }
+.k4.ka { background: linear-gradient(90deg, #d9a6ff, #9b5cff); color: #1a0638; }
 .pbadge { background: linear-gradient(90deg, #ffcf3d, #ff9f1a); }
 .lcat .tab[data-k4="1"] { color: #ffcf3d; }
 .lcat .tab[data-k4="1"][aria-pressed="true"] { color: #12132f; background: linear-gradient(90deg, #ffe08a, #ffc04a); }
@@ -504,6 +697,44 @@ body.tv .hicons { gap: 4px; }
 .modal .mbox .icon-btn { color: #eef1fb; border-color: rgba(255,255,255,.22); }
 .modal .mbox .mhead strong { color: #eef1fb; }
 #catSearch { flex: 0 0 auto; height: auto; min-height: 0; }
+
+/* ---------- ana ekran: başlatıcı düzeni (örnek ekrana göre) ---------- */
+body.home-open { background: radial-gradient(ellipse 70% 50% at 85% 100%, rgba(255,40,90,.35), transparent 70%), linear-gradient(180deg, #5a22e8 0%, #3a1cae 34%, #1a1040 68%, #0c0a1c 100%) fixed; }
+#home { max-width: none; width: 100%; box-sizing: border-box; padding: 0 clamp(14px, 3vw, 56px) 30px; position: relative; min-height: 100vh; }
+.hexp { text-align: right; padding: 18px 4px 0; font: 500 clamp(13px, 1.7vw, 22px) var(--font-body); color: #fff; text-shadow: 0 1px 8px rgba(0,0,0,.4); }
+.htop { padding-top: 4px; }
+.htop .hbrand, .htop .hsep, .htop .hicons { display: none; }
+.htop .hsearch { margin-left: auto; }
+.hlogo { display: flex; flex-direction: column; align-items: center; gap: 8px; margin: clamp(0px, 1.5vh, 14px) 0 clamp(8px, 2vh, 26px); }
+.hlogo img { width: clamp(70px, 11vh, 120px); height: clamp(70px, 11vh, 120px); border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 2px rgba(25,227,255,.8), 0 0 28px rgba(25,227,255,.55); }
+.hlogo b { font: 700 clamp(14px, 2vw, 24px) var(--font-display); letter-spacing: .12em; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,.45); }
+.hlogo i { font-style: normal; color: #19e3ff; }
+.hbig { display: grid; grid-template-columns: 1.7fr 1fr 1fr 1.35fr; grid-template-rows: repeat(6, minmax(0, 1fr)); gap: clamp(8px, 1.1vw, 16px); height: clamp(300px, 50vh, 520px); margin: 0 auto; max-width: 1500px; width: 100%; box-sizing: border-box; }
+.hbt { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; border: 0; border-radius: 10px; color: #fff; text-align: center; font: 600 clamp(15px, 1.9vw, 26px) var(--font-body); padding: 10px; transition: transform .12s, box-shadow .12s, filter .12s; text-shadow: 0 1px 6px rgba(0,0,0,.35); }
+.hbt .li svg { width: clamp(34px, 5.2vw, 84px); height: clamp(34px, 5.2vw, 84px); fill: none; stroke: #fff; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.hbt small { font: 400 clamp(12px, 1.3vw, 17px) var(--font-body); opacity: .85; }
+.hbt .lt { line-height: 1.15; overflow-wrap: anywhere; }
+.l-live { grid-column: 1; grid-row: 1 / 7; background: linear-gradient(160deg, #c2185b, #e91e63 60%, #d81b60); font-size: clamp(22px, 3vw, 40px); }
+.l-live .li svg { width: clamp(70px, 11vw, 170px); height: clamp(70px, 11vw, 170px); }
+.l-movie { grid-column: 2; grid-row: 1 / 4; background: linear-gradient(160deg, #e11d48, #f43f5e); }
+.l-acc { grid-column: 2; grid-row: 4 / 7; background: linear-gradient(160deg, #e11d48, #f43f5e); }
+.l-series { grid-column: 3; grid-row: 1 / 4; background: linear-gradient(160deg, #e11d48, #f43f5e); }
+.l-pl { grid-column: 3; grid-row: 4 / 7; background: linear-gradient(160deg, #dc1c2c, #f0383a); }
+.l-set, .l-rel, .l-exit { grid-column: 4; flex-direction: row; justify-content: flex-start; gap: clamp(10px, 1.6vw, 24px); padding: 0 clamp(14px, 2vw, 34px); background: rgba(255,255,255,.06); border: 2px solid #ff3040; font-size: clamp(15px, 1.9vw, 26px); }
+.l-set { grid-row: 1 / 3; border-color: rgba(255,255,255,.9); }
+.l-rel { grid-row: 3 / 5; }
+.l-exit { grid-row: 5 / 7; }
+.l-set .li svg, .l-rel .li svg, .l-exit .li svg { width: clamp(28px, 3.6vw, 52px); height: clamp(28px, 3.6vw, 52px); }
+.hbt:hover, .hbt:focus { outline: 0; transform: scale(1.03); filter: brightness(1.12); box-shadow: 0 0 0 3px #fff, 0 10px 36px rgba(0,0,0,.45); z-index: 2; }
+.hver { position: absolute; right: clamp(14px, 3vw, 56px); bottom: 14px; font: 700 clamp(16px, 2.2vw, 30px) var(--font-body); color: #fff; opacity: .95; text-shadow: 0 1px 8px rgba(0,0,0,.5); }
+#homeRows, #homeGrid, .hh-opt { max-width: 1500px; margin-left: auto; margin-right: auto; width: 100%; }
+@media (max-width: 760px) {
+  .hbig { grid-template-columns: 1fr 1fr; grid-template-rows: auto; height: auto; }
+  .l-live, .l-movie, .l-acc, .l-series, .l-pl, .l-set, .l-rel, .l-exit { grid-column: auto; grid-row: auto; min-height: 96px; }
+  .l-live { grid-column: 1 / 3; min-height: 150px; }
+  .l-set, .l-rel, .l-exit { grid-column: 1 / 3; min-height: 64px; }
+  .hver { position: static; text-align: right; margin-top: 10px; }
+}
 /* ---------- Ayarlar ekranı ---------- */
 body.set-open .app, body.set-open #home { display: none; }
 body.set-open { background: linear-gradient(120deg, #1a1236 0%, #2a1747 60%, #321a4a 100%) fixed; color: #f1f3fb; }
@@ -519,6 +750,15 @@ body.set-open { background: linear-gradient(120deg, #1a1236 0%, #2a1747 60%, #32
 .stile svg { flex: 0 0 auto; width: 34px; height: 34px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .stile span { overflow-wrap: anywhere; }
 .stile:hover, .stile:focus { background: rgba(255,255,255,.15); box-shadow: 0 0 0 2px rgba(25,227,255,.8), 0 0 18px rgba(25,227,255,.35); transform: translateY(-2px); }
+body.set-open { background: radial-gradient(ellipse 80% 50% at 90% 100%, rgba(255,40,120,.3), transparent 70%), linear-gradient(180deg, #5a22e8 0%, #3d1db5 40%, #2a1488 75%, #3a1a8a 100%) fixed; }
+#settings { padding-top: 26px; }
+.sethead h1 { font-weight: 400; }
+.setgrid { gap: clamp(10px, 1.2vw, 18px); }
+.stile { background: linear-gradient(100deg, #a3158f, #c2127a 55%, #e0145f); box-shadow: 0 4px 14px rgba(0,0,0,.25); font-weight: 600; text-shadow: 0 1px 4px rgba(0,0,0,.3); min-height: clamp(78px, 11vh, 120px); }
+.stile:nth-child(n+9) { background: linear-gradient(100deg, #b8137f, #d4136c 55%, #ec1553); }
+.stile:nth-child(n+13) { background: linear-gradient(100deg, #cc126f, #e1135c 55%, #f21548); }
+.stile:hover, .stile:focus { outline: 0; background: linear-gradient(100deg, #b4189e, #d4168a 55%, #f0186f); box-shadow: 0 0 0 3px #fff, 0 0 22px rgba(255,255,255,.35); transform: scale(1.03); z-index: 2; }
+.setfoot { grid-column: 1 / -1; margin: 12px 0 18px; text-align: center; font: 700 clamp(18px, 2.4vw, 32px)/1.3 var(--font-body); color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,.45); }
 .sbulb { position: absolute; top: 8px; right: 10px; font-style: normal; font-size: 18px; }
 @media (max-width: 1000px) { .setgrid { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 700px) { #settings { padding: 12px 14px 30px; } .setgrid { grid-template-columns: repeat(2, 1fr); gap: 10px; } .stile { padding: 10px 14px; gap: 12px; min-height: 76px; } .stile svg { width: 26px; height: 26px; } }
@@ -561,7 +801,8 @@ body.fx .seg2 button[aria-pressed="true"], body.fx #secTabs button[aria-pressed=
 #boot .bl { min-height: 1.4em; font-size: 12px; letter-spacing: .08em; opacity: .85; }
 #boot .bp { width: min(260px, 70vw); height: 4px; background: rgba(25,227,255,.18); border-radius: 2px; overflow: hidden; }
 #boot .bp i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--fx2), var(--fx)); box-shadow: 0 0 10px var(--fx); transition: width .25s; }
-#boot .skip { font-size: 11px; opacity: .5; }
+#boot .skip { margin-top: 10px; padding: 10px 26px; border: 2px solid var(--fx); border-radius: 999px; background: rgba(25,227,255,.12); color: #fff; font: 600 15px var(--font-body); letter-spacing: .04em; }
+#boot .skip:focus, #boot .skip:hover { outline: 0; background: rgba(25,227,255,.35); box-shadow: 0 0 16px var(--fx); }
 @keyframes fxSpin { to { transform: rotate(360deg); } }
 
 /* ---------- telefon / tablet / Android TV ---------- */
@@ -601,7 +842,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
     <div class="mbody" id="mBody"></div>
   </div>
 </div>
-<div id="boot" role="presentation" hidden><div class="rb"><span class="ring"></span><span class="ring r2"></span><img id="bootImg" alt=""></div><h2>⚡ OPTİMUS™ ROBOT</h2><div class="bl" id="bootLine">SİSTEM BAŞLATILIYOR</div><div class="bp"><i id="bootBar"></i></div><div class="skip">Geçmek için dokunun</div></div>
+<div id="boot" role="presentation" hidden><div class="rb"><span class="ring"></span><span class="ring r2"></span><img id="bootImg" alt=""></div><h2>⚡ OPTİMUS™ ROBOT</h2><div class="bl" id="bootLine">SİSTEM BAŞLATILIYOR</div><div class="bp"><i id="bootBar"></i></div><button type="button" class="skip" id="bootSkip">İntroyu Atla ›</button></div>
 <div class="modal" id="catBox" hidden>
   <div class="mbox" role="dialog" aria-modal="true" aria-labelledby="catTitle">
     <div class="mhead"><strong id="catTitle">Kategoriler</strong><button class="icon-btn" id="catClose" type="button" aria-label="Kapat">✕</button></div>
@@ -613,6 +854,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
 </div>
 <div id="home" hidden>
   <div class="updbar" id="updBar" hidden><span id="updTxt"></span><button class="btn" id="updGo" type="button">Güncelle</button></div>
+  <div class="hexp" id="hExp"></div>
   <header class="htop">
     <div class="hbrand"><img id="homeLogo" alt="" width="56" height="56"><span>OPTİMUS İptv Player <b>PRO</b></span></div>
     <div class="hsep"></div>
@@ -625,7 +867,9 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
       <button type="button" class="hib" id="hSettings" aria-label="Kontrol Merkezi" title="Kontrol Merkezi"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1"/></svg></button>
     </div>
   </header>
+  <div class="hlogo" id="hLogo"><div class="lgx"><i class="lgo"></i><img id="hLogoImg" alt="" width="120" height="120"></div><b class="lgw">OPTİMUS</b><span class="lgs">İPTV PLAYER <i>PRO</i></span></div>
   <div class="hbig" id="homeBig"></div>
+  <div class="hver" id="hVer"></div>
   <section class="hh-sec" id="homeResume" hidden><h3>Devam et</h3><div class="hh-row" id="homeRow"></div></section>
   <div class="hgrid" id="homeGrid"></div>
   <div id="homeRows"></div>
@@ -643,27 +887,32 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
 <div id="chNum" hidden aria-live="polite"></div>
 <div class="app">
   <header class="ltop">
-    <button type="button" class="lback" id="lBack" aria-label="Geri">‹ Geri</button>
+    <button type="button" class="lback" id="lBack" aria-label="Anasayfa">Anasayfa</button>
     <div class="seg2 secs lpills" id="secTabs" role="group" aria-label="Bölümler">
-      <button type="button" data-sec="live" aria-pressed="true">Canlı Yayın</button>
+      <button type="button" data-sec="live" aria-pressed="true">Canlı</button>
       <button type="button" data-sec="movie" aria-pressed="false">Filmler</button>
-      <button type="button" data-sec="series" aria-pressed="false">Diziler</button>
+      <button type="button" data-sec="series" aria-pressed="false">Seri</button>
       <button type="button" data-sec="dl" aria-pressed="false">İndirilenler</button>
     </div>
+    <label class="lsearch"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg><input class="field" id="search" type="search" placeholder="Kanal ara ( / )" aria-label="Kanal ara" autocomplete="off"></label>
     <div class="lacts">
       <button type="button" class="lbtn" id="lSearch" aria-label="Ara"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg><span>Ara</span></button>
+      <button type="button" class="lbtn" id="lPlayer" aria-label="Player Değiştir"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h13l-3-3M20 16H7l3 3"/></svg><span id="lPlayerT">Player Değiştir</span></button>
       <button type="button" class="lbtn" id="lGear" aria-label="Kaynak ve ayarlar"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1"/></svg></button>
+      <img id="lLogo" class="llogo" alt="" width="46" height="46">
     </div>
   </header>
 
   <div class="lcols">
     <aside class="col lcat" aria-label="Kategoriler">
-      <input class="field" id="search" type="search" placeholder="Kanal ara ( / )" aria-label="Kanal ara" autocomplete="off">
       <button class="btn ghost catbtn" id="catBtn" type="button" aria-haspopup="dialog">☰ Kategoriler</button>
+      <div class="lvodhead"><svg class="vi-m" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="20"/><path d="M19 15v18l15-9z"/></svg><svg class="vi-s" viewBox="0 0 48 48" aria-hidden="true"><path d="M8 22h32v18H8z"/><path d="M8 22l-2-8 32-7 2 8"/><path d="M14 15l5 6M25 13l5 6M35 11l5 6"/></svg>
+        <div class="lvodrow"><button type="button" class="lvb" id="vGeri"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7 4 12l5 5"/><path d="M4 12h10a6 6 0 0 1 0 12"/></svg>Geri</button><button type="button" class="lvb" id="vFind"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>Arama</button></div></div>
       <div class="tabs" id="tabs" role="group" aria-label="Kategoriler"></div>
     </aside>
 
     <section class="col lmid" aria-label="Kanal listesi">
+      <div class="lvodbar"><select id="vodSort" class="field" aria-label="Sıralama"><option value="add">Eklenenlere göre sırala</option><option value="az">A → Z</option><option value="za">Z → A</option><option value="rate">Puana göre</option></select><b id="vodTitle"></b></div>
       <h2 class="ltitle" id="lTitle">Tümü</h2>
       <div class="count"><span id="countTxt">0 kanal</span><span id="favCount"></span></div>
     <ul class="list" id="list" aria-label="Kanallar"></ul>
@@ -674,16 +923,24 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
       <video id="video" controls playsinline autoplay></video>
       <div class="badge" id="badge" hidden><i></i>Canlı</div>
       <div class="status" id="status"></div>
+      <button type="button" id="fsSkip" hidden>İntroyu Atla ›</button><pre id="fsStats" hidden></pre><div id="fsToast" hidden></div>
       <button type="button" class="fsopen" id="fsOpen" aria-label="Büyük ekran" title="Büyük ekran"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5 M20 9V4h-5 M4 15v5h5 M20 15v5h-5"/></svg><span>Büyük ekran</span></button>
       <div class="fsbar" id="fsTop"><button type="button" class="fsb txt" id="fsBack" aria-label="Küçük ekran"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg><span>Küçük ekran</span></button><div class="fst"><b id="fsName"></b><small id="fsInfo"></small></div><span id="fsClock"></span></div>
       <div class="fsbar fsbot" id="fsCtl">
         <input type="range" id="fsSeek" min="0" max="1000" value="0" aria-label="Konum">
         <div class="fsrow">
+          <button type="button" class="fsb vod" id="fsBack10" aria-label="10 sn geri"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 3-6.2"/><path d="M4 4v5h5"/></svg><i>10</i></button>
           <button type="button" class="fsb" id="fsPrev" aria-label="Önceki kanal"><svg viewBox="0 0 24 24"><path d="M6 5v14 M19 5l-9 7 9 7z"/></svg></button>
           <button type="button" class="fsb big" id="fsPlay" aria-label="Oynat / duraklat"><svg viewBox="0 0 24 24"><path d="M7 5l12 7-12 7z"/></svg></button>
           <button type="button" class="fsb" id="fsNext" aria-label="Sonraki kanal"><svg viewBox="0 0 24 24"><path d="M18 5v14 M5 5l9 7-9 7z"/></svg></button>
+          <button type="button" class="fsb vod" id="fsFwd10" aria-label="10 sn ileri"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-3-6.2"/><path d="M20 4v5h-5"/></svg><i>10</i></button>
           <span class="fsgrow"></span>
+          <button type="button" class="fsb txt vod" id="fsInfoB" hidden>ℹ Konu</button>
+          <button type="button" class="fsb txt vod" id="fsDl" hidden>⬇ İndir</button>
+          <button type="button" class="fsb txt" id="fsPro">⚙ Pro</button>
+          <button type="button" class="fsb txt" id="fsPlayer">Oynatıcı</button>
           <button type="button" class="fsb txt" id="fsAspect">Sığdır</button>
+          <input type="range" id="fsVol" min="0" max="100" value="100" aria-label="Ses">
           <button type="button" class="fsb" id="fsMute" aria-label="Sessiz"><svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z M16 9a4 4 0 0 1 0 6"/></svg></button>
         </div>
       </div>
@@ -699,7 +956,9 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
       <div class="eh"><b id="epgTitle">Program bilgisi yok</b><span id="epgTime">--:-- - --:--</span></div>
       <p id="epgDesc">Bu kanal için şu anki program bilgisi bulunamadı.</p>
       <div class="epgnext" id="epgNext"></div>
+      <div class="epgl" id="epgList"></div>
     </div>
+    <div class="lact3"><button type="button" class="lb3" id="bPlayer">Oynatıcı</button><button type="button" class="lb3" id="bCap">Yakala</button><button type="button" class="lb3" id="bFav">Favorilere Ekle</button><button type="button" class="lb3" id="bFind">Arama</button></div>
     <div class="vctl">
       <label for="speed">Hız</label>
       <select id="speed" class="field">
@@ -813,7 +1072,21 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
     "#EXTINF:-1 group-title=\"Test\",Big Buck Bunny (Mux test)\nhttps://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8\n" +
     "#EXTINF:-1 group-title=\"Test\",Apple BipBop (test)\nhttps://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8\n";
 
-  function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) {} return null; }
+  /* Sunucu / liste bilgileri Android'de ayrıca yerel (SharedPreferences) belleğe de yazılır; WebView verisi silinse bile geri yüklenir. */
+  var PERSIST = { "sinyal.servers": 1, "sinyal.links": 1, "sinyal.xtream": 1, "sinyal.srctype": 1, "sinyal.src": 1, "sinyal.exp": 1, "sinyal.favs": 1, "sinyal.hidden": 1 };
+  function store(k, v) {
+    try { if (v === undefined) return localStorage.getItem(k); if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) {}
+    if (PERSIST[k] && window.Native && Native.saveKV) { try { Native.saveKV(k, v === null ? "" : String(v)); } catch (e) {} }
+    return null;
+  }
+  (function restoreKV() {
+    if (!(window.Native && Native.loadKV)) return;
+    try {
+      var o = JSON.parse(Native.loadKV() || "{}");
+      Object.keys(o).forEach(function (k) { if (PERSIST[k] && o[k] && localStorage.getItem(k) === null) localStorage.setItem(k, o[k]); });
+      Object.keys(PERSIST).forEach(function (k) { var v = localStorage.getItem(k); if (v !== null && !o[k] && Native.saveKV) Native.saveKV(k, v); });
+    } catch (e) {}
+  })();
 
   /* ---------- M3U ayrıştırma ---------- */
   function classify(url, group) {
@@ -898,7 +1171,9 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
     });
   }
 
+  function gridSync() { document.body.classList.toggle("vsec-series", sec === "series"); document.body.classList.toggle("vodgrid", (sec === "movie" || sec === "series") && !seriesOpen); }
   function syncSec() {
+    gridSync();
     document.querySelectorAll("#secTabs button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.sec === sec)); });
   }
   function setSec(s) {
@@ -909,12 +1184,62 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
 
   function openItem(c) { if (c.seriesId) openSeries(c); else { var same = current === c.id; if (IS_TV && same && !video.paused && !extOn()) { fsOpen(); return; } play(c.id); fsMaybe(c.id, same); } }
 
+  /* ---------- konu / bilgi (film, dizi, bölüm) ---------- */
+  function normMeta(i, logo) {
+    i = i || {};
+    var arr = function (v) { return Array.isArray(v) ? v.join(", ") : (v == null ? "" : String(v)); };
+    var m = {
+      plot: arr(i.plot || i.description || i.overview).trim(), cast: arr(i.cast || i.actors).trim(), director: arr(i.director).trim(),
+      genre: arr(i.genre).trim(), release: arr(i.releasedate || i.releaseDate || i.release_date || i.year).trim(),
+      duration: arr(i.duration || (i.episode_run_time ? i.episode_run_time + " dk" : "")).trim(), rating: arr(i.rating).trim(), country: arr(i.country).trim(),
+      poster: arr(i.movie_image || i.cover_big || i.cover || logo || "").trim(), trailer: arr(i.youtube_trailer).trim()
+    };
+    return m;
+  }
+  function mergeMeta(a, b) { var o = {}; a = a || {}; b = b || {}; Object.keys(b).concat(Object.keys(a)).forEach(function (k) { o[k] = b[k] || a[k] || ""; }); return o; }
+  function hasMeta(c) { return !!(c && (c.vodId || c.seriesId || (c.meta && (c.meta.plot || c.meta.cast || c.meta.genre)))); }
+  function fetchMeta(c) {
+    if (c.metaDone || !XT) return Promise.resolve(c.meta);
+    var u = c.vodId ? xtApi() + "&action=get_vod_info&vod_id=" + encodeURIComponent(c.vodId) : c.seriesId ? xtApi() + "&action=get_series_info&series_id=" + encodeURIComponent(c.seriesId) : "";
+    if (!u) return Promise.resolve(c.meta);
+    return xtGet(u).then(function (js) { c.meta = mergeMeta(c.meta, normMeta((js && js.info) || {}, c.logo)); c.metaDone = true; return c.meta; }).catch(function () { return c.meta; });
+  }
+  function dlgInfo(c) {
+    var kindTxt = c.kind === "series" ? "Dizi" : c.kind === "episode" ? "Bölüm" : "Film";
+    sdOpen(kindTxt + " Bilgisi", function (b) {
+      var m = c.meta || {};
+      var top = el("div", "inftop"); top.style.cssText = "display:flex;gap:14px;align-items:flex-start;margin-bottom:8px";
+      var pu = m.poster || c.logo;
+      if (pu && /^https?:/i.test(pu)) { var im = new Image(); im.alt = ""; im.referrerPolicy = "no-referrer"; im.src = pu; im.style.cssText = "width:34%;max-width:150px;border-radius:8px;flex:0 0 auto;object-fit:cover"; im.onerror = function () { im.remove(); }; top.appendChild(im); }
+      var side = el("div", ""); side.style.cssText = "flex:1;min-width:0";
+      var h = el("b", "", c.kind === "episode" ? c.group + " · " + c.name : c.name); h.style.cssText = "display:block;font-size:1.15em;margin-bottom:6px;overflow-wrap:anywhere"; side.appendChild(h);
+      function ln(k, v) { if (!v) return; var d = el("div", "svl", k + ": "); d.appendChild(el("b", "", v)); side.appendChild(d); }
+      ln("Puan", m.rating && +m.rating > 0 ? "★ " + (+m.rating).toFixed(1) : (c.rating && +c.rating > 0 ? "★ " + (+c.rating).toFixed(1) : ""));
+      ln("Tür", m.genre || (c.kind === "episode" ? "" : c.group)); ln("Çıkış", m.release); ln("Süre", m.duration); ln("Ülke", m.country); ln("Yönetmen", m.director);
+      top.appendChild(side); b.appendChild(top);
+      if (m.cast) { var cs = el("div", "svl", "Oyuncular: "); cs.appendChild(el("b", "", m.cast)); b.appendChild(cs); }
+      var pl = el("p", "", m.plot || (c.metaDone || !hasMeta(c) || !XT ? "Bu içerik için konu bilgisi bulunamadı." : "Konu yükleniyor…")); pl.style.cssText = "line-height:1.55;margin:10px 0;white-space:pre-wrap"; b.appendChild(pl);
+      if (m.trailer) b.appendChild(el("p", "hint", "Fragman: youtube.com/watch?v=" + m.trailer));
+      var r = el("div", "row");
+      r.appendChild(btn(c.kind === "series" ? "Bölümleri aç" : "▶ Oynat", function () { sdClose(); if (c.kind === "series") openSeries(c); else openItem(c); }));
+      if (HAS_DL && c.kind === "series" && c.seriesId) r.appendChild(btn("⬇ İndir", function () { sdClose(); dlgSeriesDl(c); }, true));
+      if (canDl(c)) r.appendChild(btn(dlOf(c.url) ? "İndirme: " + dlBtnText(c.url) : "⬇ İndir", function () { dlClick(c); sdRender(); }, true));
+      r.appendChild(btn(favs[c.url] ? "♥ Favoride" : "♡ Favori", function () { toggleFav(c); sdRender(); }, true));
+      b.appendChild(r);
+      if (!c.metaDone && XT && (c.vodId || c.seriesId) && !c._fetching) {
+        c._fetching = true;
+        fetchMeta(c).then(function () { c._fetching = false; if (!$("sdlg").hidden && sdBuild) sdRender(); });
+      }
+    });
+  }
+
   function seriesHead() {
     var li = document.createElement("li"); li.className = "shead";
     var back = document.createElement("button"); back.type = "button"; back.className = "icon-btn"; back.textContent = "← Diziler";
     back.onclick = function () { seriesOpen = null; query = ""; $("search").value = ""; applyFilter(); };
     var t = document.createElement("strong"); t.textContent = seriesOpen.c.name;
     li.append(back, t);
+    var ib = document.createElement("button"); ib.type = "button"; ib.className = "icon-btn"; ib.textContent = "ℹ Konu"; ib.onclick = function () { dlgInfo(seriesOpen.c); }; li.appendChild(ib);
     if (seriesOpen.seasons.length > 1) {
       var sel = document.createElement("select"); sel.setAttribute("aria-label", "Sezon");
       seriesOpen.seasons.forEach(function (sn) {
@@ -933,6 +1258,9 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
         eps.forEach(enqueueDl); dlConfirm = 0; tickDl(); dbtn.textContent = eps.length + " bölüm indirme kuyruğuna eklendi.";
       };
       li.appendChild(dbtn);
+      var dall = document.createElement("button"); dall.type = "button"; dall.className = "icon-btn"; dall.textContent = "⬇ Tüm dizi";
+      dall.onclick = function () { dlgSeriesDl(seriesOpen.c); };
+      li.appendChild(dall);
     }
     return li;
   }
@@ -941,6 +1269,48 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
     if (epByUrl[o.url]) return epByUrl[o.url];
     o.id = channels.length; channels.push(o); epByUrl[o.url] = o; return o;
   }
+  /* ---------- dizi indirme: sezon / tüm dizi ---------- */
+  function seriesData(c) {
+    return xtGet(xtApi() + "&action=get_series_info&series_id=" + encodeURIComponent(c.seriesId)).then(function (js) {
+      var eps = js && js.episodes || {};
+      if (Array.isArray(eps)) { var o = {}; eps.forEach(function (a, i) { o[String(i + 1)] = a; }); eps = o; }
+      var seasons = Object.keys(eps).filter(function (k) { return Array.isArray(eps[k]) && eps[k].length; }).sort(function (a, b) { return a - b; });
+      if (!seasons.length) throw new Error("Bu dizide bölüm bulunamadı.");
+      var map = {};
+      seasons.forEach(function (sn) {
+        map[sn] = eps[sn].map(function (e) {
+          var url = XT.server + "/series/" + encodeURIComponent(XT.user) + "/" + encodeURIComponent(XT.pass) + "/" + e.id + "." + (e.container_extension || "mp4");
+          var nm = "S" + p2(+sn) + "E" + p2(+e.episode_num || 0) + (e.title ? " · " + e.title : "");
+          return addEp({ name: nm, url: url, logo: (e.info && e.info.movie_image) || c.logo || "", group: c.name, kind: "episode", meta: normMeta({ plot: e.info && e.info.plot, duration: (e.info && e.info.duration) || "", releasedate: e.info && (e.info.releasedate || e.info.release_date), rating: e.info && e.info.rating }) });
+        });
+      });
+      return { seasons: seasons, map: map };
+    });
+  }
+  function dlgSeriesDl(c) {
+    if (!HAS_DL) { say("İndirme yalnızca Android uygulamasında çalışır."); return; }
+    if (!XT) { say("Dizi bilgisi alınamadı.", "Xtream girişi gerekli."); return; }
+    var data = null, err = "";
+    sdOpen("Diziyi İndir", function (b) {
+      b.appendChild(el("p", "", c.name));
+      if (err) { b.appendChild(el("p", "hint bad", err)); return; }
+      if (!data) { b.appendChild(el("p", "hint", "Bölümler alınıyor…")); return; }
+      var all = []; data.seasons.forEach(function (sn) { all = all.concat(data.map[sn]); });
+      function queue(list, label) {
+        var n = list.filter(function (e) { return !dlOf(e.url); });
+        if (!n.length) { say("Bu bölümler zaten indirildi veya kuyrukta."); return; }
+        n.forEach(enqueueDl); tickDl(); say(n.length + " bölüm indirme kuyruğuna eklendi.", label); sdRender();
+      }
+      b.appendChild(btn("⬇ Tüm dizi (" + all.length + " bölüm)", function () { queue(all, c.name); }));
+      data.seasons.forEach(function (sn) {
+        var list = data.map[sn], done = list.filter(function (e) { return dlOf(e.url); }).length;
+        b.appendChild(btn("⬇ Sezon " + sn + " · " + list.length + " bölüm" + (done ? " (" + done + " kuyrukta/indirildi)" : ""), function () { queue(list, c.name + " · Sezon " + sn); }, true));
+      });
+      b.appendChild(el("p", "hint", "İndirmeler sırayla yapılır; ilerlemeyi “İndirilenler”den izleyin."));
+    });
+    seriesData(c).then(function (d) { data = d; if (!$("sdlg").hidden && sdBuild) sdRender(); }).catch(function (e) { err = e.message || "Bölümler alınamadı."; if (!$("sdlg").hidden && sdBuild) sdRender(); });
+  }
+
   function openSeries(c) {
     if (!XT) { say("Dizi bilgisi alınamadı.", "Xtream girişi gerekli."); return; }
     say("Dizi bilgisi alınıyor…", c.name);
@@ -954,9 +1324,10 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
         map[sn] = eps[sn].map(function (e) {
           var url = XT.server + "/series/" + encodeURIComponent(XT.user) + "/" + encodeURIComponent(XT.pass) + "/" + e.id + "." + (e.container_extension || "mp4");
           var nm = "S" + p2(+sn) + "E" + p2(+e.episode_num || 0) + (e.title ? " · " + e.title : "");
-          return addEp({ name: nm, url: url, logo: (e.info && e.info.movie_image) || c.logo || "", group: c.name, kind: "episode" });
+          return addEp({ name: nm, url: url, logo: (e.info && e.info.movie_image) || c.logo || "", group: c.name, kind: "episode", meta: normMeta({ plot: e.info && e.info.plot, duration: (e.info && e.info.duration) || "", releasedate: e.info && (e.info.releasedate || e.info.release_date), rating: e.info && e.info.rating }) });
         });
       });
+      if (js && js.info) c.meta = mergeMeta(c.meta, normMeta(js.info, c.logo));
       hideStatus();
       seriesOpen = { c: c, seasons: seasons, season: seasons[0], map: map };
       query = ""; $("search").value = ""; applyFilter();
@@ -977,7 +1348,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
       if (XT !== mine) return;
       var cats = catMap(r[0]);
       add((Array.isArray(r[1]) ? r[1] : []).map(function (s) {
-        return { name: String(s.name || "Film " + s.stream_id), url: mine.server + "/movie/" + encodeURIComponent(mine.user) + "/" + encodeURIComponent(mine.pass) + "/" + s.stream_id + "." + (s.container_extension || "mp4"), logo: s.stream_icon || "", group: cats[s.category_id] || "Diğer", kind: "movie", rating: s.rating };
+        return { name: String(s.name || "Film " + s.stream_id), url: mine.server + "/movie/" + encodeURIComponent(mine.user) + "/" + encodeURIComponent(mine.pass) + "/" + s.stream_id + "." + (s.container_extension || "mp4"), logo: s.stream_icon || "", group: cats[s.category_id] || "Diğer", kind: "movie", rating: s.rating, vodId: s.stream_id, meta: normMeta({ plot: s.plot, cast: s.cast, director: s.director, genre: s.genre, releasedate: s.releaseDate || s.releasedate || s.year, rating: s.rating }) };
       }));
       loadState.movie = "ok";
     }).catch(function () { loadState.movie = "error"; }).then(function () { if (XT === mine) refreshSections(); });
@@ -985,7 +1356,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
       if (XT !== mine) return;
       var cats = catMap(r[0]);
       add((Array.isArray(r[1]) ? r[1] : []).map(function (s) {
-        return { name: String(s.name || "Dizi " + s.series_id), url: "series://" + s.series_id, logo: s.cover || "", group: cats[s.category_id] || "Diğer", kind: "series", seriesId: s.series_id, rating: s.rating };
+        return { name: String(s.name || "Dizi " + s.series_id), url: "series://" + s.series_id, logo: s.cover || "", group: cats[s.category_id] || "Diğer", kind: "series", seriesId: s.series_id, rating: s.rating, meta: normMeta({ plot: s.plot, cast: s.cast, director: s.director, genre: s.genre, releasedate: s.releaseDate || s.releasedate || s.year, rating: s.rating, duration: s.episode_run_time ? s.episode_run_time + " dk" : "" }) };
       }));
       loadState.series = "ok";
     }).catch(function () { loadState.series = "error"; }).then(function () { if (XT === mine) refreshSections(); });
@@ -994,6 +1365,25 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
   function tr(s) { return s.toLocaleLowerCase("tr"); }
 
   var K4 = "🎞 4K Ultra HD";
+  var FMT = [
+    ["4K UHD", /(^|[^a-z0-9])(4k|uhd|ultra[.\s-]?hd|2160p?)(?![a-z0-9])/i, "k4"],
+    ["HDR10+", /(^|[^a-z0-9])hdr[.\s-]?10[.\s-]?(\+|plus)/i, "kh"],
+    ["HDR10", /(^|[^a-z0-9])hdr[.\s-]?10(?![a-z0-9+])(?![.\s-]?plus)/i, "kh"],
+    ["HLG", /(^|[^a-z0-9])hlg(?![a-z0-9])/i, "kh"],
+    ["Dolby Vision", /(^|[^a-z0-9])(dolby[.\s-]?vision|dovi|dv)(?![a-z0-9])/i, "kh"],
+    ["Dolby Atmos", /(^|[^a-z0-9])(dolby[.\s-]?)?atmos(?![a-z0-9])/i, "ka"],
+    ["DTS:X", /(^|[^a-z0-9])dts[:.\s-]?x(?![a-z0-9])/i, "ka"],
+    ["Dolby Audio", /(^|[^a-z0-9])(dolby[.\s-]?(audio|digital)|dd\+?|ddp|e[.\s-]?ac[.\s-]?3|ac[.\s-]?3)(?![a-z0-9])/i, "ka"]
+  ];
+  function fmtTags(c) {
+    var t = (c.name || "") + " " + (c.group || ""), out = [];
+    FMT.forEach(function (f) { if (f[1].test(t)) out.push(f); });
+    if (!out.some(function (f) { return f[0] === "HDR10" || f[0] === "HDR10+"; }) && /(^|[^a-z0-9])hdr(?![a-z0-9])/i.test(t) && !out.some(function (f) { return f[0] === "Dolby Vision" || f[0] === "HLG"; })) out.push(["HDR", null, "kh"]);
+    if (out.length === 0 && is4k(c)) out.push(FMT[0]);
+    return out;
+  }
+  function isSurround(c) { return fmtTags(c).some(function (f) { return f[2] === "ka"; }); }
+  function isHdr(c) { return /(^|[^a-z0-9])(hdr10\+?|hdr|dolby[.\s-]?vision|dv|hlg)([^a-z0-9]|$)|hdr10\+/i.test(c.name + " " + c.group); }
   function is4k(c) { return /(^|[^a-z0-9])(4k|uhd|ultra[.\s-]?hd|2160p?|hevc|h[.\s-]?265)([^a-z0-9]|$)/i.test(c.name + " " + c.group); }
   function applyFilter() {
     $("lTitle").textContent = sec === "dl" ? "İndirilenler" : group;
@@ -1017,6 +1407,12 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
       var at = {}; hist.forEach(function (x) { at[x.url] = x.t; });
       view.sort(function (a, b) { return (at[b.url] || 0) - (at[a.url] || 0); });
     }
+    if ((sec === "movie" || sec === "series") && group !== "🕘 Geçmiş") {
+      var vs = store("sinyal.vsort") || "add";
+      if (vs === "az") view.sort(function (a, b) { return a.name.localeCompare(b.name, "tr"); });
+      else if (vs === "za") view.sort(function (a, b) { return b.name.localeCompare(a.name, "tr"); });
+      else if (vs === "rate") view.sort(function (a, b) { return (+b.rating || 0) - (+a.rating || 0); });
+    }
     if (sec === "live" && group !== "🕘 Geçmiş") {
       var so = store("sinyal.sort");
       if (so === "az") view.sort(function (a, b) { return a.name.localeCompare(b.name, "tr"); });
@@ -1027,7 +1423,8 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
   }
 
   function renderList() {
-    var ul = $("list"); ul.textContent = "";
+    var ul = $("list"); ul.textContent = ""; gridSync();
+    $("vodTitle").textContent = group + "(" + view.length + ")";
     var noun = seriesOpen ? "bölüm" : { live: "kanal", movie: "film", series: "dizi" }[sec];
     var total = seriesOpen ? (seriesOpen.map[seriesOpen.season] || []).length : (counts[sec] || 0);
     $("countTxt").textContent = view.length + " / " + total + " " + noun;
@@ -1057,24 +1454,36 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
     li.className = "ch"; li.dataset.id = c.id; li.tabIndex = 0;
     if (c.id === current) li.setAttribute("aria-current", "true");
     var n = document.createElement("span"); n.className = "num"; n.textContent = String(i + 1);
-    var lg = document.createElement("span"); lg.className = "logo";
+    var rt = null; var lg = document.createElement("span"); lg.className = "logo";
     lg.textContent = (c.name.trim()[0] || "?").toUpperCase();
     if (c.logo && /^https?:/i.test(c.logo)) {
       var img = new Image(); img.decoding = "async"; img.alt = ""; img.referrerPolicy = "no-referrer";
-      img.onload = function () { lg.textContent = ""; lg.appendChild(img); };
+      img.onload = function () { lg.textContent = ""; lg.appendChild(img); if (rt) lg.appendChild(rt); };
       img.src = c.logo;
     }
     var m = document.createElement("span"); m.className = "meta";
     var b = document.createElement("b"); b.textContent = c.name;
     var s = document.createElement("span"); s.textContent = c.group + (c.rating && +c.rating > 0 ? " · ★ " + (+c.rating).toFixed(1) : "");
     if (group === "🕘 Geçmiş") { var hx = hist.filter(function (x) { return x.url === c.url; })[0]; if (hx) s.textContent = c.group + " · " + fmtWhen(hx.t); }
-    if (is4k(c)) { var k = document.createElement("span"); k.className = "k4"; k.textContent = "4K UHD"; b.appendChild(k); }
     m.appendChild(b); m.appendChild(s);
+    var ft = fmtTags(c);
+    if (ft.length) { var fx = document.createElement("span"); fx.className = "fmts"; ft.forEach(function (f) { var k = document.createElement("span"); k.className = "k4 " + f[2]; k.textContent = f[0]; fx.appendChild(k); }); m.appendChild(fx); }
     var f = document.createElement("button"); f.type = "button"; f.className = "fav";
     f.textContent = favs[c.url] ? "♥" : "♡";
     f.setAttribute("aria-pressed", String(!!favs[c.url])); f.setAttribute("aria-label", "Favori");
     f.onclick = function (ev) { ev.stopPropagation(); toggleFav(c); };
+    if (c.rating && +c.rating > 0) { rt = document.createElement("span"); rt.className = "rate"; rt.textContent = String(+(+c.rating).toFixed(3)); lg.appendChild(rt); }
     li.append(n, lg, m, f);
+    if (hasMeta(c) && c.kind !== "live") {
+      var ibt = document.createElement("button"); ibt.type = "button"; ibt.className = "inf"; ibt.textContent = "ℹ"; ibt.setAttribute("aria-label", "Konu / bilgi");
+      ibt.onclick = function (ev) { ev.stopPropagation(); dlgInfo(c); };
+      li.appendChild(ibt);
+    }
+    if (HAS_DL && c.seriesId) {
+      var ds = document.createElement("button"); ds.type = "button"; ds.className = "dlb dls"; ds.textContent = "⬇"; ds.setAttribute("aria-label", "Diziyi indir");
+      ds.onclick = function (ev) { ev.stopPropagation(); dlgSeriesDl(c); };
+      li.appendChild(ds);
+    }
     if (canDl(c)) {
       var db = document.createElement("button"); db.type = "button"; db.className = "dlb"; db.dataset.url = c.url; db.textContent = dlBtnText(c.url);
       db.setAttribute("aria-label", "İndir"); db.onclick = function (ev) { ev.stopPropagation(); dlClick(c); };
@@ -1090,7 +1499,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
     store("sinyal.favs", JSON.stringify(favs));
     var y = $("list").scrollTop;
     if (group === "★ Favoriler") applyFilter(); else renderList();
-    $("list").scrollTop = y;
+    $("list").scrollTop = y; if (typeof favBtnSync === "function") favBtnSync();
   }
 
   /* ---------- oynatma ---------- */
@@ -1154,8 +1563,28 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
     return url;
   }
   function curName() { return channels[current] ? channels[current].name : (current === -1 && $("nowGroup").textContent === "Doğrudan bağlantı" ? $("nowName").textContent : ""); }
+  var lastUrl = "", vlcTried = "";
+  /* Tarayıcı oynatıcısı 4K/HEVC/HDR yayını çözemezse (siyah ekran, hata) otomatik VLC'ye geç. */
+  function toVlc(why) {
+    if (!(window.Native && Native.hasVlc) || !lastUrl || vlcTried === lastUrl || store("sinyal.k4vlc") === "0") return false;
+    vlcTried = lastUrl;
+    try { video.pause(); } catch (e) {}
+    destroyHls(); badge.hidden = true;
+    Native.playNative(lastUrl, curName());
+    say("Yayın VLC ile açıldı.", why + " Geri tuşu bu ekrana döndürür.");
+    return true;
+  }
+  var HEVC_OK = false; try { HEVC_OK = !!(window.MediaSource && MediaSource.isTypeSupported('video/mp4; codecs="hvc1.1.6.L153.B0"')); } catch (e) {}
+  var blackTimer = 0;
+  function blackWatch() {
+    clearTimeout(blackTimer);
+    var c = channels[current]; if (!c || !(is4k(c) || isHdr(c))) return;
+    blackTimer = setTimeout(function () {
+      if (!video.paused && video.currentTime > 2 && !video.videoWidth) toVlc("Tarayıcı oynatıcısı bu yayının görüntüsünü çözemedi (HEVC/4K).");
+    }, 6000);
+  }
   function launch(url, tok) {
-    url = liveFmt(url);
+    url = liveFmt(url); lastUrl = url;
     var loc = HAS_DL ? localFor(url) : "";
     if (loc) {
       try { video.pause(); } catch (e) {}
@@ -1164,9 +1593,11 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
       say("İndirilen dosyadan oynatılıyor (çevrimdışı).", "Geri tuşu bu ekrana döndürür.");
       return;
     }
-    if (extOn()) {
+    var k4n = !extOn() && window.Native && Native.hasVlc && channels[current] && ((is4k(channels[current]) && store("sinyal.k4vlc") !== "0") || ((isHdr(channels[current]) || isSurround(channels[current])) && store("sinyal.hdrvlc") !== "0"));
+    if (extOn() || k4n) {
       try { video.pause(); } catch (e) {}
       destroyHls(); badge.hidden = true;
+      if (k4n) { Native.playNative(url, curName()); say(isHdr(channels[current]) ? "HDR yayın VLC ile açıldı." : isSurround(channels[current]) ? "Dolby / DTS yayın VLC ile açıldı." : "4K yayın VLC ile açıldı.", "Tarayıcı oynatıcısı 4K / HEVC / HDR'ı çözemeyebildiği için otomatik VLC seçildi."); return; }
       openExternal(url, curName());
       if (mxOn()) say("MX Player'da açıldı.", "Kanal değiştirmek için MX Player'dan çıkıp bu ekrandan başka bir kanal seçin.");
       else say("Yerel oynatıcıda açıldı (VLC).", "Dolby Digital, Dolby Digital Plus (E-AC-3) ve DTS sesleri desteklenir. Geri tuşu bu ekrana döndürür.");
@@ -1202,11 +1633,27 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
     } else startNative(url);
   }
 
+  function applyQuality(lv) {
+    var q = store("sinyal.quality") || "auto"; if (!hls || !lv.length || q === "auto") { if (hls) hls.autoLevelCapping = -1; return; }
+    var best = 0, cap = -1;
+    lv.forEach(function (l, i) { if ((l.height || 0) > (lv[best].height || 0) || ((l.height || 0) === (lv[best].height || 0) && (l.bitrate || 0) > (lv[best].bitrate || 0))) best = i; });
+    if (q === "max") { hls.currentLevel = best; return; }
+    var lim = +q; lv.forEach(function (l, i) { if ((l.height || 0) <= lim && (cap < 0 || (l.height || 0) > (lv[cap].height || 0))) cap = i; });
+    if (cap >= 0) hls.autoLevelCapping = cap;
+  }
   function startHls(url) {
     var retries = 0;
     if (window.Hls && Hls.isSupported()) {
-      hls = new Hls({ lowLatencyMode: true, maxBufferLength: 30, enableWorker: true, capLevelToPlayerSize: false, startLevel: -1, abrEwmaDefaultEstimate: 20000000 });
+      hls = new Hls({ lowLatencyMode: store("sinyal.lowlat") !== "0", maxBufferLength: ({ low: 10, mid: 30, high: 60 })[store("sinyal.buf") || "mid"] || 30, enableWorker: true, capLevelToPlayerSize: false, startLevel: -1, abrEwmaDefaultEstimate: 20000000 });
       hls.on(Hls.Events.MANIFEST_PARSED, function (e, d) {
+        applyQuality(d.levels || []);
+        try {
+          var lv = d.levels || [], top = lv.length ? lv[lv.length - 1] : null;
+          var hevcLv = lv.some(function (l) { return /hvc1|hev1|hevc|dvh1|dvhe/i.test(l.videoCodec || l.codecs || ""); });
+          var uhdLv = lv.some(function (l) { return (l.height || 0) >= 2000; });
+          if (((hevcLv && !HEVC_OK) || (uhdLv && !HEVC_OK && hevcLv)) && toVlc("Yayın HEVC/4K; tarayıcı oynatıcısı bunu çözemiyor.")) return;
+          if (top && (top.height || 0) >= 2000 && !HEVC_OK && !lv.some(function (l) { return (l.height || 0) < 2000; }) && toVlc("Yayın yalnızca 4K sunuyor.")) return;
+        } catch (e) {}
         video.play().catch(function () {});
         var hh = d.levels && d.levels.length ? d.levels[d.levels.length - 1].height : 0;
         $("info").textContent = d.levels.length + " kalite" + (hh ? " · en yüksek " + hh + "p" + (hh >= 2160 ? " (4K Ultra HD)" : "") : "");
@@ -1215,21 +1662,24 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
         if (!d.fatal) return;
         if (d.type === Hls.ErrorTypes.NETWORK_ERROR && retries < 2) { retries++; hls.startLoad(); return; }
         if (d.type === Hls.ErrorTypes.MEDIA_ERROR && retries < 3) { retries++; hls.recoverMediaError(); return; }
+        if (d.type === Hls.ErrorTypes.MEDIA_ERROR && toVlc("Tarayıcı oynatıcısı yayını çözemedi.")) return;
         if (d.type === Hls.ErrorTypes.MEDIA_ERROR && channels[current] && is4k(channels[current])) { say("Bu 4K/HEVC yayın tarayıcıda çözülemedi.", "Cihazınız HEVC'i desteklemiyor olabilir. Android uygulamasında VLC motoruyla 4K oynatın."); destroyHls(); return; }
         say("Yayın açılamadı.", "Akış kapalı, adres hatalı veya sunucu tarayıcıdan erişime (CORS) izin vermiyor olabilir.");
         destroyHls();
       });
+      hls.on(Hls.Events.AUDIO_TRACKS_UPDATED, function () { var pl = store("sinyal.alang"); if (!pl || !hls.audioTracks) return; for (var i = 0; i < hls.audioTracks.length; i++) { var t = hls.audioTracks[i]; if (String(t.lang || t.name || "").toLowerCase().indexOf(pl) === 0) { hls.audioTrack = i; break; } } });
       hls.loadSource(url); hls.attachMedia(video);
     } else startNative(url);
   }
 
   function isLive() { return !isFinite(video.duration) || !video.duration; }
-  video.addEventListener("playing", function () { hideStatus(); badge.hidden = !isLive(); });
+  video.addEventListener("playing", function () { hideStatus(); badge.hidden = !isLive(); blackWatch(); });
   video.addEventListener("durationchange", function () { if (!video.paused) badge.hidden = !isLive(); });
-  video.addEventListener("loadedmetadata", function () { video.playbackRate = parseFloat($("speed").value) || 1; });
+  video.addEventListener("loadedmetadata", function () { var ds = store("sinyal.defspeed"); if (ds && $("speed").value !== ds) $("speed").value = ds; video.playbackRate = parseFloat($("speed").value) || 1; });
   video.addEventListener("waiting", function () { if (current > -1 && !video.paused) { badge.hidden = true; } });
   video.addEventListener("error", function () {
     if (hls) return;
+    if (current > -1 && toVlc("Tarayıcı oynatıcısı bu biçimi açamadı.")) return;
     if (current > -1) say("Yayın açılamadı.", "Akış biçimi desteklenmiyor veya adres erişilemiyor.");
   });
   video.addEventListener("loadedmetadata", function () {
@@ -1444,6 +1894,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
     get(api).then(function (info) {
       var ui = info && info.user_info;
       if (!ui || String(ui.auth) === "0") throw new Error("auth");
+      store("sinyal.exp", ui.exp_date && Number(ui.exp_date) ? String(ui.exp_date) : "");
       if (ui.status && String(ui.status).toLowerCase() !== "active") throw new Error("status:" + ui.status);
       say("Kanallar indiriliyor…");
       return Promise.all([get(api + "&action=get_live_categories").catch(function () { return []; }), get(api + "&action=get_live_streams")]);
@@ -1460,6 +1911,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
       });
       store("sinyal.list", toM3U(list)); store("sinyal.src", null);
       store("sinyal.xtream", JSON.stringify({ server: server, user: user, pass: pass }));
+      try { var sv0 = getServers(); if (!sv0.some(function (o) { return o.server === server && o.user === user; })) { sv0.push({ name: linkName(server), server: server, user: user, pass: pass }); saveServers(sv0); } } catch (e) {}
       setChannels(list, "Xtream", true);
       XT = { server: server, user: user, pass: pass }; loadExtras();
     }).catch(function (err) {
@@ -1632,10 +2084,10 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
   window.__vlcClosed = function () { if (current > -1) say("Yerel oynatıcı kapatıldı.", "Yeniden başlatmak için bir kanala dokunun."); };
   (function engineInit() {
     var eb = $("engineBtn");
-    if (!(window.Native && Native.hasVlc)) return;
+    if (!(window.Native && Native.hasVlc)) { window.__engSync = function () { if (window.__engSyncBtn) window.__engSyncBtn(); }; return; }
     eb.hidden = false;
     var names = { vlc: "VLC", mx: "MX Player", web: "Web" }, nextE = { vlc: "mx", mx: "web", web: "vlc" };
-    function sync() { eb.textContent = "Motor: " + names[engine()]; }
+    function sync() { eb.textContent = "Motor: " + names[engine()]; if (window.__engSyncBtn) window.__engSyncBtn(); }
     sync(); window.__engSync = sync;
     eb.onclick = function () { store("sinyal.engine", nextE[engine()]); sync(); if (current > -1) play(current); };
   })();
@@ -1708,8 +2160,17 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
     return d.total > 0 ? Math.floor(d.bytes * 100 / d.total) + "%" : "…";
   }
   function updateDlUi() {
-    document.querySelectorAll(".dlb").forEach(function (b) { b.textContent = dlBtnText(b.dataset.url); });
+    document.querySelectorAll(".dlb:not(.dls)").forEach(function (b) { b.textContent = dlBtnText(b.dataset.url); });
+    fsDlSync();
     if (sec === "dl" && !seriesOpen) renderDownloads();
+  }
+  function fsInfoSync() { var b = $("fsInfoB"); if (!b) return; var c = channels[current]; b.hidden = !(c && c.kind !== "live" && hasMeta(c)); }
+  function fsDlSync() {
+    fsInfoSync();
+    var b = $("fsDl"); if (!b) return; var c = channels[current];
+    if (!c || !canDl(c)) { b.hidden = true; return; }
+    b.hidden = false; var d = dlOf(c.url);
+    b.textContent = !d ? "⬇ İndir" : d.st === "done" ? "✓ İndirildi" : d.st === "failed" ? "⚠ Tekrar dene" : "⬇ " + dlBtnText(c.url) + " · iptal";
   }
   function dlClick(c) {
     var d = dlOf(c.url);
@@ -1767,7 +2228,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
   setInterval(tickDl, 2000);
 
   /* ---------- ayarlar: kategoriler, gizli, güncelleme, destek ---------- */
-  var APP_VERSION = "4.22";
+  var APP_VERSION = "4.51";
   var hiddenCats = {}, unlocked = false, mTab = "home", mSec = "live", mMsg = "";
   try { hiddenCats = JSON.parse(store("sinyal.hidden") || "{}") || {}; } catch (e) { hiddenCats = {}; }
   function hKey(kind, g) { return kind + "|" + g; }
@@ -2211,7 +2672,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
         "Oynat": "Play", "Video dosyası seç": "Choose video file", "Altyazı seç": "Choose subtitles",
         "Cihazınızdaki video dosyaları tarayıcı oynatıcısında açılır (mp4, webm, çoğu mkv). Altyazı için .srt veya .vtt seçin.": "Video files on your device open in the browser player (mp4, webm, most mkv). For subtitles choose .srt or .vtt.",
         "Kanal ara ( / )": "Search channels ( / )", "Kanal ara": "Search channels", "Kategoriler": "Categories",
-        "☰ Kategoriler": "☰ Categories", "Kategori ara": "Search categories", "Gizli kategorileri yönet": "Manage hidden categories", "Eşleşen kategori yok.": "No matching categories.", "＋ Ekle": "＋ Add", "Bağlantıyı kaydet": "Save link", "Sil": "Delete", "Geçerli bir bağlantı girin.": "Enter a valid link.", "Adres http:// veya https:// ile başlamalıdır.": "The address must start with http:// or https://.", "Bu bağlantı zaten kayıtlı.": "This link is already saved.", "Bağlantı kaydedildi.": "Link saved.", "Kayıtlı bağlantıya dokunarak listeyi yükleyebilirsiniz.": "Tap a saved link to load its list.", " · hesap bilgisi gizli": " · account details hidden", "Favorilere eklendi.": "Added to favorites.", "Favorilerden çıkarıldı.": "Removed from favorites.", "Ana Ekran": "Home", "Devam et": "Continue", "Canlı Yayın": "Live TV", "Filmler": "Movies", "Diziler": "Series", "Liste ekle": "Add list", "Merkez": "Center", "Açılışta ana ekranı göster: Açık": "Show home screen at start: On", "Açılışta ana ekranı göster: Kapalı": "Show home screen at start: Off", "Tümünü gör ›": "See all ›", "Favoriler": "Favorites", "Canlı Kanallar": "Live channels", "Geçmiş": "History", "Güncelle": "Update", "Yeni sürüm mevcut: ": "New version available: ", "Uygulama güncellemesi": "App update", "Güncelleme kaynağı": "Update source", "GitHub deposu (sahip/depo) veya https:// JSON adresi": "GitHub repository (owner/repo) or https:// JSON address", "Güncellemeyi kontrol et": "Check for updates", "İndir ve kur": "Download and install", "İndir": "Download", "Uygulama güncel.": "The app is up to date.", "Kontrol ediliyor…": "Checking…", "İndiriliyor…": "Downloading…", "Mevcut sürüm: ": "Current version: ", "Önce güncelleme kaynağını girin.": "Enter an update source first.", "Adres https:// ile başlamalıdır.": "The address must start with https://.", "Sürüm bulunamadı. Depo herkese açık olmalı ve en az bir sürüm yayınlanmış olmalı.": "No release found. The repository must be public with at least one published release.", "Güncelleme kontrol edilemedi.": "Could not check for updates.", "Bu sürümde APK dosyası yok.": "This release has no APK file.", "İndirme başlatılamadı (adres https olmalı).": "Could not start the download (the address must be https).", "İndirme iptal edildi.": "Download cancelled.", "İndirme başarısız oldu.": "Download failed.", "Kurulum ekranı açıldı. Kurulumu onaylayın.": "The install screen opened. Confirm the installation.", "Bilinmeyen kaynaklardan kurulum için izin verin, sonra yeniden deneyin.": "Allow installing from unknown sources, then try again.", "Kurulum başlatılamadı.": "Could not start the installation.", "Güncelleme, aynı imzayla derlenmiş APK'yı eskisinin üzerine kurar; listeleriniz ve ayarlarınız korunur.": "The update installs an APK built with the same signature over the old one; your lists and settings are kept.", "Kanal": "Channels", "Film": "Movies", "Dizi": "Series", "Ara": "Search", "Listeyi yenile": "Refresh list", "‹ Geri": "‹ Back", "Kaynak ve ayarlar": "Source and settings", "✕ Kapat": "✕ Close", "Program bilgisi yok": "No program info", "Bu kanal için şu anki program bilgisi bulunamadı.": "No current program info for this channel.", "4K görüntü testi": "4K picture test", "Ekranınızın ve cihazın 4K Ultra HD kodeklerini sınar; test deseniyle keskinliği gözle kontrol edin.": "Tests your screen and the device's 4K Ultra HD codecs; use the test pattern to check sharpness by eye.", "4K testini çalıştır": "Run 4K test", "Test ediliyor…": "Testing…", "Test desenini göster": "Show test pattern", "Ekran çözünürlüğü": "Screen resolution", "Oynatıcı motoru": "Player engine", "Akıcı": "Smooth", "Çözemiyor": "Cannot decode", "Ayarlar": "Settings", "Çalma Listesi Ekle": "Add Playlist", "Ebeveyn Kontrolü": "Parental Control", "Çalma Listesini Değiştir": "Change Playlist", "Dil Değiştir": "Change Language", "Düzeni Değiştir": "Change Layout", "Canlı Kategorileri Gizle": "Hide Live Categories", "Vod Kategorilerini Gizle": "Hide VOD Categories", "Seri Kategorilerini Gizle": "Hide Series Categories", "Geçmiş Kanallarını Temizle": "Clear Channel History", "Film Geçmişini Temizle": "Clear Movie History", "Dizi Geçmişini Temizle": "Clear Series History", "Canlı Kanal Sıralama": "Live Channel Order", "Canlı Yayın Formatı": "Live Stream Format", "Harici Oynatıcılar": "External Players", "Otomatik güncelleme: Açık": "Auto update: On", "Otomatik güncelleme: Kapalı": "Auto update: Off", "Zaman Formatı": "Time Format", "Altyazı Ayarları": "Subtitle Settings", "Cihaz Türünü Seçin": "Select Device Type", "Ebeveyn Kontrolü Açık": "Parental Control On", "Ebeveyn Kontrolü Kapalı": "Parental Control Off", "Şimdi Güncelle": "Update Now", "Kontrol Merkezi": "Control Center", "4K Görüntü Testi": "4K Picture Test", "Sil": "Delete", "İptal": "Cancel", "Kilidi aç": "Unlock", "Liste sırası": "List order", "Otomatik": "Automatic", "Telefon / Tablet": "Phone / Tablet", "Android TV (kumanda)": "Android TV (remote)", "Küçük": "Small", "Orta": "Medium", "Büyük": "Large", "Çok büyük": "Extra large", "Beyaz": "White", "Sarı": "Yellow", "Camgöbeği": "Cyan", "Boyut": "Size", "Renk": "Color", "Açılışta ana ekranı göster": "Show home screen at start", "Ana ekranda afiş satırları": "Poster rows on home screen", "Kompakt kanal listesi": "Compact channel list", "Program bilgisi kartı": "Program info card", "24 saat (13:05)": "24-hour (13:05)", "12 saat (1:05 PM)": "12-hour (1:05 PM)", "Geçmiş temizlendi.": "History cleared.", "Yeni sürüm": "New version", "Kanal seçince tam ekran oynatıcı": "Full-screen player on channel select", "Sığdır": "Fit", "Doldur": "Fill", "Uzat": "Stretch", "Sunucu Ekle": "Add Server", "Kaydet ve yükle": "Save and load", "Sadece kaydet": "Save only", "Kayıtlı sunucular": "Saved servers", "Sunucu kaydedildi.": "Server saved.", "M3U Listesi Ekle": "Add M3U List", "M3U Kanal Listesi Ekle": "Add M3U Channel List", "Dosyadan seç (.m3u / .m3u8)": "Choose file (.m3u / .m3u8)", "Metinden yükle": "Load from text", "Kayıtlı listeler": "Saved lists", "Liste kaydedildi.": "List saved.", "● Aktif · ": "● Active · ", "Aktifleştir · ": "Activate · ", "M3U bağlantısı aktif.": "M3U link is active.", "Bağlantıları denetle": "Check links", "⏳ Denetleniyor…": "⏳ Checking…", "Tüm Verileri Test Et": "Test All Data", "Testi başlat": "Start test", "Test ediliyor…": "Testing…", "Sunucu Değiştir": "Switch Server", "Geç · ": "Switch · ", "Geçmek istediğiniz sunucuya dokunun.": "Tap the server you want to switch to.", "Xtream sunucuları": "Xtream servers", "M3U bağlantıları": "M3U links", "+ M3U ekle": "+ Add M3U", "M3U / M3U8 Oynatıcı": "M3U / M3U8 Player", "Dosyadan aç (.m3u / .m3u8)": "Open file (.m3u / .m3u8)", "Oynat": "Play", "Sunucu Kategorileri": "Server Categories", "Aktif liste": "Active list", "Bu sunucuya geç": "Switch to this server", "⏳ Kategoriler sunucudan alınıyor…": "⏳ Loading categories from server…", "QR Kodu ile Sunucu Ekle": "Add Server via QR Code", "Kamerayı başlat": "Start camera", "Resimden oku (galeri)": "Read from image (gallery)", "Metni çöz": "Decode text", "Sunucuları yedekle": "Back up servers", "Yedekten yükle": "Restore from backup", "İçe aktar": "Import", "Kopyala": "Copy", "Yeniden tara": "Scan again", "QR ile ekle": "Add via QR", "Büyük ekran": "Big screen", "Küçük ekran": "Small screen", "kategori": "categories", "Sıra: çok kanal": "Order: most channels", "Sıra: A–Z": "Order: A–Z", "Görünüm: ayrıntılı": "View: detailed", "Görünüm: kompakt": "View: compact", "Oynatıcıyı Etkinleştir": "Activate Player", "▶ Test yayınını oynat": "▶ Play test stream", "Sorun mu var? Uygulama içi oynatıcıya geç": "Problem? Switch to in-app player", "Tümü": "All", "★ Favoriler": "★ Favorites", "🕘 Geçmiş": "🕘 History", "Diğer": "Other",
+        "☰ Kategoriler": "☰ Categories", "Kategori ara": "Search categories", "Gizli kategorileri yönet": "Manage hidden categories", "Eşleşen kategori yok.": "No matching categories.", "＋ Ekle": "＋ Add", "Bağlantıyı kaydet": "Save link", "Sil": "Delete", "Geçerli bir bağlantı girin.": "Enter a valid link.", "Adres http:// veya https:// ile başlamalıdır.": "The address must start with http:// or https://.", "Bu bağlantı zaten kayıtlı.": "This link is already saved.", "Bağlantı kaydedildi.": "Link saved.", "Kayıtlı bağlantıya dokunarak listeyi yükleyebilirsiniz.": "Tap a saved link to load its list.", " · hesap bilgisi gizli": " · account details hidden", "Favorilere eklendi.": "Added to favorites.", "Favorilerden çıkarıldı.": "Removed from favorites.", "Ana Ekran": "Home", "Devam et": "Continue", "Canlı Yayın": "Live TV", "Filmler": "Movies", "Diziler": "Series", "Liste ekle": "Add list", "Merkez": "Center", "Açılışta ana ekranı göster: Açık": "Show home screen at start: On", "Açılışta ana ekranı göster: Kapalı": "Show home screen at start: Off", "Tümünü gör ›": "See all ›", "Favoriler": "Favorites", "Canlı Kanallar": "Live channels", "Geçmiş": "History", "Güncelle": "Update", "Yeni sürüm mevcut: ": "New version available: ", "Uygulama güncellemesi": "App update", "Güncelleme kaynağı": "Update source", "GitHub deposu (sahip/depo) veya https:// JSON adresi": "GitHub repository (owner/repo) or https:// JSON address", "Güncellemeyi kontrol et": "Check for updates", "İndir ve kur": "Download and install", "İndir": "Download", "Uygulama güncel.": "The app is up to date.", "Kontrol ediliyor…": "Checking…", "İndiriliyor…": "Downloading…", "Mevcut sürüm: ": "Current version: ", "Önce güncelleme kaynağını girin.": "Enter an update source first.", "Adres https:// ile başlamalıdır.": "The address must start with https://.", "Sürüm bulunamadı. Depo herkese açık olmalı ve en az bir sürüm yayınlanmış olmalı.": "No release found. The repository must be public with at least one published release.", "Güncelleme kontrol edilemedi.": "Could not check for updates.", "Bu sürümde APK dosyası yok.": "This release has no APK file.", "İndirme başlatılamadı (adres https olmalı).": "Could not start the download (the address must be https).", "İndirme iptal edildi.": "Download cancelled.", "İndirme başarısız oldu.": "Download failed.", "Kurulum ekranı açıldı. Kurulumu onaylayın.": "The install screen opened. Confirm the installation.", "Bilinmeyen kaynaklardan kurulum için izin verin, sonra yeniden deneyin.": "Allow installing from unknown sources, then try again.", "Kurulum başlatılamadı.": "Could not start the installation.", "Güncelleme, aynı imzayla derlenmiş APK'yı eskisinin üzerine kurar; listeleriniz ve ayarlarınız korunur.": "The update installs an APK built with the same signature over the old one; your lists and settings are kept.", "Kanal": "Channels", "Film": "Movies", "Dizi": "Series", "Ara": "Search", "Listeyi yenile": "Refresh list", "‹ Geri": "‹ Back", "Kaynak ve ayarlar": "Source and settings", "✕ Kapat": "✕ Close", "Program bilgisi yok": "No program info", "Bu kanal için şu anki program bilgisi bulunamadı.": "No current program info for this channel.", "4K görüntü testi": "4K picture test", "Ekranınızın ve cihazın 4K Ultra HD kodeklerini sınar; test deseniyle keskinliği gözle kontrol edin.": "Tests your screen and the device's 4K Ultra HD codecs; use the test pattern to check sharpness by eye.", "4K testini çalıştır": "Run 4K test", "Test ediliyor…": "Testing…", "Test desenini göster": "Show test pattern", "Ekran çözünürlüğü": "Screen resolution", "Oynatıcı motoru": "Player engine", "Akıcı": "Smooth", "Çözemiyor": "Cannot decode", "Ayarlar": "Settings", "Çalma Listesi Ekle": "Add Playlist", "Ebeveyn Kontrolü": "Parental Control", "Çalma Listesini Değiştir": "Change Playlist", "Dil Değiştir": "Change Language", "Düzeni Değiştir": "Change Layout", "Canlı Kategorileri Gizle": "Hide Live Categories", "Vod Kategorilerini Gizle": "Hide VOD Categories", "Seri Kategorilerini Gizle": "Hide Series Categories", "Geçmiş Kanallarını Temizle": "Clear Channel History", "Film Geçmişini Temizle": "Clear Movie History", "Dizi Geçmişini Temizle": "Clear Series History", "Canlı Kanal Sıralama": "Live Channel Order", "Canlı Yayın Formatı": "Live Stream Format", "Harici Oynatıcılar": "External Players", "Otomatik güncelleme: Açık": "Auto update: On", "Otomatik güncelleme: Kapalı": "Auto update: Off", "Zaman Formatı": "Time Format", "Altyazı Ayarları": "Subtitle Settings", "Cihaz Türünü Seçin": "Select Device Type", "Ebeveyn Kontrolü Açık": "Parental Control On", "Ebeveyn Kontrolü Kapalı": "Parental Control Off", "Şimdi Güncelle": "Update Now", "Kontrol Merkezi": "Control Center", "4K Görüntü Testi": "4K Picture Test", "Sil": "Delete", "İptal": "Cancel", "Kilidi aç": "Unlock", "Liste sırası": "List order", "Otomatik": "Automatic", "Telefon / Tablet": "Phone / Tablet", "Android TV (kumanda)": "Android TV (remote)", "Küçük": "Small", "Orta": "Medium", "Büyük": "Large", "Çok büyük": "Extra large", "Beyaz": "White", "Sarı": "Yellow", "Camgöbeği": "Cyan", "Boyut": "Size", "Renk": "Color", "Açılışta ana ekranı göster": "Show home screen at start", "Ana ekranda afiş satırları": "Poster rows on home screen", "Kompakt kanal listesi": "Compact channel list", "Program bilgisi kartı": "Program info card", "24 saat (13:05)": "24-hour (13:05)", "12 saat (1:05 PM)": "12-hour (1:05 PM)", "Geçmiş temizlendi.": "History cleared.", "Yeni sürüm": "New version", "Kanal seçince tam ekran oynatıcı": "Full-screen player on channel select", "Sığdır": "Fit", "Doldur": "Fill", "Uzat": "Stretch", "Sunucu Ekle": "Add Server", "Kaydet ve yükle": "Save and load", "Sadece kaydet": "Save only", "Kayıtlı sunucular": "Saved servers", "Sunucu kaydedildi.": "Server saved.", "M3U Listesi Ekle": "Add M3U List", "M3U Kanal Listesi Ekle": "Add M3U Channel List", "Dosyadan seç (.m3u / .m3u8)": "Choose file (.m3u / .m3u8)", "Metinden yükle": "Load from text", "Kayıtlı listeler": "Saved lists", "Liste kaydedildi.": "List saved.", "● Aktif · ": "● Active · ", "Aktifleştir · ": "Activate · ", "M3U bağlantısı aktif.": "M3U link is active.", "Bağlantıları denetle": "Check links", "⏳ Denetleniyor…": "⏳ Checking…", "Tüm Verileri Test Et": "Test All Data", "Testi başlat": "Start test", "Test ediliyor…": "Testing…", "Sunucu Değiştir": "Switch Server", "Geç · ": "Switch · ", "Geçmek istediğiniz sunucuya dokunun.": "Tap the server you want to switch to.", "Xtream sunucuları": "Xtream servers", "M3U bağlantıları": "M3U links", "+ M3U ekle": "+ Add M3U", "M3U / M3U8 Oynatıcı": "M3U / M3U8 Player", "Dosyadan aç (.m3u / .m3u8)": "Open file (.m3u / .m3u8)", "Oynat": "Play", "Sunucu Kategorileri": "Server Categories", "Aktif liste": "Active list", "Bu sunucuya geç": "Switch to this server", "⏳ Kategoriler sunucudan alınıyor…": "⏳ Loading categories from server…", "QR Kodu ile Sunucu Al": "Add Server via QR Code", "Kamerayı başlat": "Start camera", "Resimden oku (galeri)": "Read from image (gallery)", "Metni çöz": "Decode text", "Sunucuları yedekle": "Back up servers", "Yedekten yükle": "Restore from backup", "İçe aktar": "Import", "Kopyala": "Copy", "Yeniden tara": "Scan again", "QR ile ekle": "Add via QR", "Büyük ekran": "Big screen", "Küçük ekran": "Small screen", "kategori": "categories", "Sıra: çok kanal": "Order: most channels", "Sıra: A–Z": "Order: A–Z", "Görünüm: ayrıntılı": "View: detailed", "Görünüm: kompakt": "View: compact", "Oynatıcıyı Etkinleştir": "Activate Player", "▶ Test yayınını oynat": "▶ Play test stream", "Sorun mu var? Uygulama içi oynatıcıya geç": "Problem? Switch to in-app player", "Hesap": "Account", "Çalma Listesini Değiştir": "Change Playlist", "Yeniden Yükle": "Reload", "ÇIKIŞ": "EXIT", "Canlı": "Live", "Seri": "Series", "Geçerli oynatma listesinin süre dolumu: ": "Playlist expires: ", "Tümü": "All", "★ Favoriler": "★ Favorites", "🕘 Geçmiş": "🕘 History", "Diğer": "Other",
         "Kanal listesi": "Channel list", "Kanallar": "Channels", "Favori": "Favorite", "Oynatıcı": "Player",
         "Henüz liste yüklenmedi.": "No list loaded yet.", "Aramanızla eşleşen kanal yok.": "No channels match your search.",
         "Henüz favori yok. Kanalın yanındaki yıldıza dokunun.": "No favorites yet. Tap the star next to a channel.",
@@ -2323,7 +2784,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
         "Oynat": "Abspielen", "Video dosyası seç": "Videodatei wählen", "Altyazı seç": "Untertitel wählen",
         "Cihazınızdaki video dosyaları tarayıcı oynatıcısında açılır (mp4, webm, çoğu mkv). Altyazı için .srt veya .vtt seçin.": "Videodateien auf Ihrem Gerät öffnen im Browser-Player (mp4, webm, die meisten mkv). Für Untertitel .srt oder .vtt wählen.",
         "Kanal ara ( / )": "Kanäle suchen ( / )", "Kanal ara": "Kanäle suchen", "Kategoriler": "Kategorien",
-        "☰ Kategoriler": "☰ Kategorien", "Kategori ara": "Kategorie suchen", "Gizli kategorileri yönet": "Versteckte Kategorien verwalten", "Eşleşen kategori yok.": "Keine passenden Kategorien.", "＋ Ekle": "＋ Hinzufügen", "Bağlantıyı kaydet": "Link speichern", "Sil": "Löschen", "Geçerli bir bağlantı girin.": "Geben Sie einen gültigen Link ein.", "Adres http:// veya https:// ile başlamalıdır.": "Die Adresse muss mit http:// oder https:// beginnen.", "Bu bağlantı zaten kayıtlı.": "Dieser Link ist bereits gespeichert.", "Bağlantı kaydedildi.": "Link gespeichert.", "Kayıtlı bağlantıya dokunarak listeyi yükleyebilirsiniz.": "Tippen Sie auf einen gespeicherten Link, um die Liste zu laden.", " · hesap bilgisi gizli": " · Kontodaten verborgen", "Favorilere eklendi.": "Zu Favoriten hinzugefügt.", "Favorilerden çıkarıldı.": "Aus Favoriten entfernt.", "Ana Ekran": "Startseite", "Devam et": "Weiterschauen", "Canlı Yayın": "Live-TV", "Filmler": "Filme", "Diziler": "Serien", "Liste ekle": "Liste hinzufügen", "Merkez": "Zentrale", "Açılışta ana ekranı göster: Açık": "Startseite beim Start zeigen: An", "Açılışta ana ekranı göster: Kapalı": "Startseite beim Start zeigen: Aus", "Tümünü gör ›": "Alle ansehen ›", "Favoriler": "Favoriten", "Canlı Kanallar": "Live-Kanäle", "Geçmiş": "Verlauf", "Güncelle": "Aktualisieren", "Yeni sürüm mevcut: ": "Neue Version verfügbar: ", "Uygulama güncellemesi": "App-Update", "Güncelleme kaynağı": "Update-Quelle", "GitHub deposu (sahip/depo) veya https:// JSON adresi": "GitHub-Repository (Besitzer/Repo) oder https://-JSON-Adresse", "Güncellemeyi kontrol et": "Nach Updates suchen", "İndir ve kur": "Herunterladen und installieren", "İndir": "Herunterladen", "Uygulama güncel.": "Die App ist aktuell.", "Kontrol ediliyor…": "Prüfe…", "İndiriliyor…": "Wird heruntergeladen…", "Mevcut sürüm: ": "Aktuelle Version: ", "Önce güncelleme kaynağını girin.": "Geben Sie zuerst eine Update-Quelle ein.", "Adres https:// ile başlamalıdır.": "Die Adresse muss mit https:// beginnen.", "Sürüm bulunamadı. Depo herkese açık olmalı ve en az bir sürüm yayınlanmış olmalı.": "Keine Version gefunden. Das Repository muss öffentlich sein und mindestens eine veröffentlichte Version haben.", "Güncelleme kontrol edilemedi.": "Update-Prüfung fehlgeschlagen.", "Bu sürümde APK dosyası yok.": "Diese Version enthält keine APK-Datei.", "İndirme başlatılamadı (adres https olmalı).": "Download konnte nicht gestartet werden (Adresse muss https sein).", "İndirme iptal edildi.": "Download abgebrochen.", "İndirme başarısız oldu.": "Download fehlgeschlagen.", "Kurulum ekranı açıldı. Kurulumu onaylayın.": "Der Installationsbildschirm wurde geöffnet. Bestätigen Sie die Installation.", "Bilinmeyen kaynaklardan kurulum için izin verin, sonra yeniden deneyin.": "Erlauben Sie die Installation aus unbekannten Quellen und versuchen Sie es erneut.", "Kurulum başlatılamadı.": "Installation konnte nicht gestartet werden.", "Güncelleme, aynı imzayla derlenmiş APK'yı eskisinin üzerine kurar; listeleriniz ve ayarlarınız korunur.": "Das Update installiert ein mit derselben Signatur gebautes APK über das alte; Ihre Listen und Einstellungen bleiben erhalten.", "Kanal": "Kanäle", "Film": "Filme", "Dizi": "Serien", "Ara": "Suchen", "Listeyi yenile": "Liste aktualisieren", "‹ Geri": "‹ Zurück", "Kaynak ve ayarlar": "Quelle und Einstellungen", "✕ Kapat": "✕ Schließen", "Program bilgisi yok": "Keine Programminfo", "Bu kanal için şu anki program bilgisi bulunamadı.": "Keine aktuelle Programminfo für diesen Kanal.", "4K görüntü testi": "4K-Bildtest", "Ekranınızın ve cihazın 4K Ultra HD kodeklerini sınar; test deseniyle keskinliği gözle kontrol edin.": "Prüft Ihren Bildschirm und die 4K-Ultra-HD-Codecs des Geräts; prüfen Sie die Schärfe mit dem Testbild.", "4K testini çalıştır": "4K-Test starten", "Test ediliyor…": "Wird getestet…", "Test desenini göster": "Testbild anzeigen", "Ekran çözünürlüğü": "Bildschirmauflösung", "Oynatıcı motoru": "Player-Engine", "Akıcı": "Flüssig", "Çözemiyor": "Nicht decodierbar", "Ayarlar": "Einstellungen", "Çalma Listesi Ekle": "Playlist hinzufügen", "Ebeveyn Kontrolü": "Kindersicherung", "Çalma Listesini Değiştir": "Playlist wechseln", "Dil Değiştir": "Sprache ändern", "Düzeni Değiştir": "Layout ändern", "Canlı Kategorileri Gizle": "Live-Kategorien ausblenden", "Vod Kategorilerini Gizle": "VOD-Kategorien ausblenden", "Seri Kategorilerini Gizle": "Serien-Kategorien ausblenden", "Geçmiş Kanallarını Temizle": "Kanalverlauf löschen", "Film Geçmişini Temizle": "Filmverlauf löschen", "Dizi Geçmişini Temizle": "Serienverlauf löschen", "Canlı Kanal Sıralama": "Live-Kanalreihenfolge", "Canlı Yayın Formatı": "Live-Stream-Format", "Harici Oynatıcılar": "Externe Player", "Otomatik güncelleme: Açık": "Auto-Update: An", "Otomatik güncelleme: Kapalı": "Auto-Update: Aus", "Zaman Formatı": "Zeitformat", "Altyazı Ayarları": "Untertitel-Einstellungen", "Cihaz Türünü Seçin": "Gerätetyp wählen", "Ebeveyn Kontrolü Açık": "Kindersicherung An", "Ebeveyn Kontrolü Kapalı": "Kindersicherung Aus", "Şimdi Güncelle": "Jetzt aktualisieren", "Kontrol Merkezi": "Kontrollzentrum", "4K Görüntü Testi": "4K-Bildtest", "Sil": "Löschen", "İptal": "Abbrechen", "Kilidi aç": "Entsperren", "Liste sırası": "Listenreihenfolge", "Otomatik": "Automatisch", "Telefon / Tablet": "Telefon / Tablet", "Android TV (kumanda)": "Android TV (Fernbedienung)", "Küçük": "Klein", "Orta": "Mittel", "Büyük": "Groß", "Çok büyük": "Sehr groß", "Beyaz": "Weiß", "Sarı": "Gelb", "Camgöbeği": "Cyan", "Boyut": "Größe", "Renk": "Farbe", "Açılışta ana ekranı göster": "Startseite beim Start zeigen", "Ana ekranda afiş satırları": "Poster-Reihen auf der Startseite", "Kompakt kanal listesi": "Kompakte Kanalliste", "Program bilgisi kartı": "Programminfo-Karte", "24 saat (13:05)": "24 Stunden (13:05)", "12 saat (1:05 PM)": "12 Stunden (1:05 PM)", "Geçmiş temizlendi.": "Verlauf gelöscht.", "Yeni sürüm": "Neue Version", "Kanal seçince tam ekran oynatıcı": "Vollbild-Player bei Kanalwahl", "Sığdır": "Einpassen", "Doldur": "Füllen", "Uzat": "Strecken", "Sunucu Ekle": "Server hinzufügen", "Kaydet ve yükle": "Speichern und laden", "Sadece kaydet": "Nur speichern", "Kayıtlı sunucular": "Gespeicherte Server", "Sunucu kaydedildi.": "Server gespeichert.", "M3U Listesi Ekle": "M3U-Liste hinzufügen", "M3U Kanal Listesi Ekle": "M3U-Kanalliste hinzufügen", "Dosyadan seç (.m3u / .m3u8)": "Datei wählen (.m3u / .m3u8)", "Metinden yükle": "Aus Text laden", "Kayıtlı listeler": "Gespeicherte Listen", "Liste kaydedildi.": "Liste gespeichert.", "Bağlantıları denetle": "Links prüfen", "⏳ Denetleniyor…": "⏳ Wird geprüft…", "Tüm Verileri Test Et": "Alle Daten testen", "Testi başlat": "Test starten", "Sunucu Değiştir": "Server wechseln", "Geç · ": "Wechseln · ", "Geçmek istediğiniz sunucuya dokunun.": "Tippen Sie auf den gewünschten Server.", "Xtream sunucuları": "Xtream-Server", "M3U bağlantıları": "M3U-Links", "+ M3U ekle": "+ M3U hinzufügen", "M3U / M3U8 Oynatıcı": "M3U / M3U8-Player", "Dosyadan aç (.m3u / .m3u8)": "Datei öffnen (.m3u / .m3u8)", "Oynat": "Abspielen", "Sunucu Kategorileri": "Server-Kategorien", "Aktif liste": "Aktive Liste", "Bu sunucuya geç": "Zu diesem Server wechseln", "⏳ Kategoriler sunucudan alınıyor…": "⏳ Kategorien werden geladen…", "QR Kodu ile Sunucu Ekle": "Server per QR-Code hinzufügen", "Kamerayı başlat": "Kamera starten", "Resimden oku (galeri)": "Aus Bild lesen (Galerie)", "Metni çöz": "Text auswerten", "Sunucuları yedekle": "Server sichern", "Yedekten yükle": "Aus Sicherung laden", "İçe aktar": "Importieren", "Kopyala": "Kopieren", "Yeniden tara": "Erneut scannen", "QR ile ekle": "Per QR hinzufügen", "Büyük ekran": "Großer Bildschirm", "Küçük ekran": "Kleiner Bildschirm", "Sıra: çok kanal": "Reihenfolge: meiste Kanäle", "Sıra: A–Z": "Reihenfolge: A–Z", "Görünüm: ayrıntılı": "Ansicht: detailliert", "Görünüm: kompakt": "Ansicht: kompakt", "Oynatıcıyı Etkinleştir": "Player aktivieren", "▶ Test yayınını oynat": "▶ Teststream abspielen", "Sorun mu var? Uygulama içi oynatıcıya geç": "Problem? Zum In-App-Player wechseln", "Tümü": "Alle", "★ Favoriler": "★ Favoriten", "🕘 Geçmiş": "🕘 Verlauf", "Diğer": "Andere",
+        "☰ Kategoriler": "☰ Kategorien", "Kategori ara": "Kategorie suchen", "Gizli kategorileri yönet": "Versteckte Kategorien verwalten", "Eşleşen kategori yok.": "Keine passenden Kategorien.", "＋ Ekle": "＋ Hinzufügen", "Bağlantıyı kaydet": "Link speichern", "Sil": "Löschen", "Geçerli bir bağlantı girin.": "Geben Sie einen gültigen Link ein.", "Adres http:// veya https:// ile başlamalıdır.": "Die Adresse muss mit http:// oder https:// beginnen.", "Bu bağlantı zaten kayıtlı.": "Dieser Link ist bereits gespeichert.", "Bağlantı kaydedildi.": "Link gespeichert.", "Kayıtlı bağlantıya dokunarak listeyi yükleyebilirsiniz.": "Tippen Sie auf einen gespeicherten Link, um die Liste zu laden.", " · hesap bilgisi gizli": " · Kontodaten verborgen", "Favorilere eklendi.": "Zu Favoriten hinzugefügt.", "Favorilerden çıkarıldı.": "Aus Favoriten entfernt.", "Ana Ekran": "Startseite", "Devam et": "Weiterschauen", "Canlı Yayın": "Live-TV", "Filmler": "Filme", "Diziler": "Serien", "Liste ekle": "Liste hinzufügen", "Merkez": "Zentrale", "Açılışta ana ekranı göster: Açık": "Startseite beim Start zeigen: An", "Açılışta ana ekranı göster: Kapalı": "Startseite beim Start zeigen: Aus", "Tümünü gör ›": "Alle ansehen ›", "Favoriler": "Favoriten", "Canlı Kanallar": "Live-Kanäle", "Geçmiş": "Verlauf", "Güncelle": "Aktualisieren", "Yeni sürüm mevcut: ": "Neue Version verfügbar: ", "Uygulama güncellemesi": "App-Update", "Güncelleme kaynağı": "Update-Quelle", "GitHub deposu (sahip/depo) veya https:// JSON adresi": "GitHub-Repository (Besitzer/Repo) oder https://-JSON-Adresse", "Güncellemeyi kontrol et": "Nach Updates suchen", "İndir ve kur": "Herunterladen und installieren", "İndir": "Herunterladen", "Uygulama güncel.": "Die App ist aktuell.", "Kontrol ediliyor…": "Prüfe…", "İndiriliyor…": "Wird heruntergeladen…", "Mevcut sürüm: ": "Aktuelle Version: ", "Önce güncelleme kaynağını girin.": "Geben Sie zuerst eine Update-Quelle ein.", "Adres https:// ile başlamalıdır.": "Die Adresse muss mit https:// beginnen.", "Sürüm bulunamadı. Depo herkese açık olmalı ve en az bir sürüm yayınlanmış olmalı.": "Keine Version gefunden. Das Repository muss öffentlich sein und mindestens eine veröffentlichte Version haben.", "Güncelleme kontrol edilemedi.": "Update-Prüfung fehlgeschlagen.", "Bu sürümde APK dosyası yok.": "Diese Version enthält keine APK-Datei.", "İndirme başlatılamadı (adres https olmalı).": "Download konnte nicht gestartet werden (Adresse muss https sein).", "İndirme iptal edildi.": "Download abgebrochen.", "İndirme başarısız oldu.": "Download fehlgeschlagen.", "Kurulum ekranı açıldı. Kurulumu onaylayın.": "Der Installationsbildschirm wurde geöffnet. Bestätigen Sie die Installation.", "Bilinmeyen kaynaklardan kurulum için izin verin, sonra yeniden deneyin.": "Erlauben Sie die Installation aus unbekannten Quellen und versuchen Sie es erneut.", "Kurulum başlatılamadı.": "Installation konnte nicht gestartet werden.", "Güncelleme, aynı imzayla derlenmiş APK'yı eskisinin üzerine kurar; listeleriniz ve ayarlarınız korunur.": "Das Update installiert ein mit derselben Signatur gebautes APK über das alte; Ihre Listen und Einstellungen bleiben erhalten.", "Kanal": "Kanäle", "Film": "Filme", "Dizi": "Serien", "Ara": "Suchen", "Listeyi yenile": "Liste aktualisieren", "‹ Geri": "‹ Zurück", "Kaynak ve ayarlar": "Quelle und Einstellungen", "✕ Kapat": "✕ Schließen", "Program bilgisi yok": "Keine Programminfo", "Bu kanal için şu anki program bilgisi bulunamadı.": "Keine aktuelle Programminfo für diesen Kanal.", "4K görüntü testi": "4K-Bildtest", "Ekranınızın ve cihazın 4K Ultra HD kodeklerini sınar; test deseniyle keskinliği gözle kontrol edin.": "Prüft Ihren Bildschirm und die 4K-Ultra-HD-Codecs des Geräts; prüfen Sie die Schärfe mit dem Testbild.", "4K testini çalıştır": "4K-Test starten", "Test ediliyor…": "Wird getestet…", "Test desenini göster": "Testbild anzeigen", "Ekran çözünürlüğü": "Bildschirmauflösung", "Oynatıcı motoru": "Player-Engine", "Akıcı": "Flüssig", "Çözemiyor": "Nicht decodierbar", "Ayarlar": "Einstellungen", "Çalma Listesi Ekle": "Playlist hinzufügen", "Ebeveyn Kontrolü": "Kindersicherung", "Çalma Listesini Değiştir": "Playlist wechseln", "Dil Değiştir": "Sprache ändern", "Düzeni Değiştir": "Layout ändern", "Canlı Kategorileri Gizle": "Live-Kategorien ausblenden", "Vod Kategorilerini Gizle": "VOD-Kategorien ausblenden", "Seri Kategorilerini Gizle": "Serien-Kategorien ausblenden", "Geçmiş Kanallarını Temizle": "Kanalverlauf löschen", "Film Geçmişini Temizle": "Filmverlauf löschen", "Dizi Geçmişini Temizle": "Serienverlauf löschen", "Canlı Kanal Sıralama": "Live-Kanalreihenfolge", "Canlı Yayın Formatı": "Live-Stream-Format", "Harici Oynatıcılar": "Externe Player", "Otomatik güncelleme: Açık": "Auto-Update: An", "Otomatik güncelleme: Kapalı": "Auto-Update: Aus", "Zaman Formatı": "Zeitformat", "Altyazı Ayarları": "Untertitel-Einstellungen", "Cihaz Türünü Seçin": "Gerätetyp wählen", "Ebeveyn Kontrolü Açık": "Kindersicherung An", "Ebeveyn Kontrolü Kapalı": "Kindersicherung Aus", "Şimdi Güncelle": "Jetzt aktualisieren", "Kontrol Merkezi": "Kontrollzentrum", "4K Görüntü Testi": "4K-Bildtest", "Sil": "Löschen", "İptal": "Abbrechen", "Kilidi aç": "Entsperren", "Liste sırası": "Listenreihenfolge", "Otomatik": "Automatisch", "Telefon / Tablet": "Telefon / Tablet", "Android TV (kumanda)": "Android TV (Fernbedienung)", "Küçük": "Klein", "Orta": "Mittel", "Büyük": "Groß", "Çok büyük": "Sehr groß", "Beyaz": "Weiß", "Sarı": "Gelb", "Camgöbeği": "Cyan", "Boyut": "Größe", "Renk": "Farbe", "Açılışta ana ekranı göster": "Startseite beim Start zeigen", "Ana ekranda afiş satırları": "Poster-Reihen auf der Startseite", "Kompakt kanal listesi": "Kompakte Kanalliste", "Program bilgisi kartı": "Programminfo-Karte", "24 saat (13:05)": "24 Stunden (13:05)", "12 saat (1:05 PM)": "12 Stunden (1:05 PM)", "Geçmiş temizlendi.": "Verlauf gelöscht.", "Yeni sürüm": "Neue Version", "Kanal seçince tam ekran oynatıcı": "Vollbild-Player bei Kanalwahl", "Sığdır": "Einpassen", "Doldur": "Füllen", "Uzat": "Strecken", "Sunucu Ekle": "Server hinzufügen", "Kaydet ve yükle": "Speichern und laden", "Sadece kaydet": "Nur speichern", "Kayıtlı sunucular": "Gespeicherte Server", "Sunucu kaydedildi.": "Server gespeichert.", "M3U Listesi Ekle": "M3U-Liste hinzufügen", "M3U Kanal Listesi Ekle": "M3U-Kanalliste hinzufügen", "Dosyadan seç (.m3u / .m3u8)": "Datei wählen (.m3u / .m3u8)", "Metinden yükle": "Aus Text laden", "Kayıtlı listeler": "Gespeicherte Listen", "Liste kaydedildi.": "Liste gespeichert.", "Bağlantıları denetle": "Links prüfen", "⏳ Denetleniyor…": "⏳ Wird geprüft…", "Tüm Verileri Test Et": "Alle Daten testen", "Testi başlat": "Test starten", "Sunucu Değiştir": "Server wechseln", "Geç · ": "Wechseln · ", "Geçmek istediğiniz sunucuya dokunun.": "Tippen Sie auf den gewünschten Server.", "Xtream sunucuları": "Xtream-Server", "M3U bağlantıları": "M3U-Links", "+ M3U ekle": "+ M3U hinzufügen", "M3U / M3U8 Oynatıcı": "M3U / M3U8-Player", "Dosyadan aç (.m3u / .m3u8)": "Datei öffnen (.m3u / .m3u8)", "Oynat": "Abspielen", "Sunucu Kategorileri": "Server-Kategorien", "Aktif liste": "Aktive Liste", "Bu sunucuya geç": "Zu diesem Server wechseln", "⏳ Kategoriler sunucudan alınıyor…": "⏳ Kategorien werden geladen…", "QR Kodu ile Sunucu Al": "Server per QR-Code hinzufügen", "Kamerayı başlat": "Kamera starten", "Resimden oku (galeri)": "Aus Bild lesen (Galerie)", "Metni çöz": "Text auswerten", "Sunucuları yedekle": "Server sichern", "Yedekten yükle": "Aus Sicherung laden", "İçe aktar": "Importieren", "Kopyala": "Kopieren", "Yeniden tara": "Erneut scannen", "QR ile ekle": "Per QR hinzufügen", "Büyük ekran": "Großer Bildschirm", "Küçük ekran": "Kleiner Bildschirm", "Sıra: çok kanal": "Reihenfolge: meiste Kanäle", "Sıra: A–Z": "Reihenfolge: A–Z", "Görünüm: ayrıntılı": "Ansicht: detailliert", "Görünüm: kompakt": "Ansicht: kompakt", "Oynatıcıyı Etkinleştir": "Player aktivieren", "▶ Test yayınını oynat": "▶ Teststream abspielen", "Sorun mu var? Uygulama içi oynatıcıya geç": "Problem? Zum In-App-Player wechseln", "Tümü": "Alle", "★ Favoriler": "★ Favoriten", "🕘 Geçmiş": "🕘 Verlauf", "Diğer": "Andere",
         "Kanal listesi": "Kanalliste", "Kanallar": "Kanäle", "Favori": "Favorit", "Oynatıcı": "Player",
         "Henüz liste yüklenmedi.": "Noch keine Liste geladen.", "Aramanızla eşleşen kanal yok.": "Keine Kanäle zur Suche gefunden.",
         "Henüz favori yok. Kanalın yanındaki yıldıza dokunun.": "Noch keine Favoriten. Den Stern neben einem Kanal antippen.",
@@ -2576,22 +3037,45 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
   $("lGear").onclick = function () { if ($("srcWrap").hidden) openSrc(); else closeSrc(); };
   $("lBack").onclick = function () { if (seriesOpen || query) { seriesOpen = null; query = ""; $("search").value = ""; applyFilter(); } else showHome(); };
   $("lSearch").onclick = function () { $("search").focus(); };
+  $("vGeri").onclick = function () { $("lBack").click(); };
+  $("vFind").onclick = function () { $("search").focus(); };
+  $("vodSort").value = store("sinyal.vsort") || "add";
+  $("vodSort").onchange = function () { store("sinyal.vsort", this.value); applyFilter(); };
   var epgTok = 0;
   function b64d(x) { try { return decodeURIComponent(escape(atob(x))); } catch (e) { try { return atob(x); } catch (e2) { return ""; } } }
   function hm(t) { return tstr(new Date(Number(t) * 1000)); }
   function epgReset(show) {
     $("epg").hidden = !show; $("epgTitle").textContent = "Program bilgisi yok"; $("epgTime").textContent = "--:-- - --:--";
     $("epgDesc").textContent = "Bu kanal için şu anki program bilgisi bulunamadı."; $("epgNext").textContent = "";
+    var el0 = $("epgList"); el0.textContent = ""; el0.appendChild(el("p", "epgnone", show ? "Program bilgisi yok" : ""));
+    favBtnSync();
   }
+  function favBtnSync() { var c = channels[current]; $("bFav").textContent = c && favs[c.url] ? "Favorilerden Çıkar" : "Favorilere Ekle"; }
+  $("bFav").onclick = function () { var c = channels[current]; if (!c) { say("Önce bir kanal seçin."); return; } toggleFav(c); favBtnSync(); };
+  $("bFind").onclick = function () { $("search").focus(); };
+  $("bCap").onclick = function () {
+    try {
+      var v = video; if (!v.videoWidth) throw new Error("no video");
+      var cv = document.createElement("canvas"); cv.width = v.videoWidth; cv.height = v.videoHeight; cv.getContext("2d").drawImage(v, 0, 0);
+      cv.toBlob(function (bl) {
+        if (!bl) { say("Ekran görüntüsü alınamadı.", "Bu yayın görüntü almaya izin vermiyor."); return; }
+        var a = document.createElement("a"); a.href = URL.createObjectURL(bl); a.download = "optimus-" + ((channels[current] || {}).name || "kare").replace(/[^\w\-]+/g, "_") + ".png"; document.body.appendChild(a); a.click(); a.remove();
+        say("Ekran görüntüsü kaydedildi.");
+      }, "image/png");
+    } catch (e) { say("Ekran görüntüsü alınamadı.", "Oynatılan bir yayın gerekli ya da yayın izin vermiyor."); }
+  };
+  var ll = document.querySelector(".logo-img"); if (ll) $("lLogo").src = ll.src;
   function epgUpdate(c) {
     var tok = ++epgTok; epgReset(c && c.kind === "live");
     if (!c || c.kind !== "live" || !XT) return;
     var id = (c.url.match(/\/live\/[^\/]+\/[^\/]+\/(\d+)/) || [])[1]; if (!id) return;
-    netFetch(xtApi() + "&action=get_short_epg&stream_id=" + id + "&limit=4").then(function (r) {
+    netFetch(xtApi() + "&action=get_short_epg&stream_id=" + id + "&limit=6").then(function (r) {
       if (tok !== epgTok) return;
       var l = (JSON.parse(r.text).epg_listings || []), now = Date.now() / 1000, i = 0;
       for (var k = 0; k < l.length; k++) if (Number(l[k].start_timestamp) <= now && now < Number(l[k].stop_timestamp)) { i = k; break; }
       var e = l[i]; if (!e) return;
+      var box = $("epgList"); box.textContent = "";
+      l.slice(i, i + 5).forEach(function (n, k) { var r = el("p", k ? "" : "cur", ""); r.append(el("span", "et", hm(n.start_timestamp) + " ~ " + hm(n.stop_timestamp)), el("span", "en", b64d(n.title))); box.appendChild(r); });
       $("epgTitle").textContent = b64d(e.title) || "Program";
       $("epgTime").textContent = hm(e.start_timestamp) + " - " + hm(e.stop_timestamp);
       $("epgDesc").textContent = b64d(e.description) || "";
@@ -2603,7 +3087,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
 
 
   /* ---------- tam ekran oynatıcı ---------- */
-  var fsTimer = 0, fsFit = 0;
+  var fsTimer = 0, fsFit = (+store("sinyal.aspect") || 0) % 3;
   function fsAuto() { var v = store("sinyal.fsauto"); return v === null || v === undefined ? true : v === "1"; }
   function fsIsOpen() { return document.body.classList.contains("fsp"); }
   function fsShow() {
@@ -2613,16 +3097,17 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
   function fsSync() {
     var c = channels[current]; $("fsName").textContent = c ? c.name : $("nowName").textContent; $("fsInfo").textContent = $("info").textContent;
     $("fsPlay").firstChild.firstChild.setAttribute("d", video.paused ? "M7 5l12 7-12 7z" : "M8 5v14 M16 5v14");
+    fsDlSync();
     var live = isLive(); $("fsSeek").style.visibility = live ? "hidden" : "visible";
     if (!live && !$("fsSeek").matches(":active")) $("fsSeek").value = Math.round(video.currentTime / video.duration * 1000) || 0;
     $("fsClock").textContent = tstr(new Date());
   }
   function fsOpen() {
-    if (fsIsOpen()) return; document.body.classList.add("fsp"); video.controls = false; fsSync(); fsShow();
+    if (fsIsOpen()) return; document.body.classList.add("fsp"); video.controls = false; video.style.objectFit = ["contain", "cover", "fill"][fsFit]; $("fsAspect").textContent = ["Sığdır", "Doldur", "Uzat"][fsFit]; fsSync(); fsShow();
     if (IS_TV) setTimeout(function () { if (fsIsOpen()) $("fsPlay").focus(); }, 400);
   }
-  function fsClose() { if (!fsIsOpen()) return; document.body.classList.remove("fsp"); setTimeout(function () { var a = document.activeElement; if (a && a !== document.body && a.offsetParent !== null && !a.closest(".fsbar")) return; var t = document.querySelector(".ch[aria-current=\"true\"]") || $("fsOpen"); if (t && t.offsetParent !== null) { try { t.focus(); } catch (e) {} } }, 0); $("stage").classList.remove("fsvis"); video.controls = true; clearTimeout(fsTimer); }
-  function fsMaybe(id, same) { var c = channels[id]; if (!c || extOn() || (HAS_DL && localFor(c.url))) return; if (IS_TV) { if (same) fsOpen(); return; } if (fsAuto()) fsOpen(); }
+  function fsClose() { if (!fsIsOpen()) return; document.body.classList.remove("fsp"); if (document.body.classList.contains("vodgrid")) { try { video.pause(); } catch (e) {} } setTimeout(function () { var a = document.activeElement; if (a && a !== document.body && a.offsetParent !== null && !a.closest(".fsbar")) return; var t = document.querySelector(".ch[aria-current=\"true\"]") || $("fsOpen"); if (t && t.offsetParent !== null) { try { t.focus(); } catch (e) {} } }, 0); $("stage").classList.remove("fsvis"); video.controls = true; clearTimeout(fsTimer); }
+  function fsMaybe(id, same) { var c = channels[id]; if (!c || extOn() || (HAS_DL && localFor(c.url))) return; if (document.body.classList.contains("vodgrid")) { fsOpen(); return; } if (IS_TV) { if (same) fsOpen(); return; } if (fsAuto()) fsOpen(); }
   $("fsOpen").onclick = fsOpen; $("fsBack").onclick = fsClose;
   $("fsPrev").onclick = function () { step(-1); fsShow(); }; $("fsNext").onclick = function () { step(1); fsShow(); };
   $("fsPlay").onclick = function () { if (video.paused) video.play().catch(function () {}); else video.pause(); fsSync(); fsShow(); };
@@ -2786,6 +3271,38 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
 
 
 
+
+  /* ---------- hesap + çıkış ---------- */
+  function exitApp() {
+    if (window.Native && Native.exitApp) { try { Native.exitApp(); return; } catch (e) {} }
+    try { window.close(); } catch (e) {}
+    say("Çıkış yalnızca Android uygulamasında çalışır.", "Tarayıcıda sekmeyi kapatabilirsiniz.");
+  }
+  function dlgAccount() {
+    sdOpen("Hesap", function (b) {
+      var t = store("sinyal.srctype"), xs = null; try { xs = JSON.parse(store("sinyal.xtream") || "null"); } catch (e) {}
+      function line(k, v) { var r = el("p", "", ""); var kb = el("b", "", k + ": "); r.appendChild(kb); r.appendChild(document.createTextNode(v)); b.appendChild(r); }
+      if (t === "xtream" && xs) {
+        line("Tür", "Xtream"); line("Sunucu", xs.server); line("Kullanıcı", xs.user);
+        var m = el("p", "hint", "⏳ Hesap bilgileri alınıyor…"); b.appendChild(m);
+        var api = xs.server.replace(/\/+$/, "") + "/player_api.php?username=" + encodeURIComponent(xs.user) + "&password=" + encodeURIComponent(xs.pass);
+        withTimeout(netFetch(api), 15000).then(function (r) {
+          var ui = JSON.parse(r.text).user_info || {}; var ex = ui.exp_date && Number(ui.exp_date) ? new Date(Number(ui.exp_date) * 1000) : null;
+          m.remove(); if ($("sdlg").hidden) return;
+          line("Durum", String(ui.status || "—")); line("Bitiş", ex ? p2(ex.getDate()) + "/" + p2(ex.getMonth() + 1) + "/" + ex.getFullYear() : "süresiz / bilinmiyor");
+          line("Bağlantı", (ui.active_cons || 0) + " / " + (ui.max_connections || "?"));
+          if (ui.is_trial !== undefined) line("Deneme", String(ui.is_trial) === "1" ? "evet" : "hayır");
+        }).catch(function (e) { m.textContent = "✗ " + netMsg(e); m.className = "hint bad"; });
+      } else if (t === "url") { line("Tür", "M3U bağlantısı"); line("Adres", store("sinyal.src") || "—"); }
+      else if (t === "stalker") { line("Tür", "Stalker portalı"); }
+      else if (channels.length) line("Tür", "Dosya / metin");
+      else b.appendChild(el("p", "hint", "Henüz liste yüklenmedi."));
+      var cl = { live: 0, movie: 0, series: 0 }; channels.forEach(function (c) { if (cl[c.kind] !== undefined) cl[c.kind]++; });
+      if (channels.length) line("İçerik", cl.live + " canlı · " + cl.movie + " film · " + cl.series + " dizi");
+      line("Sürüm", "v" + APP_VERSION);
+    });
+  }
+
   /* ---------- oynatıcıyı etkinleştir + test ---------- */
   var TEST_URLS = ["https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8", "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"];
   function engLabel(e) { return e === "vlc" ? "VLC" : e === "mx" ? "MX Player" : "Uygulama içi (web)"; }
@@ -2821,6 +3338,246 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
       if (nat && cur !== "web") b.appendChild(btn("Sorun mu var? Uygulama içi oynatıcıya geç", function () { store("sinyal.engine", "web"); if (window.__engSync) window.__engSync(); sdRender(); }, true));
     });
   }
+
+
+  /* ---------- 4K ve ses ayarları ---------- */
+  var K4AKEYS = ["sinyal.quality", "sinyal.k4vlc", "sinyal.hdrvlc", "sinyal.vol", "sinyal.alang", "sinyal.aspect", "sinyal.defspeed", "sinyal.buf"];
+  function beep(ch) {
+    var AC = window.AudioContext || window.webkitAudioContext; if (!AC) { say("Bu cihazda ses testi desteklenmiyor."); return; }
+    try {
+      var ac = new AC(), o = ac.createOscillator(), g = ac.createGain(), pn = ac.createStereoPanner ? ac.createStereoPanner() : null;
+      o.frequency.value = 440; g.gain.value = 0.15; if (pn) { pn.pan.value = ch; o.connect(g); g.connect(pn); pn.connect(ac.destination); } else { o.connect(g); g.connect(ac.destination); }
+      o.start(); o.stop(ac.currentTime + 0.6); setTimeout(function () { try { ac.close(); } catch (e) {} }, 900);
+    } catch (e) { say("Ses testi başlatılamadı."); }
+  }
+  function dlgK4Audio() {
+    sdOpen("4K ve Ses Ayarları", function (b) {
+      var nat = !!(window.Native && Native.hasVlc);
+      function sect(t) { var h = el("p", "", t); h.style.cssText = "margin:12px 0 4px;font-weight:700"; b.appendChild(h); }
+      function row(items, cur, fn) { var r = el("div", "row"); items.forEach(function (o) { r.appendChild(btn((String(o[0]) === String(cur) ? "✓ " : "") + o[1], function () { fn(o[0]); sdRender(); }, String(o[0]) !== String(cur))); }); b.appendChild(r); }
+      sect("Bu cihazın 4K desteği");
+      var dv = document.createElement("div"); dv.className = "svcard"; b.appendChild(dv);
+      function ln(k, v, ok) { var d = el("div", "svl", k + ": "); var sp = el("b", ok === true ? "ok" : ok === false ? "bad" : "", v); sp.style.color = ok === true ? "#4be38a" : ok === false ? "#ff7a85" : ""; d.appendChild(sp); dv.appendChild(d); return sp; }
+      var sw = Math.round(screen.width * (window.devicePixelRatio || 1)), sh = Math.round(screen.height * (window.devicePixelRatio || 1)), big = Math.max(sw, sh);
+      ln("Ekran çözünürlüğü", sw + "×" + sh + (big >= 3800 ? " (4K ekran)" : big >= 1900 ? " (Full HD)" : ""), big >= 3800 ? true : null);
+      var hdr = false; try { hdr = matchMedia("(dynamic-range: high)").matches; } catch (e) {}
+      ln("HDR ekran", hdr ? "destekleniyor" : "algılanmadı", hdr ? true : null);
+      var ht = ""; try { ht = (window.Native && Native.hdrTypes) ? String(Native.hdrTypes()) : ""; } catch (e) {}
+      if (nat) {
+        var hl = ht ? ht.split(",") : [];
+        [["HDR10", "HDR10"], ["HDR10+", "HDR10+"], ["Dolby Vision", "Dolby Vision"], ["HLG", "HLG"]].forEach(function (h) { var ok = hl.indexOf(h[0]) >= 0; ln("Ekran · " + h[1], ok ? "destekleniyor" : "yok", ok ? true : null); });
+        if (!ht) ln("HDR bilgisi", "cihaz bildirmedi", null);
+      } else {
+        ln("HDR10+ / Dolby Vision", "yalnızca Android uygulamasında denetlenir", null);
+      }
+      var fm = el("div", "svl", "Tanınan biçimler: "); fm.style.cssText = "margin-top:6px;line-height:2";
+      ["4K UHD:k4", "HDR10:kh", "HDR10+:kh", "HLG:kh", "Dolby Vision:kh", "Dolby Atmos:ka", "DTS:X:ka", "Dolby Audio:ka"].forEach(function (x) { var i = x.lastIndexOf(":"); var sp = el("span", "k4 " + x.slice(i + 1), x.slice(0, i)); sp.style.marginRight = "4px"; fm.appendChild(sp); });
+      dv.appendChild(fm);
+      dv.appendChild(el("p", "hint", "Kanal adı veya kategorisinde bu etiketler geçiyorsa listede rozet olarak görünür; Android'de VLC ile açılır. Dolby Atmos / DTS:X çözümü ses sistemine (soundbar / AV alıcı) ve HDMI bağlantısına bağlıdır."));
+      var vt = document.createElement("video");
+      [["H.264", 'video/mp4; codecs="avc1.640033"'], ["HEVC / H.265", 'video/mp4; codecs="hvc1.1.6.L153.B0"'], ["VP9", 'video/webm; codecs="vp09.00.51.08"'], ["AV1", 'video/mp4; codecs="av01.0.12M.08"']].forEach(function (c) {
+        var r = vt.canPlayType(c[1]); ln("Tarayıcı oynatıcı · " + c[0], r ? "var" : "yok", r ? true : (c[0] === "H.264" ? false : null));
+      });
+      var mc = ln("4K HEVC akıcı oynatma", "denetleniyor…", null);
+      try {
+        navigator.mediaCapabilities.decodingInfo({ type: "file", video: { contentType: 'video/mp4; codecs="hvc1.1.6.L153.B0"', width: 3840, height: 2160, bitrate: 25000000, framerate: 30 } }).then(function (r) {
+          mc.textContent = r.supported ? (r.smooth ? "evet (akıcı)" : "destekleniyor ama takılabilir") : "hayır"; mc.style.color = r.supported && r.smooth ? "#4be38a" : r.supported ? "#ffcf3d" : "#ff7a85";
+        }).catch(function () { mc.textContent = "bilinmiyor"; });
+      } catch (e) { mc.textContent = "bilinmiyor"; }
+      ln("VLC (Android uygulaması)", nat ? "4K HEVC / H.264, Dolby / DTS — cihaz donanımına bağlı" : "yalnızca Android uygulamasında", nat ? true : null);
+      dv.appendChild(el("p", "hint", "4K oynatma için internet hızınız en az ~25 Mb/sn olmalı. Tarayıcı oynatıcısı 4K / HEVC'i çözemiyorsa VLC kullanın."));
+      sect("Görüntü kalitesi (uygulama içi oynatıcı)");
+      row([["auto", "Otomatik"], ["max", "En yüksek (4K)"], ["1080", "En çok 1080p"], ["720", "En çok 720p"]], store("sinyal.quality") || "auto", function (v) { store("sinyal.quality", v); if (hls && hls.levels) applyQuality(hls.levels); });
+        sdToggle(b, "HDR / Dolby / DTS yayınları otomatik VLC ile aç (Android)", "sinyal.hdrvlc", true);
+        sdToggle(b, "4K / HEVC yayınları otomatik VLC ile aç (Android)", "sinyal.k4vlc", true);
+      if (!nat) b.appendChild(el("p", "hint", "VLC seçeneği yalnızca Android uygulamasında etkindir."));
+      sect("Ses seviyesi");
+      var vol = document.createElement("input"); vol.type = "range"; vol.min = "0"; vol.max = "100"; vol.value = String(Math.round((video.muted ? 0 : video.volume) * 100)); vol.setAttribute("aria-label", "Ses seviyesi");
+      var vl = el("p", "hint", "%" + vol.value); vol.oninput = function () { video.muted = false; video.volume = vol.value / 100; vl.textContent = "%" + vol.value; };
+      b.append(vol, vl);
+      sect("Tercih edilen ses dili (çok dilli yayınlarda)");
+      row([["", "Yayın varsayılanı"], ["tr", "Türkçe"], ["en", "İngilizce"], ["de", "Almanca"]], store("sinyal.alang") || "", function (v) { store("sinyal.alang", v); });
+      sect("Ses testi");
+      var r1 = el("div", "row"); r1.append(btn("Sol hoparlör", function () { beep(-1); }, true), btn("Her ikisi", function () { beep(0); }, true), btn("Sağ hoparlör", function () { beep(1); }, true)); b.appendChild(r1);
+      b.appendChild(el("p", "hint", "Dolby Digital / E-AC-3 ve DTS sesleri VLC ile çözülür; tarayıcı oynatıcısı bunları desteklemeyebilir (görüntü var, ses yok olursa Oynatıcı: VLC seçin)."));
+      sect("Araçlar");
+      var r2 = el("div", "row");
+      r2.append(btn("4K görüntü testi", function () { sdClose(); openModal("check"); }, true), btn("Oynatıcıyı değiştir", function () { dlgExternal(false); }, true));
+      b.appendChild(r2);
+      b.appendChild(btn("Varsayılanlara sıfırla", function () { K4AKEYS.forEach(function (k) { store(k, null); }); video.volume = 1; video.muted = false; fsFit = 0; if (hls) hls.autoLevelCapping = -1; say("4K ve ses ayarları sıfırlandı."); sdRender(); }, true));
+    });
+  }
+
+  function dlgPlayerSet() {
+    sdOpen("Oynatıcı Ayarları", function (b) {
+      function sect(t) { var h = el("p", "", t); h.style.cssText = "margin:12px 0 4px;font-weight:700"; b.appendChild(h); }
+      function row(items, cur, fn) { var r = el("div", "row"); items.forEach(function (o) { r.appendChild(btn((String(o[0]) === String(cur) ? "✓ " : "") + o[1], function () { fn(o[0]); sdRender(); }, String(o[0]) !== String(cur))); }); b.appendChild(r); }
+      b.appendChild(btn("Oynatıcı: " + engLabel(engine()) + " — değiştir", function () { dlgExternal(false); }));
+      sect("Varsayılan görüntü oranı");
+      row([[0, "Sığdır"], [1, "Doldur"], [2, "Uzat"]], (+store("sinyal.aspect") || 0), function (v) { store("sinyal.aspect", String(v)); fsFit = +v; });
+      sect("Varsayılan oynatma hızı");
+      row([[0.5, "0.5×"], [0.75, "0.75×"], [1, "1×"], [1.25, "1.25×"], [1.5, "1.5×"], [2, "2×"]], store("sinyal.defspeed") || 1, function (v) { store("sinyal.defspeed", String(v)); });
+      sect("Arabellek (uygulama içi oynatıcı)");
+      row([["low", "Düşük (hızlı açılış)"], ["mid", "Normal"], ["high", "Yüksek (takılmaz)"]], store("sinyal.buf") || "mid", function (v) { store("sinyal.buf", v); });
+      sect("İntro atlama süresi (dizi bölümleri)");
+      row([[60, "60 sn"], [85, "85 sn"], [90, "90 sn"], [120, "120 sn"]], introLen(), function (v) { store("sinyal.introlen", String(v)); });
+      sect("Seçenekler");
+      sdToggle(b, "Açılış introsunu göster", "sinyal.intro", true);
+      sdToggle(b, "Kanal seçince tam ekran oynat", "sinyal.fsauto", true);
+      sdToggle(b, "Düşük gecikmeli canlı yayın (HLS)", "sinyal.lowlat", true);
+      sdToggle(b, "Film / bölümde kaldığın yerden devam et", "sinyal.resume", true);
+      b.appendChild(btn("4K ve ses ayarları", dlgK4Audio, true));
+      b.appendChild(el("p", "hint", "Arabellek, gecikme ve hız ayarları bir sonraki yayın açılışında geçerli olur. VLC / MX Player kendi ayarlarını kullanır."));
+      var r2 = el("div", "row");
+      r2.appendChild(btn("Altyazı ayarları", function () { var t = tiles().filter(function (x) { return x[1] === "Altyazı Ayarları"; })[0]; if (t) t[2](); }, true));
+      r2.appendChild(btn("Canlı yayın formatı", function () { var t = tiles().filter(function (x) { return x[1] === "Canlı Yayın Formatı"; })[0]; if (t) t[2](); }, true));
+      r2.appendChild(btn("Test yayını", function () { runPlayerTest(0); }, true));
+      b.appendChild(r2);
+    });
+  }
+  function dlgPick() { dlgExternal(true); }
+  function dlgExternal(playAfter) {
+    var nat = !!(window.Native && Native.hasVlc), st0 = store("sinyal.engine"), sel = st0 === "vlc" || st0 === "mx" || st0 === "web" ? st0 : "def";
+    sdOpen("Harici Oynatıcılar", function (b) {
+      var opts = [["def", "Varsayılan"], ["vlc", "VLC Oynatıcı"], ["mx", "MX Oynatıcı"]];
+      if (st0 === "web") opts.push(["web", "Uygulama içi (web)"]);
+      opts.forEach(function (o) {
+        var r = document.createElement("button"); r.type = "button"; r.className = "prow2"; r.setAttribute("role", "radio"); r.setAttribute("aria-checked", String(sel === o[0]));
+        var t = document.createElement("span"); t.textContent = o[1]; var cb = document.createElement("span"); cb.className = "pchk"; cb.textContent = sel === o[0] ? "✓" : "";
+        r.append(t, cb);
+        r.onclick = function () {
+          if (!nat && (o[0] === "vlc" || o[0] === "mx")) { say("VLC ve MX Oynatıcı yalnızca Android uygulamasında çalışır.", "Tarayıcıda varsayılan oynatıcı kullanılır."); return; }
+          if (o[0] === "mx" && nat && Native.hasMx && !Native.hasMx()) say("MX Oynatıcı kurulu değil.", "TAMAM'a basınca Play Store açılır.");
+          sel = o[0];
+          Array.prototype.forEach.call(document.querySelectorAll("#sdBody .prow2"), function (x) { var on = x.dataset.v === sel; x.setAttribute("aria-checked", String(on)); x.lastChild.textContent = on ? "\u2713" : ""; });
+        };
+        r.dataset.v = o[0];
+        b.appendChild(r);
+      });
+      var f = document.createElement("div"); f.className = "pfoot";
+      var ok = document.createElement("button"); ok.type = "button"; ok.className = "pbtn"; ok.textContent = "TAMAM";
+      ok.onclick = function () { store("sinyal.engine", sel === "def" ? null : sel); if (window.__engSync) window.__engSync(); sdClose(); if (playAfter && current > -1) play(current); };
+      var no = document.createElement("button"); no.type = "button"; no.className = "pbtn"; no.textContent = "İPTAL"; no.onclick = function () { sdClose(); };
+      f.append(ok, no); b.appendChild(f);
+    });
+    $("sdlg").classList.add("pdlg"); sdOnClose = function () { $("sdlg").classList.remove("pdlg"); };
+  }
+  $("bPlayer").onclick = dlgPick; $("fsPlayer").onclick = function () { dlgPick(); };
+  window.__engSyncBtn = function () { var n = { vlc: "VLC", mx: "MX", web: "Varsayılan" }[engine()]; $("bPlayer").textContent = "Player Değiştir (" + n + ")"; $("fsPlayer").textContent = "Player: " + n; $("lPlayerT").textContent = "Player Değiştir"; $("lPlayer").title = "Şu an: " + n; };
+  $("lPlayer").onclick = function () { dlgExternal(current > -1); };
+  window.__engSyncBtn();
+
+
+  /* ---------- profesyonel oynatıcı: ayar paneli, ±10 sn, ses, kalite, altyazı, uyku, istatistik, kaldığın yerden devam ---------- */
+  var sleepAt = 0, sleepT = 0, statsT = 0, SPEEDS = [0.5, 0.75, 1, 1.25, 1.5, 2];
+  function toast(t) { var e = $("fsToast"); e.textContent = t; e.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(function () { e.hidden = true; }, 1100); }
+  function seekBy(d) { if (isLive()) return; video.currentTime = Math.max(0, Math.min(video.duration || 1e9, video.currentTime + d)); toast((d > 0 ? "+" : "−") + Math.abs(d) + " sn"); fsShow(); }
+  $("fsBack10").onclick = function () { seekBy(-10); }; $("fsFwd10").onclick = function () { seekBy(10); };
+  $("fsVol").oninput = function () { video.volume = this.value / 100; video.muted = video.volume === 0; fsShow(); };
+  (function () { var v = store("sinyal.vol"); if (v !== null && v !== undefined && v !== "") { try { video.volume = Math.max(0, Math.min(1, +v)); } catch (e) {} } })();
+  video.addEventListener("volumechange", function () { if (!video.muted) store("sinyal.vol", String(Math.round(video.volume * 100) / 100)); $("fsVol").value = video.muted ? 0 : Math.round(video.volume * 100); });
+  $("stage").addEventListener("dblclick", function (e) {
+    if (!fsIsOpen()) return; var r = $("stage").getBoundingClientRect(), x = (e.clientX - r.left) / r.width;
+    if (x < 0.33) seekBy(-10); else if (x > 0.67) seekBy(10); else { if (video.paused) video.play().catch(function () {}); else video.pause(); }
+  });
+  document.addEventListener("keydown", function (e) {
+    if (!fsIsOpen() || !$("sdlg").hidden || /input|textarea|select/i.test((e.target.tagName || ""))) return;
+    var k = e.key.toLowerCase();
+    if (k === "j") seekBy(-10); else if (k === "l") seekBy(10);
+    else if (k === "]" || k === "[") { var i = SPEEDS.indexOf(video.playbackRate); i = Math.max(0, Math.min(SPEEDS.length - 1, (i < 0 ? 2 : i) + (k === "]" ? 1 : -1))); video.playbackRate = SPEEDS[i]; $("speed").value = String(SPEEDS[i]); toast("Hız " + SPEEDS[i] + "×"); }
+    else if (k === "i") toggleStats();
+  });
+  function levelsOf() { return hls && hls.levels ? hls.levels : []; }
+  function toggleStats() {
+    var pre = $("fsStats"); pre.hidden = !pre.hidden; clearInterval(statsT);
+    if (pre.hidden) return;
+    function upd() {
+      var q = video.getVideoPlaybackQuality ? video.getVideoPlaybackQuality() : null, lv = hls && hls.levels && hls.currentLevel > -1 ? hls.levels[hls.currentLevel] : null, buf = 0;
+      try { for (var i = 0; i < video.buffered.length; i++) if (video.buffered.start(i) <= video.currentTime && video.currentTime <= video.buffered.end(i)) buf = video.buffered.end(i) - video.currentTime; } catch (e) {}
+      pre.textContent = ["Çözünürlük : " + (video.videoWidth || "?") + "×" + (video.videoHeight || "?"),
+        "Motor       : " + (hls ? "hls.js" : tsp ? "mpegts.js" : "yerel"),
+        "Bit hızı    : " + (lv && lv.bitrate ? (lv.bitrate / 1e6).toFixed(2) + " Mb/sn" : "—"),
+        "Bant genişl.: " + (hls && hls.bandwidthEstimate ? (hls.bandwidthEstimate / 1e6).toFixed(1) + " Mb/sn" : "—"),
+        "Tampon      : " + buf.toFixed(1) + " sn",
+        "Kare kaybı  : " + (q ? q.droppedVideoFrames + " / " + q.totalVideoFrames : "—"),
+        "Hız         : " + video.playbackRate + "×"].join("\n");
+    }
+    upd(); statsT = setInterval(upd, 1000);
+  }
+  function setSleep(min) {
+    clearTimeout(sleepT); sleepAt = 0;
+    if (!min) return;
+    sleepAt = Date.now() + min * 60000;
+    sleepT = setTimeout(function () { sleepAt = 0; try { video.pause(); } catch (e) {} if (fsIsOpen()) fsClose(); say("Uyku zamanlayıcı doldu.", "Yayın durduruldu."); }, min * 60000);
+  }
+  function dlgPro() {
+    sdOpen("Oynatıcı Ayarları", function (b) {
+      function sect(t) { var h = el("p", "", t); h.style.cssText = "margin:12px 0 4px;font-weight:700"; b.appendChild(h); }
+      function row(items, cur, fn) { var r = el("div", "row"); items.forEach(function (o) { r.appendChild(btn((String(o[0]) === String(cur) ? "✓ " : "") + o[1], function () { fn(o[0]); sdRender(); }, String(o[0]) !== String(cur))); }); b.appendChild(r); }
+      sect("Oynatma hızı");
+      row(SPEEDS.map(function (v) { return [v, v + "×"]; }), video.playbackRate, function (v) { video.playbackRate = +v; $("speed").value = String(v); });
+      var lv = levelsOf();
+      if (lv.length > 1) {
+        sect("Kalite");
+        var it = [[-1, "Otomatik"]]; lv.forEach(function (l, i) { it.push([i, (l.height ? l.height + "p" : Math.round(l.bitrate / 1000) + " kb")]); });
+        row(it, hls.autoLevelEnabled ? -1 : hls.currentLevel, function (v) { hls.currentLevel = +v; });
+      }
+      var at = hls && hls.audioTracks ? hls.audioTracks : [];
+      if (at.length > 1) { sect("Ses dili"); row(at.map(function (t, i) { return [i, t.name || t.lang || ("Ses " + (i + 1))]; }), hls.audioTrack, function (v) { hls.audioTrack = +v; }); }
+      else if (video.audioTracks && video.audioTracks.length > 1) { sect("Ses dili"); var cur = 0, a2 = []; for (var i = 0; i < video.audioTracks.length; i++) { a2.push([i, video.audioTracks[i].label || video.audioTracks[i].language || ("Ses " + (i + 1))]); if (video.audioTracks[i].enabled) cur = i; } row(a2, cur, function (v) { for (var j = 0; j < video.audioTracks.length; j++) video.audioTracks[j].enabled = j === +v; }); }
+      var tt = []; for (var k = 0; k < (video.textTracks ? video.textTracks.length : 0); k++) if (/subtitles|captions/.test(video.textTracks[k].kind)) tt.push(k);
+      if (tt.length) {
+        sect("Altyazı"); var on = -1; tt.forEach(function (k2) { if (video.textTracks[k2].mode === "showing") on = k2; });
+        row([[-1, "Kapalı"]].concat(tt.map(function (k2, n) { return [k2, video.textTracks[k2].label || video.textTracks[k2].language || ("Altyazı " + (n + 1))]; })), on, function (v) { tt.forEach(function (k2) { video.textTracks[k2].mode = k2 === +v ? "showing" : "disabled"; }); });
+      }
+      sect("Görüntü oranı");
+      row([[0, "Sığdır"], [1, "Doldur"], [2, "Uzat"]], fsFit, function (v) { fsFit = +v; video.style.objectFit = ["contain", "cover", "fill"][fsFit]; $("fsAspect").textContent = ["Sığdır", "Doldur", "Uzat"][fsFit]; });
+      sect("Uyku zamanlayıcı" + (sleepAt ? " — " + Math.max(1, Math.round((sleepAt - Date.now()) / 60000)) + " dk kaldı" : ""));
+      row([[0, "Kapalı"], [15, "15 dk"], [30, "30 dk"], [60, "60 dk"], [90, "90 dk"]], sleepAt ? -1 : 0, function (v) { setSleep(+v); });
+      sect("Diğer");
+      var r2 = el("div", "row");
+      r2.appendChild(btn($("fsStats").hidden ? "İstatistikleri göster (I)" : "İstatistikleri gizle (I)", function () { toggleStats(); sdRender(); }, true));
+      if (document.pictureInPictureEnabled && video.requestPictureInPicture) r2.appendChild(btn("Küçük pencere (PiP)", function () { if (document.pictureInPictureElement) document.exitPictureInPicture().catch(function () {}); else video.requestPictureInPicture().catch(function () {}); }, true));
+      r2.appendChild(btn("Tüm oynatıcı ayarları", dlgPlayerSet, true));
+      b.appendChild(r2);
+      b.appendChild(el("p", "hint", "Kısayollar: J / L ±10 sn · [ ] hız · I istatistik · M sessiz · F tam ekran · çift dokunuş: sol/sağ ±10 sn, orta duraklat."));
+      if (extOn()) b.appendChild(el("p", "hint", "Not: VLC / MX Player kendi ekranında açıldığı için bu ayarlar yalnızca uygulama içi (web) oynatıcıda geçerlidir."));
+    });
+  }
+  $("fsInfoB").onclick = function () { var c = channels[current]; if (c) dlgInfo(c); };
+  $("fsDl").onclick = function () { var c = channels[current]; if (!c) return; var d = dlOf(c.url); if (d && d.st === "done") { say("Bu film zaten indirildi.", "İndirilenler bölümünden izleyebilirsiniz."); return; } dlClick(c); if (!d) say("İndirme kuyruğa eklendi.", c.name); fsDlSync(); };
+  $("fsPro").onclick = dlgPro;
+  $("fsPro").oncontextmenu = function (e) { e.preventDefault(); dlgPlayerSet(); };
+  function proSync() { var live = isLive(); document.querySelectorAll("#fsCtl .vod").forEach(function (b) { b.style.display = live ? "none" : ""; }); }
+  video.addEventListener("loadedmetadata", proSync); video.addEventListener("durationchange", proSync);
+
+
+  /* ---------- dizi intro atla ---------- */
+  var introFor = "";
+  function introLen() { return +store("sinyal.introlen") || 85; }
+  function introSync() {
+    var c = channels[current], show = fsIsOpen() && c && (c.kind === "episode" || c.kind === "series") && introFor !== c.url && !isLive() && video.currentTime > 2 && video.currentTime < 240;
+    $("fsSkip").hidden = !show;
+  }
+  function skipIntro() { if (isLive()) return; introFor = (channels[current] || {}).url || ""; video.currentTime = Math.min(video.duration || 1e9, video.currentTime + introLen()); toast("İntro atlandı"); $("fsSkip").hidden = true; fsShow(); }
+  $("fsSkip").onclick = skipIntro;
+  video.addEventListener("timeupdate", introSync);
+  document.addEventListener("keydown", function (e) { if (fsIsOpen() && $("sdlg").hidden && !/input|textarea|select/i.test(e.target.tagName || "") && e.key.toLowerCase() === "n") skipIntro(); });
+
+  /* kaldığın yerden devam (film / bölüm) */
+  var POSK = "sinyal.pos", posLast = 0;
+  function posMap() { try { return JSON.parse(store(POSK) || "{}"); } catch (e) { return {}; } }
+  video.addEventListener("timeupdate", function () {
+    var c = channels[current]; if (store("sinyal.resume") === "0" || !c || c.kind === "live" || isLive() || Date.now() - posLast < 5000) return; posLast = Date.now();
+    var m = posMap(), t = video.currentTime, d = video.duration;
+    if (t > 30 && t < d * 0.95) m[c.url] = Math.floor(t); else delete m[c.url];
+    var ks = Object.keys(m); if (ks.length > 200) delete m[ks[0]];
+    store(POSK, JSON.stringify(m));
+  });
+  video.addEventListener("loadedmetadata", function () {
+    var c = channels[current]; if (store("sinyal.resume") === "0" || !c || c.kind === "live" || isLive()) return; var t = posMap()[c.url];
+    if (t && t < video.duration * 0.95) { video.currentTime = t; toast("Kaldığın yerden devam: " + Math.floor(t / 60) + ":" + p2(t % 60)); }
+  });
 
   /* ---------- M3U / M3U8 oynatıcı (tek bağlantı) ---------- */
   function playDirect(url, name) {
@@ -3021,9 +3778,150 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
       if (!QR.cam && !$("sdlg").hidden && !QR.res && !QR.stream) sdRender();
     }).catch(function () {});
   }
+  /* ---------- küçük QR kodu üretici (bayt kipi, düzeltme düzeyi M, sürüm 1–10) ---------- */
+  var QRG = (function () {
+    var EXP = [], LOG = [], i, x = 1;
+    for (i = 0; i < 255; i++) { EXP[i] = x; LOG[x] = i; x <<= 1; if (x & 256) x ^= 0x11d; }
+    for (i = 255; i < 512; i++) EXP[i] = EXP[i - 255];
+    function mul(a, b) { return a && b ? EXP[LOG[a] + LOG[b]] : 0; }
+    function rsGen(n) { var g = [1]; for (var k = 0; k < n; k++) { var ng = new Array(g.length + 1).fill(0); for (var j = 0; j < g.length; j++) { ng[j] ^= g[j]; ng[j + 1] ^= mul(g[j], EXP[k]); } g = ng; } return g; }
+    function rsEnc(data, n) { var g = rsGen(n), r = new Array(n).fill(0); data.forEach(function (d) { var f = d ^ r[0]; r.shift(); r.push(0); for (var j = 0; j < n; j++) r[j] ^= mul(g[j + 1], f); }); return r; }
+    // [toplam sözcük, blok başı düzeltme, [blok sayısı, blok veri uzunluğu]...]
+    var VER = [null, [26, 10, [1, 16]], [44, 16, [1, 28]], [70, 26, [1, 44]], [100, 18, [2, 32]], [134, 24, [2, 43]], [172, 16, [4, 27]], [196, 18, [4, 31]], [242, 22, [2, 38], [2, 39]], [292, 22, [3, 36], [2, 37]], [346, 26, [4, 43], [1, 44]]];
+    var ALIGN = [null, [], [6, 18], [6, 22], [6, 26], [6, 30], [6, 34], [6, 22, 38], [6, 24, 42], [6, 26, 46], [6, 28, 50]];
+    function bch(v, poly, bits) { var d = v << bits; var pl = poly.toString(2).length; while (d.toString(2).length >= pl) d ^= poly << (d.toString(2).length - pl); return (v << bits) | d; }
+    function encode(text) {
+      var bytes = []; unescape(encodeURIComponent(text)).split("").forEach(function (c) { bytes.push(c.charCodeAt(0)); });
+      var v = 0; for (i = 1; i <= 10; i++) { var cap = 0; for (var b = 2; b < VER[i].length; b += 2) {} var dcw = 0; for (var q = 2; q < VER[i].length; q++) dcw += VER[i][q][0] * VER[i][q][1]; if (bytes.length + 3 <= dcw) { v = i; break; } }
+      if (!v) return null;
+      var info = VER[v], dcw2 = 0; for (i = 2; i < info.length; i++) dcw2 += info[i][0] * info[i][1];
+      var bits = []; function put(val, n) { for (var k = n - 1; k >= 0; k--) bits.push((val >> k) & 1); }
+      put(4, 4); put(bytes.length, v >= 10 ? 16 : 8); bytes.forEach(function (b) { put(b, 8); });
+      for (i = 0; i < 4 && bits.length < dcw2 * 8; i++) bits.push(0);
+      while (bits.length % 8) bits.push(0);
+      var cw = []; for (i = 0; i < bits.length; i += 8) { var by = 0; for (var k = 0; k < 8; k++) by = (by << 1) | bits[i + k]; cw.push(by); }
+      for (var pad = 0xec; cw.length < dcw2; pad ^= 0xec ^ 0x11) cw.push(pad);
+      var blocks = [], pos = 0;
+      for (i = 2; i < info.length; i++) for (var n = 0; n < info[i][0]; n++) { blocks.push(cw.slice(pos, pos + info[i][1])); pos += info[i][1]; }
+      var ecs = blocks.map(function (b) { return rsEnc(b, info[1]); }), fin = [], maxd = 0;
+      blocks.forEach(function (b) { if (b.length > maxd) maxd = b.length; });
+      for (i = 0; i < maxd; i++) blocks.forEach(function (b) { if (i < b.length) fin.push(b[i]); });
+      for (i = 0; i < info[1]; i++) ecs.forEach(function (e) { fin.push(e[i]); });
+      var N = 17 + 4 * v, M = [], F = [];
+      for (i = 0; i < N; i++) { M.push(new Array(N).fill(0)); F.push(new Array(N).fill(false)); }
+      function set(r, c, val) { if (r >= 0 && r < N && c >= 0 && c < N) { M[r][c] = val ? 1 : 0; F[r][c] = true; } }
+      function finder(r, c) { for (var dy = -1; dy <= 7; dy++) for (var dx = -1; dx <= 7; dx++) { var on = dy >= 0 && dy <= 6 && dx >= 0 && dx <= 6 && (dy === 0 || dy === 6 || dx === 0 || dx === 6 || (dy >= 2 && dy <= 4 && dx >= 2 && dx <= 4)); set(r + dy, c + dx, on); } }
+      finder(0, 0); finder(0, N - 7); finder(N - 7, 0);
+      var al = ALIGN[v]; al.forEach(function (ar) { al.forEach(function (ac) { if ((ar === 6 && ac === 6) || (ar === 6 && ac === al[al.length - 1]) || (ac === 6 && ar === al[al.length - 1])) return; for (var dy = -2; dy <= 2; dy++) for (var dx = -2; dx <= 2; dx++) set(ar + dy, ac + dx, Math.max(Math.abs(dy), Math.abs(dx)) !== 1); }); });
+      for (i = 8; i < N - 8; i++) { set(6, i, i % 2 === 0); set(i, 6, i % 2 === 0); }
+      set(N - 8, 8, 1);
+      if (v >= 7) { var vi = bch(v, 0x1f25, 12); for (i = 0; i < 18; i++) { var vb = (vi >> i) & 1, ra = Math.floor(i / 3), ca = N - 11 + (i % 3); set(ra, ca, vb); set(ca, ra, vb); } }
+      for (i = 0; i < 9; i++) { if (!F[8][i]) { F[8][i] = true; } if (!F[i][8]) { F[i][8] = true; } }
+      for (i = 0; i < 8; i++) { F[8][N - 1 - i] = true; F[N - 1 - i][8] = true; }
+      var dbits = []; fin.forEach(function (b) { for (var k = 7; k >= 0; k--) dbits.push((b >> k) & 1); });
+      var coords = [], up = true, bi = 0;
+      for (var c = N - 1; c > 0; c -= 2) { if (c === 6) c--; for (var t = 0; t < N; t++) { var r = up ? N - 1 - t : t; for (var d = 0; d < 2; d++) { var cc = c - d; if (!F[r][cc]) coords.push([r, cc]); } } up = !up; }
+      var MASKS = [function (r, c) { return (r + c) % 2 === 0; }, function (r) { return r % 2 === 0; }, function (r, c) { return c % 3 === 0; }, function (r, c) { return (r + c) % 3 === 0; }, function (r, c) { return (Math.floor(r / 2) + Math.floor(c / 3)) % 2 === 0; }, function (r, c) { return (r * c) % 2 + (r * c) % 3 === 0; }, function (r, c) { return ((r * c) % 2 + (r * c) % 3) % 2 === 0; }, function (r, c) { return ((r + c) % 2 + (r * c) % 3) % 2 === 0; }];
+      function build(mk) {
+        var G = M.map(function (row) { return row.slice(); });
+        coords.forEach(function (p, idx) { var bit = idx < dbits.length ? dbits[idx] : 0; if (MASKS[mk](p[0], p[1])) bit ^= 1; G[p[0]][p[1]] = bit; });
+        var fb = bch(mk, 0x537, 10) ^ 0x5412; // M = 00
+        function fbit(k) { return (fb >> k) & 1; }
+        for (var k = 0; k < 15; k++) {
+          var b = fbit(k);
+          if (k < 6) G[k][8] = b; else if (k < 8) G[k + 1][8] = b; else G[N - 15 + k][8] = b;
+          if (k < 8) G[8][N - 1 - k] = b; else if (k < 9) G[8][15 - k] = b; else G[8][14 - k] = b;
+        }
+        G[N - 8][8] = 1; return G;
+      }
+      function penalty(G) {
+        var p = 0, r, c, k;
+        for (r = 0; r < N; r++) for (var dir = 0; dir < 2; dir++) { var run = 1; for (c = 1; c < N; c++) { var a = dir ? G[c][r] : G[r][c], b2 = dir ? G[c - 1][r] : G[r][c - 1]; if (a === b2) { run++; if (run === 5) p += 3; else if (run > 5) p++; } else run = 1; } }
+        for (r = 0; r < N - 1; r++) for (c = 0; c < N - 1; c++) if (G[r][c] === G[r][c + 1] && G[r][c] === G[r + 1][c] && G[r][c] === G[r + 1][c + 1]) p += 3;
+        var dark = 0; for (r = 0; r < N; r++) for (c = 0; c < N; c++) dark += G[r][c];
+        p += Math.floor(Math.abs(dark * 20 - N * N * 10) / (N * N)) * 10;
+        return p;
+      }
+      var best = null, bp = 1e9; for (var mk = 0; mk < 8; mk++) { var G = build(mk), pp = penalty(G); if (pp < bp) { bp = pp; best = G; } }
+      return best;
+    }
+    return { encode: encode };
+  })();
+
+  /* ---------- QR kodu ile uzaktan erişim (telefon = kumanda + sunucu gönderme) ---------- */
+  function remoteKey(c) {
+    var map = { up: "ArrowUp", down: "ArrowDown", left: "ArrowLeft", right: "ArrowRight", back: "Escape" };
+    if (map[c]) { var t = document.activeElement || document.body; t.dispatchEvent(new KeyboardEvent("keydown", { key: map[c], bubbles: true, cancelable: true })); return; }
+    if (c === "ok") { var a = document.activeElement; if (a && a !== document.body && a.click) a.click(); return; }
+    if (c === "home") { try { if (fsIsOpen()) fsClose(); sdClose(); hideSettings(); showHome(); } catch (e) {} return; }
+    if (c === "chup") { step(1); return; }
+    if (c === "chdown") { step(-1); return; }
+    if (c === "volup" || c === "voldown") { video.muted = false; video.volume = Math.max(0, Math.min(1, video.volume + (c === "volup" ? 0.1 : -0.1))); say("Ses %" + Math.round(video.volume * 100)); return; }
+    if (c === "mute") { video.muted = !video.muted; say(video.muted ? "Sessiz" : "Ses açık"); return; }
+    if (c === "play") { if (video.paused) video.play().catch(function () {}); else video.pause(); return; }
+    if (c === "fs") { if (fsIsOpen()) fsClose(); else if (current > -1) fsOpen(); return; }
+    if (c === "info") { try { toggleStats(); } catch (e) {} return; }
+  }
+  window.__remote = function (json) {
+    var o; try { o = JSON.parse(json); } catch (e) { return; }
+    if (!o || typeof o !== "object") return;
+    if (o.t === "key" && typeof o.c === "string") { remoteKey(o.c); return; }
+    if (o.t === "xtream" && /^https?:\/\//i.test(o.server || "") && o.user && o.pass) {
+      say("Telefondan sunucu alındı.", String(o.server).replace(/^https?:\/\//, ""));
+      sdClose(); hideSettings(); hideHome(); loadXtream(String(o.server), String(o.user), String(o.pass)); return;
+    }
+    if (o.t === "m3u" && /^https?:\/\//i.test(o.url || "")) {
+      say("Telefondan liste alındı.", linkName(o.url)); sdClose(); hideSettings(); hideHome();
+      $("urlIn").value = String(o.url); $("urlBtn").click(); return;
+    }
+  };
+  function drawQr(cv, text) {
+    var G = QRG.encode(text); if (!G) return false;
+    var n = G.length, q = 4, sc = Math.max(4, Math.floor(260 / (n + 2 * q))), sz = (n + 2 * q) * sc;
+    cv.width = sz; cv.height = sz; var cx = cv.getContext("2d");
+    cx.fillStyle = "#fff"; cx.fillRect(0, 0, sz, sz); cx.fillStyle = "#000";
+    for (var r = 0; r < n; r++) for (var c = 0; c < n; c++) if (G[r][c]) cx.fillRect((c + q) * sc, (r + q) * sc, sc, sc);
+    return true;
+  }
+  function dlgShareQr(kind, x) {
+    sdOpen("Sunucuyu QR ile Paylaş", function (b) {
+      var text = kind === "xtream" ? "xtream://" + x.server + "|" + x.user + "|" + x.pass + (x.name && x.name.length <= 24 && !/[|;,\n]/.test(x.name) ? "|" + x.name : "") : x.url;
+      b.appendChild(el("p", "", (x.name || linkName(kind === "xtream" ? x.server : x.url)) + (kind === "xtream" ? " · " + x.user : "")));
+      var cv = document.createElement("canvas"); cv.style.cssText = "display:block;margin:10px auto;border-radius:10px;max-width:100%;image-rendering:pixelated";
+      if (drawQr(cv, text)) b.appendChild(cv);
+      else b.appendChild(el("p", "hint bad", "Bu bilgi tek bir QR koduna sığmıyor. “Sunucuları yedekle” ile metin olarak paylaşın."));
+      b.appendChild(el("p", "hint", "Diğer cihazda Ayarlar > “QR Kodu ile Sunucu Al” ile bu kodu okutun. " + (kind === "xtream" ? "Dikkat: kod kullanıcı adı ve şifreyi içerir; yalnızca güvendiğiniz kişilere gösterin." : "")));
+      b.appendChild(btn("Geri", dlgServers, true));
+    });
+  }
+  function dlgRemote() {
+    sdOpen("QR ile Uzaktan Erişim", function (b) {
+      if (!(window.Native && Native.remoteStart)) {
+        b.appendChild(el("p", "hint", "Uzaktan erişim yalnızca Android uygulamasında çalışır (TV veya telefon).")); return;
+      }
+      var url = ""; try { url = Native.remoteRunning() ? Native.remoteUrl() : Native.remoteStart(); } catch (e) {}
+      if (!url) { b.appendChild(el("p", "hint", "Başlatılamadı. Cihazın bir Wi-Fi / yerel ağa bağlı olduğundan emin olun.")); b.appendChild(btn("Yeniden dene", sdRender, true)); return; }
+      b.appendChild(el("p", "", "Telefonunuzun kamerasıyla QR kodu okutun; açılan sayfadan TV'yi kumanda edin ve sunucu / M3U gönderin."));
+      var cv = document.createElement("canvas"); cv.style.cssText = "display:block;margin:10px auto;border-radius:10px;max-width:100%;image-rendering:pixelated";
+      b.appendChild(cv); drawQr(cv, url);
+      var u = el("p", "hint", url); u.style.cssText = "text-align:center;word-break:break-all;user-select:all"; b.appendChild(u);
+      b.appendChild(el("p", "hint", "Telefon ve bu cihaz aynı Wi-Fi ağında olmalı. Adres her başlatmada değişen bir anahtar içerir; işiniz bitince Durdur'a basın."));
+      var r = el("div", "row");
+      r.appendChild(btn("Durdur", function () { try { Native.remoteStop(); } catch (e) {} say("Uzaktan erişim durduruldu."); sdClose(); }));
+      r.appendChild(btn("Kapat (açık kalsın)", sdClose, true)); b.appendChild(r);
+    });
+  }
+
+  /* Telefon kamerası: Android'de Google kod tarayıcısı (Native.scanQr), olmazsa uygulama içi kamera */
+  var QR_NATIVE = !!(window.Native && Native.scanQr);
+  function qrLive() { return !$("sdlg").hidden && QR.active === true; }
+  window.__qrResult = function (t) { if (qrLive() && t) qrHandle(t); };
+  window.__qrCancel = function () { if (qrLive()) { QR.msg = ""; sdRender(); } };
+  window.__qrFail = function (m) { if (!qrLive()) return; QR.msg = "Telefon kamerası tarayıcısı açılamadı" + (m ? " (" + m + ")" : "") + ". Uygulama içi kamera deneniyor…"; sdRender(); qrStart(); };
+  function qrNative() { QR.msg = "Kamera açılıyor…"; sdRender(); try { Native.scanQr(); } catch (e) { window.__qrFail(""); } }
   function dlgQr() {
-    QR.res = null; QR.msg = ""; qrCamCheck();
-    sdOpen("QR Kodu ile Sunucu Ekle", function (b) {
+    QR.res = null; QR.msg = ""; qrCamCheck(); QR.active = true;
+    sdOpen("QR Kodu ile Sunucu Al", function (b) {
       if (QR.res) {
         var r = QR.res;
         b.appendChild(el("p", "", r.type === "xtream" ? "Xtream sunucusu bulundu" : "M3U bağlantısı bulundu"));
@@ -3035,8 +3933,9 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
         row.appendChild(btn("Yeniden tara", function () { QR.res = null; QR.msg = ""; sdRender(); }, true));
         b.appendChild(row); return;
       }
+      if (QR_NATIVE && !IS_TV) b.appendChild(btn("📷 Telefon kamerasıyla tara", qrNative));
       if (QR.cam === false) b.appendChild(el("p", "hint", "Bu cihazda kamera yok" + (IS_TV ? " (Android TV)" : "") + ". QR içeriğini telefondan okutup aşağıya yapıştırın, bir resim seçin veya yedekten yükleyin."));
-      else b.appendChild(btn(QR.stream ? "Kamera açık" : "Kamerayı başlat", function () { if (!QR.stream) qrStart(); }, !!QR.stream));
+      else b.appendChild(btn(QR.stream ? "Kamera açık" : (QR_NATIVE && !IS_TV ? "Uygulama içi kamera" : "Kamerayı başlat"), function () { if (!QR.stream) qrStart(); }, !!QR.stream));
       var v = document.createElement("video"); v.id = "qrVideo"; v.className = "qrvid"; v.muted = true; v.setAttribute("playsinline", ""); v.hidden = !QR.stream; b.appendChild(v);
       if (QR.stream) { v.srcObject = QR.stream; v.play().catch(function () {}); }
       if (QR.msg) b.appendChild(el("p", QR.msg.charAt(0) === "✗" ? "hint bad" : QR.msg.charAt(0) === "✓" ? "hint ok" : "hint", QR.msg));
@@ -3054,7 +3953,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
       r2.appendChild(btn("Yedekten yükle", function () { QR.bk = ""; sdBuild = dlgBackup; sdRender(); }, true));
       b.appendChild(r2);
     });
-    sdOnClose = qrStop;
+    sdOnClose = function () { QR.active = false; qrStop(); };
   }
   function dlgBackup(b) {
     var imp = !QR.bk; var ta = el("textarea", "field"); ta.value = QR.bk || ""; ta.placeholder = "Yedek metnini buraya yapıştırın"; ta.setAttribute("aria-label", "Yedek"); if (!imp) ta.readOnly = true; ta.rows = 8; b.appendChild(ta);
@@ -3154,11 +4053,13 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
   function getServers() { try { var a = JSON.parse(store("sinyal.servers") || "[]"); return Array.isArray(a) ? a : []; } catch (e) { return []; } }
   function saveServers(a) { store("sinyal.servers", JSON.stringify(a)); }
   function loadServer(x) { sdClose(); hideSettings(); hideHome(); loadXtream(x.server, x.user, x.pass); }
-  function dlgServer() {
-    sdOpen("Sunucu Ekle", function (b) {
+  function dlgServer(edit) {
+    if (edit && edit.preventDefault) edit = null;
+    sdOpen(edit ? "Sunucuyu Düzenle" : "Sunucu Ekle", function (b) {
       var nm = input("svName", "text", "Sunucu adı (isteğe bağlı)", "Sunucu adı"), sv = input("svUrl", "url", "Sunucu adresi (http://sunucu:port)", "Sunucu adresi"),
         us = input("svUser", "text", "Kullanıcı adı", "Kullanıcı adı"), pw = input("svPass", "password", "Şifre", "Şifre"), msg = el("p", "hint", "");
       sv.inputMode = "url"; us.autocapitalize = "none";
+      if (edit) { nm.value = edit.name || ""; sv.value = edit.server; us.value = edit.user; pw.value = edit.pass; }
       var form = el("form", "mform"); form.noValidate = true;
       form.append(nm, sv, us, pw);
       function read(go) {
@@ -3167,16 +4068,17 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
         if (!/^https?:\/\//i.test(server)) server = "http://" + server;
         server = server.replace(/\/+$/, "");
         var a = getServers(), x = { name: nm.value.trim() || linkName(server), server: server, user: user, pass: pass };
+        if (edit) a = a.filter(function (o) { return !(o.server === edit.server && o.user === edit.user); });
         var i = -1; a.forEach(function (o, k) { if (o.server === server && o.user === user) i = k; });
         if (i >= 0) a[i] = x; else a.push(x);
         saveServers(a);
-        if (go) loadServer(x); else { msg.textContent = "Sunucu kaydedildi."; sdRender(); }
+        if (go) loadServer(x); else if (edit) { delete SVI[svKey(x)]; dlgServers(); } else { msg.textContent = "Sunucu kaydedildi."; sdRender(); }
       }
       var r = el("div", "row");
       r.appendChild(btn("Kaydet ve yükle", function () { read(true); }));
       r.appendChild(btn("Sadece kaydet", function () { read(false); }, true));
       form.onsubmit = function (e) { e.preventDefault(); read(true); };
-      r.appendChild(btn("QR ile ekle", dlgQr, true));
+      r.appendChild(btn("QR ile al", dlgQr, true));
       b.append(form, r, msg);
       var a = getServers();
       if (a.length) {
@@ -3191,6 +4093,90 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
     });
   }
 
+
+
+  /* ---------- eklenen sunucular: her sunucu ayrı kart ---------- */
+  var SVI = {};
+  function svKey(x) { return x.server + "|" + x.user; }
+  function svSet(key, txt, ok) {
+    SVI[key] = { txt: txt, ok: ok };
+    Array.prototype.forEach.call(document.querySelectorAll("#sdBody .svst"), function (e) { if (e.dataset.k === key) { e.textContent = txt; e.className = "svst " + (ok === true ? "ok" : ok === false ? "bad" : ""); } });
+  }
+  function daysTxt(ts) {
+    var d = new Date(ts * 1000), left = Math.ceil((d - Date.now()) / 86400000);
+    return p2(d.getDate()) + "/" + p2(d.getMonth() + 1) + "/" + d.getFullYear() + (left >= 0 ? " (" + left + " gün)" : " (süresi dolmuş)");
+  }
+  function svCheckX(x) {
+    var key = svKey(x); svSet(key, "⏳ Denetleniyor…", null);
+    var api = x.server.replace(/\/+$/, "") + "/player_api.php?username=" + encodeURIComponent(x.user) + "&password=" + encodeURIComponent(x.pass), t0 = Date.now();
+    withTimeout(netFetch(api), 15000).then(function (r) {
+      if (r.status < 200 || r.status >= 300) throw new Error("HTTP " + r.status);
+      var ui = (JSON.parse(r.text) || {}).user_info;
+      if (!ui || String(ui.auth) === "0") throw new Error("kullanıcı adı veya şifre hatalı");
+      var ex = ui.exp_date && Number(ui.exp_date) ? "bitiş " + daysTxt(Number(ui.exp_date)) : "süresiz";
+      var okk = String(ui.status || "").toLowerCase() === "active";
+      svSet(key, (okk ? "✓ " : "✗ ") + (ui.status || "?") + " · " + ex + " · bağlantı " + (ui.active_cons || 0) + "/" + (ui.max_connections || "?") + " · " + ((Date.now() - t0) / 1000).toFixed(1) + " sn", okk);
+    }).catch(function (e) { svSet(key, "✗ Ulaşılamadı · " + netMsg(e), false); });
+  }
+  function svCheckM(x) {
+    var key = x.url; svSet(key, "⏳ Denetleniyor…", null); var t0 = Date.now();
+    withTimeout(netFetch(x.url), 20000).then(function (r) {
+      if (r.status < 200 || r.status >= 300) throw new Error("HTTP " + r.status);
+      var t = r.text || "", n = parseM3U(t).length;
+      if (!/#EXTM3U|#EXTINF/i.test(t) && !n) throw new Error("geçerli bir M3U listesi değil");
+      svSet(key, n > 0 ? "✓ Çalışıyor · " + n + " kayıt · " + ((Date.now() - t0) / 1000).toFixed(1) + " sn" : "✗ Liste boş", n > 0);
+    }).catch(function (e) { svSet(key, "✗ Ulaşılamadı · " + netMsg(e), false); });
+  }
+  function dlgServers() {
+    sdOpen("Eklenen Sunucular", function (b) {
+      var xs = null; try { xs = JSON.parse(store("sinyal.xtream") || "null"); } catch (e) {}
+      var all = getServers().slice(), isX = store("sinyal.srctype") === "xtream";
+      if (xs && xs.server && !all.some(function (o) { return o.server === xs.server && o.user === xs.user; })) all.unshift({ name: linkName(xs.server), server: xs.server, user: xs.user, pass: xs.pass, tmp: true });
+      var links = getLinks(), isU = store("sinyal.srctype") === "url", curU = store("sinyal.src");
+      var tot = el("p", "hint", all.length + " Xtream sunucusu · " + links.length + " M3U bağlantısı"); b.appendChild(tot);
+      function delBtn(fn) { var bt = btn("Sil", function () { if (bt.dataset.arm) { fn(); return; } bt.dataset.arm = "1"; bt.textContent = "Emin misin? Sil"; bt.classList.remove("ghost"); setTimeout(function () { if (bt.isConnected) { delete bt.dataset.arm; bt.textContent = "Sil"; bt.classList.add("ghost"); } }, 4000); }, true); return bt; }
+      function card(kind, title, lines, key, act, onUse, onChk, onDel, onSave, onEdit, onQr) {
+        var c = el("div", "svcard" + (act ? " act" : ""));
+        var h = el("div", "svh"); h.append(el("span", "svk", kind), el("b", "", title)); if (act) h.appendChild(el("span", "svon", "● Aktif")); c.appendChild(h);
+        lines.forEach(function (l) { c.appendChild(el("div", "svl", l)); });
+        var st = el("div", "svst", (SVI[key] && SVI[key].txt) || "Durum için “Denetle”ye basın."); st.dataset.k = key; if (SVI[key]) st.className = "svst " + (SVI[key].ok === true ? "ok" : SVI[key].ok === false ? "bad" : ""); c.appendChild(st);
+        var r = el("div", "row");
+        r.appendChild(btn(act ? "Yeniden yükle" : "Aktif et", onUse, !act ? false : true));
+        r.appendChild(btn("Denetle", onChk, true));
+        if (onSave) r.appendChild(btn("💾 Kaydet", onSave));
+        if (onEdit) r.appendChild(btn("Düzenle", onEdit, true));
+        if (onQr) r.appendChild(btn("QR göster", onQr, true));
+        if (onDel) r.appendChild(delBtn(onDel));
+        c.appendChild(r); b.appendChild(c);
+      }
+      if (all.length) b.appendChild(el("p", "svsec", "Xtream sunucuları"));
+      all.forEach(function (x) {
+        var act = isX && xs && xs.server === x.server && xs.user === x.user;
+        card("Xtream", x.name, ["Sunucu: " + x.server, "Kullanıcı: " + x.user], svKey(x), act, function () { loadServer(x); }, function () { svCheckX(x); },
+          x.tmp ? null : function () { var l = getServers().filter(function (o) { return !(o.server === x.server && o.user === x.user); }); saveServers(l); delete SVI[svKey(x)]; sdRender(); },
+          x.tmp ? function () { var l = getServers(); l.push({ name: x.name, server: x.server, user: x.user, pass: x.pass }); saveServers(l); say("Sunucu kaydedildi.", x.name); sdRender(); } : null,
+          function () { dlgServer(x); }, function () { dlgShareQr("xtream", x); });
+        if (!SVI[svKey(x)]) setTimeout(function () { if (!$("sdlg").hidden && $("sdTitle").textContent === "Eklenen Sunucular") svCheckX(x); }, 50);
+      });
+      if (links.length) b.appendChild(el("p", "svsec", "M3U bağlantıları"));
+      links.forEach(function (x) {
+        var act = isU && curU === x.url;
+        card("M3U", x.name || linkName(x.url), ["Adres: " + x.url], x.url, act, function () { sdClose(); hideSettings(); hideHome(); $("urlIn").value = x.url; $("m3uTop").value = x.url; $("urlBtn").click(); }, function () { svCheckM(x); },
+          function () { var l = getLinks().filter(function (o) { return o.url !== x.url; }); store("sinyal.links", JSON.stringify(l)); delete SVI[x.url]; renderLinks(); sdRender(); }, null, null, function () { dlgShareQr("m3u", x); });
+      });
+      if (isU && curU && !links.some(function (o) { return o.url === curU; })) {
+        b.appendChild(el("p", "svsec", "Kaydedilmemiş etkin bağlantı"));
+        card("M3U", linkName(curU), ["Adres: " + curU], curU, true, function () { $("urlIn").value = curU; $("m3uTop").value = curU; sdClose(); hideSettings(); hideHome(); $("urlBtn").click(); }, function () { svCheckM({ url: curU }); }, null,
+          function () { var l = getLinks(); l.push({ name: linkName(curU), url: curU }); store("sinyal.links", JSON.stringify(l)); renderLinks(); say("Bağlantı kaydedildi.", linkName(curU)); sdRender(); });
+      }
+      if (!all.length && !links.length) b.appendChild(el("p", "hint", "Kayıtlı sunucu yok. Aşağıdan ekleyin."));
+      var r = el("div", "row"); r.appendChild(btn("+ Sunucu ekle", dlgServer, true)); r.appendChild(btn("+ M3U ekle", dlgM3u, true)); r.appendChild(btn("QR ile al", dlgQr, true)); b.appendChild(r);
+      if (getServers().length + links.length > 1) {
+        var da = btn("Tümünü sil", function () { if (da.dataset.arm) { saveServers([]); store("sinyal.links", "[]"); SVI = {}; renderLinks(); sdRender(); return; } da.dataset.arm = "1"; da.textContent = "Emin misin? Hepsini sil"; da.classList.remove("ghost"); setTimeout(function () { if (da.isConnected) { delete da.dataset.arm; da.textContent = "Tümünü sil"; da.classList.add("ghost"); } }, 4000); }, true);
+        b.appendChild(da);
+      }
+    });
+  }
 
   function dlgSwitch() {
     sdOpen("Sunucu Değiştir", function (b) {
@@ -3213,7 +4199,32 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
           sdClose(); hideSettings(); hideHome(); $("urlIn").value = x.url; $("m3uTop").value = x.url; $("urlBtn").click();
         }, !act));
       });
+      b.appendChild(btn("Sunucuları ayrı ayrı göster", dlgServers, true));
       var r = el("div", "row"); r.appendChild(btn("+ Sunucu ekle", dlgServer, true)); r.appendChild(btn("+ M3U ekle", dlgM3u, true)); b.appendChild(r);
+    });
+  }
+
+  function dlgPickServer() {
+    sdOpen("Sunucu Seç", function (b) {
+      var xs = null; try { xs = JSON.parse(store("sinyal.xtream") || "null"); } catch (e) {}
+      var all = getServers().slice(), isX = store("sinyal.srctype") === "xtream";
+      if (xs && xs.server && !all.some(function (o) { return o.server === xs.server && o.user === xs.user; })) all.unshift({ name: linkName(xs.server), server: xs.server, user: xs.user, pass: xs.pass });
+      var links = getLinks(), isU = store("sinyal.srctype") === "url", curU = store("sinyal.src");
+      var items = [], sel = -1;
+      all.forEach(function (x) { var a = !!(isX && xs && xs.server === x.server && xs.user === x.user); if (a) sel = items.length; items.push({ t: x.name || linkName(x.server), sub: linkName(x.server) + " · " + x.user, act: a, go: function () { loadServer(x); } }); });
+      links.forEach(function (x) { var a = !!(isU && curU === x.url); if (a) sel = items.length; items.push({ t: x.name || linkName(x.url), sub: "M3U · " + linkName(x.url), act: a, go: function () { sdClose(); hideSettings(); hideHome(); $("urlIn").value = x.url; $("m3uTop").value = x.url; $("urlBtn").click(); } }); });
+      if (!items.length) { b.appendChild(el("p", "hint", "Kayıtlı sunucu yok. Önce “Sunucu Ekle” veya “M3U Listesi Ekle” ile ekleyin.")); b.appendChild(btn("+ Sunucu ekle", dlgServer, true)); return; }
+      b.appendChild(el("p", "", "Kullanmak istediğiniz sunucuyu seçin."));
+      var rows = [];
+      items.forEach(function (it, i) {
+        var lb = el("label", "mitem"), rd = el("input"); rd.type = "radio"; rd.name = "srvpick"; rd.checked = i === sel; rd.onchange = function () { sel = i; };
+        var tx = el("span", "nm", it.t + (it.act ? "  ● aktif" : "")); tx.style.cssText = "flex:1;text-align:left;margin-left:10px"; var sm = el("small", "", it.sub); sm.style.cssText = "display:block;opacity:.7"; tx.appendChild(sm);
+        lb.append(rd, tx); b.appendChild(lb); rows.push(rd);
+      });
+      var r = el("div", "row");
+      r.appendChild(btn("TAMAM", function () { var it = items[sel]; if (!it) { say("Bir sunucu seçin."); return; } if (it.act) { sdClose(); return; } it.go(); }));
+      r.appendChild(btn("İPTAL", sdClose, true)); b.appendChild(r);
+      r = el("div", "row"); r.appendChild(btn("+ Sunucu ekle", dlgServer, true)); r.appendChild(btn("Sunucu Yönetimi", dlgServers, true)); b.appendChild(r);
     });
   }
 
@@ -3249,13 +4260,16 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
   function tiles() {
     var locked = pinSet() && !unlocked, newer = !!(UPD.info && UPD.info.newer);
     var auto = store("sinyal.auto") === "1";
-    return [
+    var T = [
       ["list", "Çalma Listesi Ekle", function () { hideSettings(); closeHomeFor(); openSrc(); $("m3uTop").focus(); }],
       ["lock", "Ebeveyn Kontrolü", function () { openModal("hidden"); }],
       ["m3u", "M3U Listesi Ekle", dlgM3u],
       ["play", "M3U / M3U8 Oynatıcı", dlgPlayer],
-      ["qr", "QR Kodu ile Sunucu Ekle", dlgQr],
+      ["qr", "QR Kodu ile Sunucu Al", dlgQr],
+      ["qr", "QR ile Uzaktan Erişim", dlgRemote],
       ["server", "Sunucu Ekle", dlgServer],
+      ["server", "Eklenen Sunucular", dlgServers],
+      ["server", "Sunucu Seç", dlgPickServer],
       ["swap", "Sunucu Değiştir", dlgSwitch],
       ["grid", "Sunucu Kategorileri", function () { SVC.src = "active"; dlgSvCats(); }],
       ["list", "Çalma Listesini Değiştir", dlgLists],
@@ -3275,11 +4289,11 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
       ["trash", "Dizi Geçmişini Temizle", function () { clearHist("series", "Dizi Geçmişini Temizle"); }],
       ["sort", "Canlı Kanal Sıralama", function () { sdOpen("Canlı Kanal Sıralama", function (b) { sdChoices(b, [["default", "Liste sırası"], ["az", "A → Z"], ["za", "Z → A"]], store("sinyal.sort") || "default", function (v) { store("sinyal.sort", v === "default" ? null : v); applyFilter(); }); }); }],
       ["tv", "Canlı Yayın Formatı", function () { sdOpen("Canlı Yayın Formatı", function (b) { sdChoices(b, [["auto", "Otomatik (listedeki gibi)"], ["m3u8", "M3U8 (HLS)"], ["ts", "TS (MPEG-TS)"]], store("sinyal.livefmt") || "auto", function (v) { store("sinyal.livefmt", v === "auto" ? null : v); }); b.appendChild(el("p", "hint", "Yalnızca Xtream canlı yayın adresleri değişir. Sonraki oynatmada geçerli olur.")); }); }],
+      ["play", "Açılış İntrosu: " + (store("sinyal.intro") === "0" ? "Kapalı" : "Açık"), function () { store("sinyal.intro", store("sinyal.intro") === "0" ? "1" : "0"); renderSettings(); }],
+      ["uhd", "4K ve Ses Ayarları", dlgK4Audio],
+      ["play", "Oynatıcı Ayarları", dlgPlayerSet],
       ["play", "Oynatıcıyı Etkinleştir", dlgEngine],
-      ["play", "Harici Oynatıcılar", function () { sdOpen("Harici Oynatıcılar", function (b) {
-        if (!(window.Native && Native.hasVlc)) { b.appendChild(el("p", "", "Harici oynatıcılar yalnızca Android uygulamasında kullanılabilir.")); return; }
-        sdChoices(b, [["vlc", "VLC (Dolby / DTS / 4K)"], ["mx", "MX Player"], ["web", "Uygulama içi (web)"]], engine(), function (v) { store("sinyal.engine", v); if (window.__engSync) window.__engSync(); });
-      }); }],
+      ["play", "Harici Oynatıcılar", function () { dlgExternal(false); }],
       ["auto", "Otomatik güncelleme: " + (auto ? "Açık" : "Kapalı"), function () { store("sinyal.auto", auto ? "0" : "1"); renderSettings(); }],
       ["clock", "Zaman Formatı", function () { sdOpen("Zaman Formatı", function (b) { sdChoices(b, [["0", "24 saat (13:05)"], ["1", "12 saat (1:05 PM)"]], store("sinyal.time12") === "1" ? "1" : "0", function (v) { store("sinyal.time12", v); tick(); homeClockTick(); }); }); }],
       ["subs", "Altyazı Ayarları", function () { sdOpen("Altyazı Ayarları", function (b) {
@@ -3296,6 +4310,15 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
       ["gear", "Kontrol Merkezi", function () { openModal("home"); }],
       ["uhd", "4K Görüntü Testi", function () { openModal("check"); }]
     ];
+    var ORD = ["Çalma Listesi Ekle", "Ebeveyn Kontrolü", "Çalma Listesini Değiştir", "Dil Değiştir", "Düzeni Değiştir", "Canlı Kategorileri", "Vod Kategorileri", "Seri Kategorileri", "Geçmiş Kanalları", "Film Geçmişi", "Dizi Geçmişi", "Canlı Kanal Sıralama", "Canlı Yayın Formatı", "Harici Oynatıcılar", "Otomatik", "Zaman Formatı", "Altyazı", "Cihaz Türünü", "Ebeveyn Kontrolü ", "Şimdi Güncelle"];
+    function rank(t) { for (var i = 0; i < ORD.length; i++) { var o = ORD[i]; if (t[1] === o || (o.slice(-1) === " " ? t[1].indexOf(o) === 0 : (i === 1 ? false : t[1].indexOf(o) === 0))) return i; } return 100; }
+    return T.map(function (t, i) { return [rank(t), i, t]; }).sort(function (a, b) { return a[0] - b[0] || a[1] - b[1]; }).map(function (x) { return x[2]; });
+  }
+  function devInfo() {
+    var id = store("sinyal.devid");
+    if (!id) { var h = "0123456789abcdef", a = []; for (var i = 0; i < 6; i++) a.push(h[Math.floor(Math.random() * 16)] + h[Math.floor(Math.random() * 16)]); id = a.join(":"); store("sinyal.devid", id); }
+    var n = 0; for (var j = 0; j < id.length; j++) n = (n * 31 + id.charCodeAt(j)) % 900000;
+    return { id: id, key: String(100000 + n) };
   }
   function renderSettings() {
     var g = $("setGrid"), keep = document.activeElement && document.activeElement.dataset ? document.activeElement.dataset.i : null; g.textContent = "";
@@ -3305,7 +4328,9 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
       b.innerHTML = svg; var sp = document.createElement("span"); sp.textContent = t[1]; b.appendChild(sp);
       if (t[3]) { var bl = document.createElement("i"); bl.className = "sbulb"; bl.textContent = "💡"; bl.setAttribute("aria-label", "Yeni sürüm"); b.appendChild(bl); }
       b.onclick = t[2]; g.appendChild(b);
+      if (i === 19) { var ft = document.createElement("div"); ft.className = "setfoot"; ft.id = "setFoot"; g.appendChild(ft); }
     });
+    var di = devInfo(); if ($("setFoot")) $("setFoot").append(el("div", "", "Cihaz Kimliği: " + di.id), el("div", "", "Cihaz Anahtarı: " + di.key));
     if (keep !== null) { var k = g.querySelector('[data-i="' + keep + '"]'); if (k && !$("settings").hidden) k.focus(); }
   }
   function showSettings() {
@@ -3475,13 +4500,36 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
       movie: '<svg viewBox="0 0 48 48" aria-hidden="true"><rect x="8" y="14" width="32" height="24" rx="3"/><path d="M8 22h32M14 14l5 8M23 14l5 8M32 14l5 8"/></svg>',
       series: '<svg viewBox="0 0 48 48" aria-hidden="true"><rect x="14" y="8" width="26" height="22" rx="3"/><path d="M8 16v20a3 3 0 0 0 3 3h22"/><path d="M23 14l9 5-9 5z"/></svg>'
     };
-    [["live", "Canlı Yayın", vis("live").length, "Kanal"], ["movie", "Filmler", vis("movie").length, "Film"], ["series", "Diziler", vis("series").length, "Dizi"]].forEach(function (x) {
-      var b = document.createElement("button"); b.type = "button"; b.className = "bigcard";
-      var ic = document.createElement("span"); ic.className = "bic"; ic.innerHTML = ICO[x[0]];
-      var t = document.createElement("span"); t.className = "bt"; t.textContent = x[1];
-      var c = document.createElement("span"); c.className = "bc"; var n = document.createElement("span"); n.textContent = "+" + x[2] + " "; var u = document.createElement("span"); u.textContent = x[3]; c.append(n, u);
-      b.append(ic, t, c); b.onclick = function () { homeGo(x[0]); }; big.appendChild(b);
-    });
+    var LI = {
+      live: '<svg viewBox="0 0 48 48" aria-hidden="true"><rect x="7" y="14" width="34" height="25" rx="5"/><path d="M16 6l8 8 8-8"/><path d="M20 21v11l10-5.5z"/></svg>',
+      movie: '<svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="16"/><path d="M20 16v16l13-8z"/></svg>',
+      series: '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M9 22h30v18H9z"/><path d="M9 22l-2-7 30-6 2 7"/><path d="M15 14l4 6M25 12l4 6"/></svg>',
+      acc: '<svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="19" cy="17" r="7"/><path d="M5 40c0-8 6-12 14-12s14 4 14 12"/><circle cx="34" cy="19" r="5"/><path d="M36 28c6 1 9 5 9 11"/></svg>',
+      swap: '<svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="30" cy="12" r="5"/><circle cx="14" cy="28" r="5"/><path d="M6 40c0-5 3-7 8-7M26 22c0-4 2-5 4-5s4 1 4 5"/><path d="M20 8h-8l3-3M12 8l3 3M28 40h8l-3-3M36 40l-3 3"/></svg>',
+      gear: '<svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="6"/><path d="M24 6v6M24 36v6M6 24h6M36 24h6M11 11l4 4M33 33l4 4M37 11l-4 4M15 33l-4 4"/></svg>',
+      reload: '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M40 24a16 16 0 1 1-5-11.6"/><path d="M40 8v9h-9"/></svg>',
+      exit: '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M20 8H9v32h11"/><path d="M18 24h22M32 16l8 8-8 8"/></svg>'
+    };
+    function lbtn(cls, ico, label, sub, fn) {
+      var b = document.createElement("button"); b.type = "button"; b.className = "hbt " + cls;
+      var i = document.createElement("span"); i.className = "li"; i.innerHTML = LI[ico];
+      var t = document.createElement("span"); t.className = "lt"; t.textContent = label; b.append(i, t);
+      if (sub) { var c = document.createElement("small"); c.textContent = sub; b.appendChild(c); }
+      b.onclick = fn; big.appendChild(b); return b;
+    }
+    lbtn("l-live", "live", "Canlı", "+" + vis("live").length + " Kanal", function () { homeGo("live"); });
+    lbtn("l-movie", "movie", "Filmler", "+" + vis("movie").length, function () { homeGo("movie"); });
+    lbtn("l-series", "series", "Seri", "+" + vis("series").length, function () { homeGo("series"); });
+    lbtn("l-acc", "acc", "Hesap", "", function () { dlgAccount(); });
+    lbtn("l-pl", "swap", "Çalma Listesini Değiştir", "", function () { dlgPickServer(); });
+    lbtn("l-set", "gear", "Ayarlar", "", function () { showSettings(); });
+    lbtn("l-rel", "reload", "Yeniden Yükle", "", function () { doRefresh(); });
+    lbtn("l-exit", "exit", "ÇIKIŞ", "", function () { exitApp(); });
+    var ex = store("sinyal.exp"), he = $("hExp");
+    if (ex && Number(ex)) { var xd = new Date(Number(ex) * 1000); he.textContent = "Geçerli oynatma listesinin süre dolumu: " + p2(xd.getDate()) + "/" + p2(xd.getMonth() + 1) + "/" + xd.getFullYear(); }
+    else he.textContent = channels.length ? "Yüklü liste: " + channels.length + " kayıt" : "Henüz liste yüklenmedi";
+    $("hVer").textContent = "v" + APP_VERSION;
+    var hl = document.querySelector(".logo-img"); if (hl && !$("hLogoImg").src) $("hLogoImg").src = hl.src;
     var T = [
       ["★", "Favoriler", String(nFav), function () { homeGo("live", "★ Favoriler"); }],
       ["🕘", "Geçmiş", String(nHist), function () { homeGo("live", "🕘 Geçmiş"); }]
@@ -3528,7 +4576,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
   }
   $("homeSearchForm").onsubmit = function (e) { e.preventDefault(); homeSearch($("homeSearch").value); };
   $("hRefresh").onclick = function () { hideHome(); doRefresh(); };
-  $("hServer").onclick = function () { dlgSwitch(); };
+  $("hServer").onclick = function () { dlgPickServer(); };
   $("hSource").onclick = function () { hideHome(); openSrc(); $("m3uTop").focus(); };
   $("hSettings").onclick = function () { showSettings(); };
 
@@ -3560,7 +4608,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
   function gap(a1, a2, b1, b2) { return Math.max(0, b1 - a2, a1 - b2); }
   function spatial(dir) {
     var cur = document.activeElement, scope = document;
-    var mdl = document.querySelector(".modal:not([hidden])"); if (mdl) scope = mdl; else if (!$("settings").hidden) scope = $("settings"); else if (fsIsOpen()) scope = $("stage"); else if (!$("srcWrap").hidden) scope = $("srcWrap");
+    var mdl = document.querySelector(".modal:not([hidden])"); if (mdl) scope = mdl; else if (!$("settings").hidden) scope = $("settings"); else if (fsIsOpen()) scope = $("stage"); else if (!$("home").hidden) scope = $("home"); else if (!$("srcWrap").hidden) scope = $("srcWrap");
     var all = Array.prototype.slice.call(scope.querySelectorAll(FOCUSABLE)).filter(function (el) {
       if (el === cur) return false;
       var r = el.getBoundingClientRect(); if (r.width < 2 || r.height < 2) return false;
@@ -3628,7 +4676,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
     }, true);
     /* açılış animasyonu: oturum başına bir kez */
     var seen = false; try { seen = sessionStorage.getItem("sinyal.boot") === "1"; } catch (e) {}
-    if (!on || seen || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!on || seen || store("sinyal.intro") === "0" || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     try { sessionStorage.setItem("sinyal.boot", "1"); } catch (e) {}
     var li = document.querySelector(".logo-img"); if (li) document.getElementById("bootImg").src = li.src;
     boot.hidden = false;
@@ -3644,7 +4692,9 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
       line.textContent = lines[i]; bar.style.width = ((i + 1) / lines.length * 100) + "%"; tone(500 + i * 160, 0.06);
       i++; if (i < lines.length) setTimeout(step, 420); else setTimeout(end, 500);
     }
-    boot.onclick = end; step();
+    boot.onclick = end; document.getElementById("bootSkip").onclick = function (e) { e.stopPropagation(); end(); };
+    document.addEventListener("keydown", function kd(e) { if (done) { document.removeEventListener("keydown", kd, true); return; } e.preventDefault(); e.stopPropagation(); end(); }, true);
+    step(); setTimeout(function () { try { document.getElementById("bootSkip").focus(); } catch (e) {} }, 50);
   })();
 })();
 </script>

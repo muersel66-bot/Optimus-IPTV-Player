@@ -358,6 +358,16 @@ public class MainActivity extends Activity {
         super.onDestroy();
     }
 
+    /** Sayfadaki window.<fn>(arg) işlevini çağırır. */
+    private void jsCall(final String fn, final String arg) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                web.evaluateJavascript("window." + fn + "&&window." + fn + "(" + JSONObject.quote(arg) + ")", null);
+            }
+        });
+    }
+
     /** Sayfanın çağırdığı yerel ağ köprüsü. */
     public class Net {
 
@@ -465,6 +475,49 @@ public class MainActivity extends Activity {
             }
         }
 
+        /** Sunucu/liste bilgilerini kalıcı yerel belleğe yazar (boş değer = sil). */
+        @JavascriptInterface
+        public void saveKV(String k, String v) {
+            try {
+                android.content.SharedPreferences.Editor ed = getSharedPreferences("optimus_kv", Context.MODE_PRIVATE).edit();
+                if (v == null || v.length() == 0) ed.remove(k); else ed.putString(k, v);
+                ed.apply();
+            } catch (Throwable e) { }
+        }
+
+        /** Kalıcı yerel bellekteki tüm kayıtları JSON olarak döndürür. */
+        @JavascriptInterface
+        public String loadKV() {
+            try {
+                JSONObject o = new JSONObject();
+                for (java.util.Map.Entry<String, ?> en : getSharedPreferences("optimus_kv", Context.MODE_PRIVATE).getAll().entrySet()) {
+                    if (en.getValue() instanceof String) o.put(en.getKey(), en.getValue());
+                }
+                return o.toString();
+            } catch (Throwable e) {
+                return "{}";
+            }
+        }
+
+        /** Ekranın desteklediği HDR türleri (virgülle ayrılmış). */
+        @JavascriptInterface
+        public String hdrTypes() {
+            try {
+                if (android.os.Build.VERSION.SDK_INT < 24) return "";
+                android.view.Display d = getWindowManager().getDefaultDisplay();
+                android.view.Display.HdrCapabilities hc = d.getHdrCapabilities();
+                if (hc == null) return "";
+                StringBuilder sb = new StringBuilder();
+                for (int ty : hc.getSupportedHdrTypes()) {
+                    String n = ty == 1 ? "Dolby Vision" : ty == 2 ? "HDR10" : ty == 3 ? "HLG" : ty == 4 ? "HDR10+" : null;
+                    if (n != null) { if (sb.length() > 0) sb.append(","); sb.append(n); }
+                }
+                return sb.toString();
+            } catch (Throwable e) {
+                return "";
+            }
+        }
+
         /** "sürümAdı|sürümKodu" döndürür. */
         @JavascriptInterface
         public String appVersion() {
@@ -538,6 +591,104 @@ public class MainActivity extends Activity {
                 // algılanamazsa telefon varsay
             }
             return !getPackageManager().hasSystemFeature("android.hardware.touchscreen");
+        }
+
+        /** Telefon kamerasıyla QR tarar (Google kod tarayıcısı). Sonuç sayfaya __qrResult / __qrFail / __qrCancel ile gelir. */
+        @JavascriptInterface
+        public void scanQr() {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        com.google.mlkit.vision.codescanner.GmsBarcodeScannerOptions opts =
+                                new com.google.mlkit.vision.codescanner.GmsBarcodeScannerOptions.Builder()
+                                        .setBarcodeFormats(com.google.mlkit.vision.barcode.common.Barcode.FORMAT_QR_CODE)
+                                        .build();
+                        com.google.mlkit.vision.codescanner.GmsBarcodeScanner sc =
+                                com.google.mlkit.vision.codescanner.GmsBarcodeScanning.getClient(MainActivity.this, opts);
+                        sc.startScan()
+                                .addOnSuccessListener(new com.google.android.gms.tasks.OnSuccessListener<com.google.mlkit.vision.barcode.common.Barcode>() {
+                                    @Override
+                                    public void onSuccess(com.google.mlkit.vision.barcode.common.Barcode b) {
+                                        String v = b.getRawValue();
+                                        jsCall("__qrResult", v == null ? "" : v);
+                                    }
+                                })
+                                .addOnCanceledListener(new com.google.android.gms.tasks.OnCanceledListener() {
+                                    @Override
+                                    public void onCanceled() {
+                                        jsCall("__qrCancel", "");
+                                    }
+                                })
+                                .addOnFailureListener(new com.google.android.gms.tasks.OnFailureListener() {
+                                    @Override
+                                    public void onFailure(Exception e) {
+                                        jsCall("__qrFail", e.getMessage() == null ? "" : e.getMessage());
+                                    }
+                                });
+                    } catch (Throwable e) {
+                        jsCall("__qrFail", "Kod tarayıcı kullanılamıyor");
+                    }
+                }
+            });
+        }
+
+        private RemoteServer remote;
+
+        /** Uzaktan erişim sunucusunu başlatır; telefonda açılacak adresi döndürür ("" = başarısız). */
+        @JavascriptInterface
+        public String remoteStart() {
+            try {
+                if (remote == null) {
+                    String page = "";
+                    java.io.InputStream in = getAssets().open("remote.html");
+                    java.io.ByteArrayOutputStream bo = new java.io.ByteArrayOutputStream();
+                    byte[] buf = new byte[4096];
+                    int n;
+                    while ((n = in.read(buf)) > 0) bo.write(buf, 0, n);
+                    in.close();
+                    page = new String(bo.toByteArray(), "UTF-8");
+                    remote = new RemoteServer(page, new RemoteServer.Handler() {
+                        @Override
+                        public void onMessage(final String json) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    web.evaluateJavascript("window.__remote&&window.__remote(" + JSONObject.quote(json) + ")", null);
+                                }
+                            });
+                        }
+                    });
+                }
+                return remote.start();
+            } catch (Throwable e) {
+                return "";
+            }
+        }
+
+        @JavascriptInterface
+        public void remoteStop() {
+            try { if (remote != null) remote.stop(); } catch (Throwable e) { }
+        }
+
+        @JavascriptInterface
+        public boolean remoteRunning() {
+            return remote != null && remote.isRunning();
+        }
+
+        @JavascriptInterface
+        public String remoteUrl() {
+            return remote != null && remote.isRunning() ? remote.url() : "";
+        }
+
+        @JavascriptInterface
+        public void exitApp() {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    finishAffinity();
+                }
+            });
         }
 
         @JavascriptInterface
