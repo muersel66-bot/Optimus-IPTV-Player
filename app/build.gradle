@@ -10,8 +10,8 @@ android {
         applicationId 'tr.optimus.iptv'
         minSdk 26
         targetSdk 34
-        versionCode 4510
-        versionName '4.51'
+        versionCode 4590
+        versionName '4.59'
 
         // Boyutu küçültmek için yalnızca telefon/TV işlemci mimarileri
         ndk {
@@ -55,4 +55,9 @@ dependencies {
     implementation 'org.videolan.android:libvlc-all:3.6.0'
     // Telefon kamerasıyla QR tarama (Google Play Hizmetleri kod tarayıcısı; kamera izni gerektirmez)
     implementation 'com.google.android.gms:play-services-code-scanner:16.1.0'
+    // ExoPlayer (Media3): HLS / DASH / MP4 / HEVC / HDR, cihazın donanım çözücüleriyle
+    implementation 'androidx.media3:media3-exoplayer:1.4.1'
+    implementation 'androidx.media3:media3-exoplayer-hls:1.4.1'
+    implementation 'androidx.media3:media3-exoplayer-dash:1.4.1'
+    implementation 'androidx.media3:media3-ui:1.4.1'
 }

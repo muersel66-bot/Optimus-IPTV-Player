@@ -29,7 +29,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
@@ -697,6 +696,35 @@ public class MainActivity extends Activity {
         }
 
         @JavascriptInterface
+        public boolean hasExo() {
+            return true;
+        }
+
+        /** ExoPlayer (Media3) ile oynatır. */
+        @JavascriptInterface
+        public void playExo(final String url, final String name) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ExoActivity p = ExoActivity.instance;
+                    if (p != null) {
+                        p.load(url, name);
+                        if (p.isInPictureInPictureMode()) {
+                            Intent f = new Intent(MainActivity.this, ExoActivity.class);
+                            f.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                            startActivity(f);
+                        }
+                    } else {
+                        Intent i = new Intent(MainActivity.this, ExoActivity.class);
+                        i.putExtra("url", url);
+                        i.putExtra("name", name);
+                        startActivity(i);
+                    }
+                }
+            });
+        }
+
+        @JavascriptInterface
         public void playNative(final String url, final String name) {
             runOnUiThread(new Runnable() {
                 @Override
@@ -704,6 +732,11 @@ public class MainActivity extends Activity {
                     PlayerActivity p = PlayerActivity.instance;
                     if (p != null) {
                         p.load(url, name);
+                        if (p.isInPictureInPictureMode()) {
+                            Intent f = new Intent(MainActivity.this, PlayerActivity.class);
+                            f.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                            startActivity(f);
+                        }
                     } else {
                         Intent i = new Intent(MainActivity.this, PlayerActivity.class);
                         i.putExtra("url", url);

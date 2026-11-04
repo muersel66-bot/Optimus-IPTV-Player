@@ -304,8 +304,55 @@ Ayarlar > Oynatıcıyı Etkinleştir: etkin oynatıcı (VLC / MX Player / uygula
 - Dizi bölüm listesinin başında "Sezonu indir" yanında "⬇ Tüm dizi"; dizi bilgi penceresinde "⬇ İndir".
 - Film posterinde ⬇, bölüm/film satırlarında büyütülmüş ⬇ düğmesi, tam ekranda "⬇ İndir" (v4.44). İndirme yalnızca Android uygulamasında çalışır.
 
+## ExoPlayer (v4.52)
+- Yeni oynatıcı seçeneği: ExoPlayer (AndroidX Media3 1.4.1; HLS, DASH, MP4/MKV, HEVC, HDR; `ExoActivity.java`).
+- Seçim: Player Değiştir / Harici Oynatıcılar / Oynatıcıyı Etkinleştir ve "Motor" düğmesi (VLC → ExoPlayer → MX → Web).
+- Ses, altyazı ve kalite seçimi oynatıcı çubuğundaki ayar düğmesindedir. ExoPlayer yayını çözemezse otomatik VLC'ye geçilir. İndirilen dosyalar da seçili oynatıcıyla açılır.
+- build.gradle'a media3 bağımlılıkları eklendi; ilk derlemede Gradle indirir.
+
+## Ayrıntılı Görünüm (v4.53)
+- Canlı kanallar: her satırda şu anki program (saat aralığı + başlık), ilerleme çubuğu ve "Sonra:" programı (Xtream EPG; ekrandaki satırlar için yavaş yavaş yüklenir). Listenin üstündeki "Ayrıntı: Açık/Kapalı" düğmesiyle kapatılır.
+- Filmler / Diziler: poster kartlarında puan · yıl · tür satırı; "☰ Ayrıntılı liste" düğmesiyle afiş + başlık + puan/yıl/tür/süre + konu özeti olan liste görünümü.
+- Veriler en fazla 3 eşzamanlı istekle ve yalnızca görünen satırlar için alınır.
+
+## Tam Ekranda Sol Kanal Listesi (v4.54)
+- Canlı yayın tam ekranken sol tarafta kanal listesi paneli: ← tuşu (kumanda), alt çubuktaki "☰ Kanallar" düğmesi veya ekranın sol kenarından sağa kaydırma ile açılır.
+- ↑/↓ ile gezilir, TAMAM'la kanal değişir (yayın kesilmeden tam ekranda kalır); → / ← / Geri ile kapanır; 9 sn işlem olmazsa kendiliğinden kapanır.
+- Her satırda numara, logo, kanal adı ve (Xtream'de) şu an oynayan program; mevcut kanal vurgulanır. Çok uzun listelerde "Önceki / Sonraki kanallar" düğmeleri.
+
 ## Notlar
 - Alt sürüm: Android 8.0 (API 26) ve üstü. Android TV'de de açılır.
 - İmza anahtarı (`app/optimus.keystore`) herkese açık örnek bir anahtardır. Kendi anahtarınızı kullanmak için
   `app/build.gradle` içindeki `signingConfigs` bölümünü değiştirin.
 - Oynatıcı kütüphaneleri (hls.js, mpegts.js) internetten yüklenir, cihaz çevrimiçi olmalı.
+
+## Geri Tuşunda Küçük Ekran (v4.55)
+Tam ekran canlı yayında (VLC veya ExoPlayer) **Geri** tuşuna basınca oynatıcı kapanmaz; yayın küçük bir pencereye (Android "Resim içinde Resim") geçer.
+- Android TV'de pencere sağ üst köşeye yerleşir; telefonda sürüklenebilir (konum sistem tarafından belirlenir).
+- Küçük pencere kapatılırsa oynatıcı da kapanır. Pencereye dokununca tam ekrana döner.
+- Uygulamada başka kanal seçilirse küçük pencerede yayın değişir.
+- Cihaz PiP desteklemiyorsa Geri eskisi gibi kapatır.
+
+## Sağ Üstte Mini Oynatıcı (v4.56)
+Tam ekran canlı yayında (web oynatıcı) **Geri / Esc** veya "Mini ekran" düğmesi yayını sağ üst köşede yüzen küçük bir ekrana alır; yayın durmaz, arkada kanal listesi kullanılabilir.
+- ⤢ veya mini ekrana tıklama: tam ekrana döner. ✕: mini ekranı kapatır (yayın durur). Mini ekran açıkken Geri de kapatır.
+- Mini ekran açıkken başka kanal seçilirse yayın değişir (telefonda otomatik tam ekran açıksa tam ekrana geçer).
+- Sadece canlı yayında; film/dizide Geri eskisi gibi çalışır. VLC/ExoPlayer'da v4.55'teki Android PiP kullanılır.
+
+## Kanal Yayın Akışı (v4.57)
+Canlı kanalların program rehberi (yayın akışı). Tam ekran çubuğundaki **📅 Yayın Akışı** veya canlı görünümdeki **Yayın Akışı** düğmesi açar.
+- Günlere ayrılmış program listesi; şu an yayındaki program vurgulu (▶), biten programlar soluk. Açılışta şimdiki programa kaydırır.
+- TV kumandasıyla yukarı/aşağı kaydırılır, Geri kapatır.
+- Veri Xtream sunucusunun EPG bilgisinden gelir (get_simple_data_table, yoksa get_short_epg). M3U kaynaklarında gösterilmez.
+
+## Yayın Bilgileri (v4.58)
+Tam ekran çubuğundaki **ℹ Yayın Bilgisi** veya canlı görünümdeki **Yayın Bilgileri** düğmesi, oynayan yayının ayrıntılarını saniyede bir güncellenen bir pencerede gösterir.
+- Ad, grup, tür, oynatıcı (VLC/ExoPlayer/MX/Web), adres (kullanıcı adı ve şifre gizli), biçim, kalite etiketleri (4K, HDR, Dolby...).
+- Web oynatıcıda: çözünürlük, görüntü/ses kodeği, kare hızı, bit hızı, kalite kademeleri, bant genişliği, ses izleri, tampon, kare kaybı, süre, durum.
+- Xtream canlı kanalda şimdi/sonraki program. **Kopyala** düğmesi bilgileri panoya alır.
+- VLC/ExoPlayer/MX'te çözünürlük ve kodek bilgisi o oynatıcının kendi ekranındadır.
+
+## Tarayıcıda Film ve Dizi İndirme (v4.59)
+Android uygulaması dışında (tarayıcıda/HTML) de **⬇ İndir** düğmeleri çalışır: film ve bölüm doğrudan indirme bağlantısıyla tarayıcıya indirilir. Dizi düğmesi sezon/bölüm listesini açar; tarayıcıda bölümler tek tek indirilir.
+- Android uygulamasında eski davranış sürer: kuyruk, ilerleme, İndirilenler ekranı, toplu sezon/dizi indirme.
+- Tarayıcı, başka bir siteden gelen dosyada dosya adını sunucudan alabilir ya da videoyu yeni sekmede açabilir (sunucu izin vermiyorsa).

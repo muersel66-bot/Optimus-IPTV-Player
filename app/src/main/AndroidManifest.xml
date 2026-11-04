@@ -40,6 +40,17 @@
         <activity
             android:name=".PlayerActivity"
             android:exported="false"
+            android:supportsPictureInPicture="true"
+            android:resizeableActivity="true"
+            android:screenOrientation="sensorLandscape"
+            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout|density|keyboard|navigation|uiMode"
+            android:launchMode="singleTop" />
+
+        <activity
+            android:name=".ExoActivity"
+            android:exported="false"
+            android:supportsPictureInPicture="true"
+            android:resizeableActivity="true"
             android:screenOrientation="sensorLandscape"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout|density|keyboard|navigation|uiMode"
             android:launchMode="singleTop" />

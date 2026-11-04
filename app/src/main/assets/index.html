@@ -540,6 +540,23 @@ body.vodgrid .lmid .ch:focus { box-shadow: 0 0 0 4px #ffe033; transform: scale(1
 .fsb i { font: 700 10px var(--font-body); font-style: normal; position: absolute; margin-top: 2px; }
 .fsb.vod { position: relative; }
 .fsb[hidden] { display: none; }
+.fslist { display: none; }
+body.fsp .stage > #fsList:not([hidden]) { display: flex; flex-direction: column; position: absolute; left: 0; top: 0; bottom: 0; width: min(390px, 44vw); z-index: 6; background: rgba(12,8,36,.92); color: #fff; box-shadow: 4px 0 24px rgba(0,0,0,.5); }
+.fslh { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; font: 700 18px var(--font-display); border-bottom: 1px solid rgba(255,255,255,.15); }
+#fsListUl { list-style: none; margin: 0; padding: 6px; overflow-y: auto; flex: 1; }
+#fsListUl li { margin: 0; }
+.fsl-row { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; background: transparent; border: 0; border-radius: 10px; color: #fff; padding: 8px 10px; min-height: 56px; font: 500 16px var(--font-body); }
+.fsl-row:hover, .fsl-row:focus { background: rgba(255,255,255,.16); outline: 0; box-shadow: 0 0 0 2px #19e3ff inset; }
+.fsl-row[aria-current="true"] { background: linear-gradient(100deg, #7a22d8, #c01fb4); color: #ffe033; }
+.fsl-row .fn { width: 30px; text-align: center; font-size: 13px; opacity: .8; flex: 0 0 30px; }
+.fsl-row .fl { width: 38px; height: 38px; border-radius: 8px; background: rgba(255,255,255,.12); display: flex; align-items: center; justify-content: center; overflow: hidden; flex: 0 0 38px; font-weight: 700; }
+.fsl-row .fl img { width: 100%; height: 100%; object-fit: contain; }
+.fsl-row .ft { min-width: 0; flex: 1; }
+.fsl-row .ft b { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 600; }
+.fsl-row .ft small { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 12px; opacity: .8; }
+.fsl-more { display: block; width: 100%; padding: 10px; margin: 4px 0; background: rgba(255,255,255,.1); border: 0; border-radius: 8px; color: #fff; }
+.fsl-more:focus { outline: 0; box-shadow: 0 0 0 2px #19e3ff inset; }
+
 #fsVol { width: clamp(70px, 9vw, 130px); accent-color: #19e3ff; }
 #fsStats { position: absolute; left: 14px; top: 70px; z-index: 5; margin: 0; padding: 10px 14px; border-radius: 8px; background: rgba(0,0,0,.65); color: #9ff; font: 500 13px/1.5 var(--font-mono); pointer-events: none; }
 #fsStats[hidden], #fsToast[hidden] { display: none; }
@@ -644,6 +661,17 @@ body.fsp .stage:not(.fsvis) { cursor: none; }
 .fsb.txt { border-radius: 22px; }
 #fsSeek { width: 100%; accent-color: #19e3ff; }
 body.fsp .stage video { object-fit: contain; }
+
+/* ---------- sağ üstte yüzen mini oynatıcı ---------- */
+#miniBar { display: none; }
+body.mini .stage { position: fixed; top: 12px; right: 12px; left: auto; bottom: auto; width: min(360px, 46vw); height: auto; max-height: none; aspect-ratio: 16 / 9; z-index: 900; margin: 0; border: 2px solid rgba(25,227,255,.7); border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,.65); background: #000; overflow: hidden; cursor: pointer; }
+body.mini .stage video { width: 100%; height: 100%; object-fit: contain; }
+body.mini .fsopen, body.mini .stage > #fsSkip, body.mini .stage > #fsStats, body.mini .stage > #fsToast { display: none !important; }
+body.mini #miniBar { display: flex; position: absolute; top: 4px; right: 4px; gap: 6px; z-index: 5; }
+#miniBar button { width: 34px; height: 34px; border-radius: 50%; border: 0; background: rgba(0,0,0,.65); color: #fff; font: 700 16px var(--font-body); display: grid; place-items: center; }
+#miniBar button:focus { outline: 0; box-shadow: 0 0 0 2px #19e3ff; }
+body.tv.mini .stage { top: 18px; right: 24px; width: min(380px, 40vw); }
+body.tv #miniBar button { width: 42px; height: 42px; }
 
 /* ---------- TV: sağ üstte küçük ekran / büyük ekran ---------- */
 .fsopen { display: flex; align-items: center; width: auto; gap: 6px; padding: 0 12px 0 9px; }
@@ -762,6 +790,29 @@ body.set-open { background: radial-gradient(ellipse 80% 50% at 90% 100%, rgba(25
 .sbulb { position: absolute; top: 8px; right: 10px; font-style: normal; font-size: 18px; }
 @media (max-width: 1000px) { .setgrid { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 700px) { #settings { padding: 12px 14px 30px; } .setgrid { grid-template-columns: repeat(2, 1fr); gap: 10px; } .stile { padding: 10px 14px; gap: 12px; min-height: 76px; } .stile svg { width: 26px; height: 26px; } }
+.ldet { display: flex; justify-content: flex-end; padding: 0 12px 4px; }
+.ldet .btn { padding: 5px 12px; font-size: 13px; border-radius: 14px; }
+.nowp { display: none; margin-top: 3px; font-size: clamp(11px, 1.15vw, 15px); line-height: 1.3; color: #d9def5; }
+.nowp .np-t { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nowp .np-n { color: #9aa3c9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nowp .np-bar { height: 3px; background: rgba(255,255,255,.22); border-radius: 2px; margin: 3px 0; overflow: hidden; }
+.nowp .np-bar i { display: block; height: 100%; background: #ffe033; width: 0; }
+body.detlive .lmid .ch .nowp { display: block; }
+body.detlive .lmid .ch:has(.nowp) { min-height: 78px; }
+.lmid .ch[aria-current="true"] .nowp, .lmid .ch[aria-current="true"] .nowp .np-n { color: #fff; }
+.vdet { display: none; }
+body.vodgrid .lmid .ch .vdet { display: block; padding-top: 3px; }
+body.vodgrid .lmid .ch .vd-l { font-size: clamp(11px, 1.1vw, 15px); color: #cfd6f7; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+body.vodgrid .lmid .ch .vd-p { display: none; }
+body.vodgrid.vlist .lmid .list { grid-template-columns: 1fr; gap: 10px; }
+@media (min-width: 1100px) { body.vodgrid.vlist .lmid .list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+body.vodgrid.vlist .lmid .ch { flex-direction: row; align-items: stretch; min-height: 150px; }
+body.vodgrid.vlist .lmid .ch .logo { width: 100px; height: 150px; padding-bottom: 0; flex: 0 0 100px; }
+body.vodgrid.vlist .lmid .ch .meta { flex: 1; min-width: 0; padding: 10px 44px 10px 12px; }
+body.vodgrid.vlist .lmid .ch .meta b { white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; font-size: clamp(15px, 1.6vw, 21px); }
+body.vodgrid.vlist .lmid .ch .vd-l { margin: 4px 0; color: #ffe033; }
+body.vodgrid.vlist .lmid .ch .vd-p { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; font-size: clamp(12px, 1.2vw, 16px); line-height: 1.4; color: #d9def5; }
+body.vodgrid.vlist .lmid .ch .fmts { display: none; }
 body.compact .lmid .ch { min-height: 44px; }
 body.compact .lmid .ch .meta span { display: none; }
 body.noposters #homeRows { display: none; }
@@ -912,6 +963,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
     </aside>
 
     <section class="col lmid" aria-label="Kanal listesi">
+      <div class="ldet"><button type="button" class="btn ghost" id="detBtn"></button></div>
       <div class="lvodbar"><select id="vodSort" class="field" aria-label="Sıralama"><option value="add">Eklenenlere göre sırala</option><option value="az">A → Z</option><option value="za">Z → A</option><option value="rate">Puana göre</option></select><b id="vodTitle"></b></div>
       <h2 class="ltitle" id="lTitle">Tümü</h2>
       <div class="count"><span id="countTxt">0 kanal</span><span id="favCount"></span></div>
@@ -923,9 +975,13 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
       <video id="video" controls playsinline autoplay></video>
       <div class="badge" id="badge" hidden><i></i>Canlı</div>
       <div class="status" id="status"></div>
-      <button type="button" id="fsSkip" hidden>İntroyu Atla ›</button><pre id="fsStats" hidden></pre><div id="fsToast" hidden></div>
+      <div id="miniBar"><button type="button" id="miniMax" aria-label="Tam ekran" title="Tam ekran">⤢</button><button type="button" id="miniX" aria-label="Mini oynatıcıyı kapat" title="Kapat">✕</button></div><button type="button" id="fsSkip" hidden>İntroyu Atla ›</button><pre id="fsStats" hidden></pre><div id="fsToast" hidden></div>
       <button type="button" class="fsopen" id="fsOpen" aria-label="Büyük ekran" title="Büyük ekran"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5 M20 9V4h-5 M4 15v5h5 M20 15v5h-5"/></svg><span>Büyük ekran</span></button>
-      <div class="fsbar" id="fsTop"><button type="button" class="fsb txt" id="fsBack" aria-label="Küçük ekran"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg><span>Küçük ekran</span></button><div class="fst"><b id="fsName"></b><small id="fsInfo"></small></div><span id="fsClock"></span></div>
+      <aside class="fslist" id="fsList" hidden aria-label="Kanal listesi">
+        <div class="fslh"><b id="fslTitle">Kanallar</b><button type="button" class="fsb" id="fslClose" aria-label="Kapat">✕</button></div>
+        <ul id="fsListUl"></ul>
+      </aside>
+      <div class="fsbar" id="fsTop"><button type="button" class="fsb txt" id="fsBack" aria-label="Mini ekran"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg><span>Mini ekran</span></button><div class="fst"><b id="fsName"></b><small id="fsInfo"></small></div><span id="fsClock"></span></div>
       <div class="fsbar fsbot" id="fsCtl">
         <input type="range" id="fsSeek" min="0" max="1000" value="0" aria-label="Konum">
         <div class="fsrow">
@@ -935,6 +991,9 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
           <button type="button" class="fsb" id="fsNext" aria-label="Sonraki kanal"><svg viewBox="0 0 24 24"><path d="M18 5v14 M5 5l9 7-9 7z"/></svg></button>
           <button type="button" class="fsb vod" id="fsFwd10" aria-label="10 sn ileri"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-3-6.2"/><path d="M20 4v5h-5"/></svg><i>10</i></button>
           <span class="fsgrow"></span>
+          <button type="button" class="fsb txt" id="fsLst">☰ Kanallar</button>
+          <button type="button" class="fsb txt" id="fsSi">ℹ Yayın Bilgisi</button>
+          <button type="button" class="fsb txt" id="fsEpg" hidden>📅 Yayın Akışı</button>
           <button type="button" class="fsb txt vod" id="fsInfoB" hidden>ℹ Konu</button>
           <button type="button" class="fsb txt vod" id="fsDl" hidden>⬇ İndir</button>
           <button type="button" class="fsb txt" id="fsPro">⚙ Pro</button>
@@ -958,7 +1017,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
       <div class="epgnext" id="epgNext"></div>
       <div class="epgl" id="epgList"></div>
     </div>
-    <div class="lact3"><button type="button" class="lb3" id="bPlayer">Oynatıcı</button><button type="button" class="lb3" id="bCap">Yakala</button><button type="button" class="lb3" id="bFav">Favorilere Ekle</button><button type="button" class="lb3" id="bFind">Arama</button></div>
+    <div class="lact3"><button type="button" class="lb3" id="bPlayer">Oynatıcı</button><button type="button" class="lb3" id="bCap">Yakala</button><button type="button" class="lb3" id="bFav">Favorilere Ekle</button><button type="button" class="lb3" id="bEpg">Yayın Akışı</button><button type="button" class="lb3" id="bInfo">Yayın Bilgileri</button><button type="button" class="lb3" id="bFind">Arama</button></div>
     <div class="vctl">
       <label for="speed">Hız</label>
       <select id="speed" class="field">
@@ -1222,7 +1281,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
       if (m.trailer) b.appendChild(el("p", "hint", "Fragman: youtube.com/watch?v=" + m.trailer));
       var r = el("div", "row");
       r.appendChild(btn(c.kind === "series" ? "Bölümleri aç" : "▶ Oynat", function () { sdClose(); if (c.kind === "series") openSeries(c); else openItem(c); }));
-      if (HAS_DL && c.kind === "series" && c.seriesId) r.appendChild(btn("⬇ İndir", function () { sdClose(); dlgSeriesDl(c); }, true));
+      if (c.kind === "series" && c.seriesId && (HAS_DL || XT)) r.appendChild(btn("⬇ İndir", function () { sdClose(); dlgSeriesDl(c); }, true));
       if (canDl(c)) r.appendChild(btn(dlOf(c.url) ? "İndirme: " + dlBtnText(c.url) : "⬇ İndir", function () { dlClick(c); sdRender(); }, true));
       r.appendChild(btn(favs[c.url] ? "♥ Favoride" : "♡ Favori", function () { toggleFav(c); sdRender(); }, true));
       b.appendChild(r);
@@ -1288,13 +1347,20 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
     });
   }
   function dlgSeriesDl(c) {
-    if (!HAS_DL) { say("İndirme yalnızca Android uygulamasında çalışır."); return; }
     if (!XT) { say("Dizi bilgisi alınamadı.", "Xtream girişi gerekli."); return; }
     var data = null, err = "";
     sdOpen("Diziyi İndir", function (b) {
       b.appendChild(el("p", "", c.name));
       if (err) { b.appendChild(el("p", "hint bad", err)); return; }
       if (!data) { b.appendChild(el("p", "hint", "Bölümler alınıyor…")); return; }
+      if (!HAS_DL) {
+        b.appendChild(el("p", "hint", "Tarayıcıda bölümler tek tek indirilir."));
+        data.seasons.forEach(function (sn) {
+          var h = el("p", "", "Sezon " + sn); h.style.cssText = "margin:10px 0 4px;font-weight:700"; b.appendChild(h);
+          data.map[sn].forEach(function (e) { var r = el("div", "row"); r.style.cssText = "align-items:center;gap:8px;margin:3px 0"; var t = el("span", "", e.name); t.style.cssText = "flex:1;min-width:0"; r.append(t, btn("⬇", function () { webDl(e); }, true)); b.appendChild(r); });
+        });
+        return;
+      }
       var all = []; data.seasons.forEach(function (sn) { all = all.concat(data.map[sn]); });
       function queue(list, label) {
         var n = list.filter(function (e) { return !dlOf(e.url); });
@@ -1422,8 +1488,86 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
     renderList();
   }
 
+  /* ---------- ayrıntılı görünüm: canlı kanalda şimdi/sonra program, film/dizide puan-yıl-tür-konu ---------- */
+  var DET_LIVE = store("sinyal.detail") !== "0", VLIST = store("sinyal.vlist") === "1", DQ = [], DRUN = 0, EPGC = {}, DOBS = null;
+  function detJob(fn) { DQ.push(fn); detPump(); }
+  function detPump() { while (DRUN < 3 && DQ.length) { var f = DQ.shift(); DRUN++; f(function () { DRUN--; detPump(); }); } }
+  function isLiveCh(c) { return !!XT && c.kind !== "movie" && c.kind !== "series" && c.kind !== "episode" && /\/live\/[^\/]+\/[^\/]+\/\d+/.test(c.url || ""); }
+  function epgNow(c) {
+    var id = (c.url.match(/\/live\/[^\/]+\/[^\/]+\/(\d+)/) || [])[1]; if (!id) return Promise.resolve(null);
+    var h = EPGC[id]; if (h && Date.now() - h.t < 120000) return Promise.resolve(h.v);
+    return xtGet(xtApi() + "&action=get_short_epg&stream_id=" + id + "&limit=3").then(function (js) {
+      var l = (js && js.epg_listings) || [], now = Date.now() / 1000, i = -1;
+      for (var k = 0; k < l.length; k++) if (Number(l[k].start_timestamp) <= now && now < Number(l[k].stop_timestamp)) { i = k; break; }
+      var v = i < 0 ? null : { cur: l[i], next: l[i + 1] || null }; EPGC[id] = { t: Date.now(), v: v }; return v;
+    }).catch(function () { return null; });
+  }
+  function fillLive(li, c, done) {
+    epgNow(c).then(function (v) {
+      var t = li.querySelector(".np-t"), n = li.querySelector(".np-n"), bar = li.querySelector(".np-bar i"); if (!t) { done(); return; }
+      if (!v) { t.textContent = "Program bilgisi yok"; li.classList.add("np-none"); done(); return; }
+      var a = Number(v.cur.start_timestamp), z = Number(v.cur.stop_timestamp), pc = Math.max(0, Math.min(100, Math.round((Date.now() / 1000 - a) * 100 / Math.max(1, z - a))));
+      t.textContent = "▶ " + hm(a) + "–" + hm(z) + "  " + b64d(v.cur.title); bar.style.width = pc + "%"; li.querySelector(".np-bar").hidden = false;
+      n.textContent = v.next ? "Sonra: " + hm(v.next.start_timestamp) + "  " + b64d(v.next.title) : ""; done();
+    });
+  }
+  function vodLine(c) {
+    var m = c.meta || {}, a = [], r = m.rating && +m.rating > 0 ? m.rating : (c.rating && +c.rating > 0 ? c.rating : "");
+    if (r) a.push("★ " + (+r).toFixed(1));
+    var y = (m.release || "").match(/(19|20)\d\d/); if (y) a.push(y[0]);
+    if (m.genre) a.push(m.genre.split(/[,\/]/).slice(0, 2).map(function (x) { return x.trim(); }).filter(Boolean).join(", "));
+    if (m.duration && c.kind === "movie") a.push(m.duration.replace(/^00:/, ""));
+    return a.join(" · ");
+  }
+  function fillVod(li, c) {
+    var l = li.querySelector(".vd-l"), p = li.querySelector(".vd-p"); if (!l) return;
+    l.textContent = vodLine(c); p.textContent = (c.meta && c.meta.plot) || "";
+  }
+  function detFor(li, c) {
+    var m = li.querySelector(".meta"); if (!m) return;
+    if (isLiveCh(c)) {
+      if (!DET_LIVE) return;
+      var np = document.createElement("div"); np.className = "nowp";
+      var t = document.createElement("div"); t.className = "np-t"; t.textContent = ""; 
+      var bar = document.createElement("div"); bar.className = "np-bar"; bar.hidden = true; bar.appendChild(document.createElement("i"));
+      var n = document.createElement("div"); n.className = "np-n";
+      np.append(t, bar, n); m.appendChild(np); li._det = "live";
+    } else if (c.kind === "movie" || c.kind === "series") {
+      var vd = document.createElement("div"); vd.className = "vdet";
+      var l = document.createElement("div"); l.className = "vd-l"; var p = document.createElement("div"); p.className = "vd-p";
+      vd.append(l, p); m.appendChild(vd); li._det = "vod"; fillVod(li, c);
+    } else return;
+    li._c = c;
+    if (!window.IntersectionObserver) return;
+    if (!DOBS) DOBS = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return; var li2 = e.target; DOBS.unobserve(li2); var c2 = li2._c; if (!c2 || !li2.isConnected) return;
+        if (li2._det === "live") detJob(function (done) { fillLive(li2, c2, done); });
+        else {
+          var need = c2.vodId ? !(c2.metaDone || (c2.meta && c2.meta.plot)) : !!c2.seriesId && !(c2.meta && (c2.meta.plot || c2.meta.genre));
+          if (!need) { fillVod(li2, c2); return; }
+          detJob(function (done) { fetchMeta(c2).then(function () { fillVod(li2, c2); done(); }); });
+        }
+      });
+    }, { root: $("list"), rootMargin: "300px 0px" });
+    DOBS.observe(li);
+  }
+  function detSync() {
+    document.body.classList.toggle("vlist", VLIST);
+    document.body.classList.toggle("detlive", DET_LIVE);
+    var b = $("detBtn"); if (!b) return;
+    if (sec === "live") b.textContent = "Ayrıntı: " + (DET_LIVE ? "Açık" : "Kapalı");
+    else if (sec === "movie" || sec === "series") b.textContent = VLIST ? "▦ Poster görünümü" : "☰ Ayrıntılı liste";
+    b.hidden = seriesOpen ? true : false;
+  }
+  $("detBtn").onclick = function () {
+    if (sec === "live") { DET_LIVE = !DET_LIVE; store("sinyal.detail", DET_LIVE ? "1" : "0"); }
+    else { VLIST = !VLIST; store("sinyal.vlist", VLIST ? "1" : "0"); }
+    detSync(); renderList();
+  };
+
   function renderList() {
-    var ul = $("list"); ul.textContent = ""; gridSync();
+    var ul = $("list"); ul.textContent = ""; gridSync(); if (DOBS) { DOBS.disconnect(); DOBS = null; } DQ.length = 0; detSync();
     $("vodTitle").textContent = group + "(" + view.length + ")";
     var noun = seriesOpen ? "bölüm" : { live: "kanal", movie: "film", series: "dizi" }[sec];
     var total = seriesOpen ? (seriesOpen.map[seriesOpen.season] || []).length : (counts[sec] || 0);
@@ -1479,7 +1623,8 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
       ibt.onclick = function (ev) { ev.stopPropagation(); dlgInfo(c); };
       li.appendChild(ibt);
     }
-    if (HAS_DL && c.seriesId) {
+    detFor(li, c);
+    if (c.seriesId && (HAS_DL || XT)) {
       var ds = document.createElement("button"); ds.type = "button"; ds.className = "dlb dls"; ds.textContent = "⬇"; ds.setAttribute("aria-label", "Diziyi indir");
       ds.onclick = function (ev) { ev.stopPropagation(); dlgSeriesDl(c); };
       li.appendChild(ds);
@@ -1548,13 +1693,14 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
   /* VLC motoru (yalnızca uygulamada): Dolby Digital / Dolby Digital Plus / DTS dahil tüm sesleri çözer */
   function engine() {
     if (!(window.Native && Native.hasVlc)) return "web";
-    var e = store("sinyal.engine"); return e === "web" || e === "mx" ? e : "vlc";
+    var e = store("sinyal.engine"); if (e === "exo" && Native.hasExo && Native.hasExo()) return "exo"; return e === "web" || e === "mx" ? e : "vlc";
   }
   function vlcOn() { return engine() === "vlc"; }
   function mxOn() { return engine() === "mx"; }
+  function exoOn() { return engine() === "exo"; }
   function extOn() { return engine() !== "web"; }
   function openExternal(url, name) {
-    if (mxOn()) Native.playMx(url, name); else Native.playNative(url, name);
+    if (mxOn()) Native.playMx(url, name); else if (exoOn()) Native.playExo(url, name); else Native.playNative(url, name);
   }
   function liveFmt(url) {
     var f = store("sinyal.livefmt");
@@ -1589,7 +1735,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
     if (loc) {
       try { video.pause(); } catch (e) {}
       destroyHls(); badge.hidden = true;
-      Native.playNative(loc, curName());
+      openExternal(loc, curName());
       say("İndirilen dosyadan oynatılıyor (çevrimdışı).", "Geri tuşu bu ekrana döndürür.");
       return;
     }
@@ -2086,7 +2232,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
     var eb = $("engineBtn");
     if (!(window.Native && Native.hasVlc)) { window.__engSync = function () { if (window.__engSyncBtn) window.__engSyncBtn(); }; return; }
     eb.hidden = false;
-    var names = { vlc: "VLC", mx: "MX Player", web: "Web" }, nextE = { vlc: "mx", mx: "web", web: "vlc" };
+    var HX = !!(Native.hasExo && Native.hasExo()), names = { vlc: "VLC", exo: "ExoPlayer", mx: "MX Player", web: "Web" }, nextE = HX ? { vlc: "exo", exo: "mx", mx: "web", web: "vlc" } : { vlc: "mx", mx: "web", web: "vlc" };
     function sync() { eb.textContent = "Motor: " + names[engine()]; if (window.__engSyncBtn) window.__engSyncBtn(); }
     sync(); window.__engSync = sync;
     eb.onclick = function () { store("sinyal.engine", nextE[engine()]); sync(); if (current > -1) play(current); };
@@ -2118,7 +2264,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
   try { dls = JSON.parse(store("sinyal.dl") || "[]") || []; } catch (e) { dls = []; }
   function saveDls() { store("sinyal.dl", JSON.stringify(dls)); }
   function dlOf(url) { for (var i = 0; i < dls.length; i++) if (dls[i].url === url) return dls[i]; return null; }
-  function canDl(c) { return HAS_DL && /^https?:\/\//i.test(c.url) && (c.kind === "movie" || c.kind === "episode" || (c.kind === "series" && !c.seriesId)); }
+  function canDl(c) { return /^https?:\/\//i.test(c.url) && (c.kind === "movie" || c.kind === "episode" || (c.kind === "series" && !c.seriesId)); }
   function localFor(url) { var d = dlOf(url); return d && d.st === "done" && d.local ? d.local : ""; }
   function mkFile(c) {
     var ext = (c.url.split("?")[0].match(/\.([a-z0-9]{2,4})$/i) || [0, "mp4"])[1].toLowerCase();
@@ -2164,7 +2310,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
     fsDlSync();
     if (sec === "dl" && !seriesOpen) renderDownloads();
   }
-  function fsInfoSync() { var b = $("fsInfoB"); if (!b) return; var c = channels[current]; b.hidden = !(c && c.kind !== "live" && hasMeta(c)); }
+  function fsInfoSync() { var lb = $("fsLst"); if (lb) lb.hidden = document.body.classList.contains("vodgrid") || view.length < 2; if (FSL && FSL.open) fsListMark(); var b = $("fsInfoB"); if (!b) return; var c = channels[current]; b.hidden = !(c && c.kind !== "live" && hasMeta(c)); var eb = $("fsEpg"); if (eb) eb.hidden = !(c && isLiveCh(c)); }
   function fsDlSync() {
     fsInfoSync();
     var b = $("fsDl"); if (!b) return; var c = channels[current];
@@ -2172,10 +2318,17 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
     b.hidden = false; var d = dlOf(c.url);
     b.textContent = !d ? "⬇ İndir" : d.st === "done" ? "✓ İndirildi" : d.st === "failed" ? "⚠ Tekrar dene" : "⬇ " + dlBtnText(c.url) + " · iptal";
   }
+  /* tarayıcıda (Android uygulaması dışında): dosyayı doğrudan indirme bağlantısıyla başlat */
+  function webDl(c) {
+    var a = document.createElement("a"); a.href = c.url; a.download = mkFile(c); a.target = "_blank"; a.rel = "noopener noreferrer"; a.style.display = "none";
+    document.body.appendChild(a); a.click(); setTimeout(function () { a.remove(); }, 1000);
+    say("İndirme başlatıldı.", c.name + " — tarayıcınızın indirilenler bölümüne bakın.");
+  }
   function dlClick(c) {
+    if (!HAS_DL) { webDl(c); return; }
     var d = dlOf(c.url);
     if (!d) { enqueueDl(c); tickDl(); return; }
-    if (d.st === "done" && d.local) { Native.playNative(d.local, d.name); return; }
+    if (d.st === "done" && d.local) { openExternal(d.local, d.name); return; }
     removeDl(d, true);
     if (d.st === "failed") { enqueueDl(c); tickDl(); } else updateDlUi();
   }
@@ -2218,7 +2371,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
       if (d.st === "done") { var sz2 = document.createElement("span"); sz2.className = "dsub"; sz2.textContent = fmtBytes(d.total || d.bytes); li.appendChild(sz2); }
       var row = document.createElement("div"); row.className = "row";
       function b(txt, fn, ghost) { var x = document.createElement("button"); x.type = "button"; x.className = "btn" + (ghost ? " ghost" : ""); x.textContent = txt; x.onclick = fn; row.appendChild(x); }
-      if (d.st === "done") b("Oynat", function () { Native.playNative(d.local, d.name); });
+      if (d.st === "done") b("Oynat", function () { openExternal(d.local, d.name); });
       if (d.st === "failed") b("Yeniden dene", function () { var c = { url: d.url, name: d.name, group: d.group, logo: d.logo, kind: d.kind }; removeDl(d, true); enqueueDl(c); tickDl(); });
       b(d.st === "done" || d.st === "failed" ? "Sil" : "İptal", function () { removeDl(d, true); updateDlUi(); }, true);
       li.appendChild(row); ul.appendChild(li);
@@ -2228,7 +2381,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
   setInterval(tickDl, 2000);
 
   /* ---------- ayarlar: kategoriler, gizli, güncelleme, destek ---------- */
-  var APP_VERSION = "4.51";
+  var APP_VERSION = "4.59";
   var hiddenCats = {}, unlocked = false, mTab = "home", mSec = "live", mMsg = "";
   try { hiddenCats = JSON.parse(store("sinyal.hidden") || "{}") || {}; } catch (e) { hiddenCats = {}; }
   function hKey(kind, g) { return kind + "|" + g; }
@@ -3102,27 +3255,93 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
     if (!live && !$("fsSeek").matches(":active")) $("fsSeek").value = Math.round(video.currentTime / video.duration * 1000) || 0;
     $("fsClock").textContent = tstr(new Date());
   }
+  /* ---------- tam ekranda sol kanal listesi ---------- */
+  var FSL = { open: false, a: 0, b: 0, t: 0 };
+  function fsListTimer() { clearTimeout(FSL.t); FSL.t = setTimeout(fsListClose, 9000); }
+  function fsListClose() { FSL.open = false; clearTimeout(FSL.t); var l = $("fsList"); if (l) l.hidden = true; }
+  function fsListMark() { var cur = String(current); Array.prototype.forEach.call($("fsListUl").querySelectorAll(".fsl-row"), function (b) { b.setAttribute("aria-current", String(b.dataset.id === cur)); }); }
+  function fsListRender(focusCur) {
+    var ul = $("fsListUl"); ul.textContent = ""; $("fslTitle").textContent = (seriesOpen ? seriesOpen.c.name : group) + " · " + view.length;
+    function more(txt, fn) { var li = document.createElement("li"), b = document.createElement("button"); b.type = "button"; b.className = "fsl-more"; b.textContent = txt; b.onclick = function () { fn(); fsListTimer(); }; li.appendChild(b); ul.appendChild(li); }
+    if (FSL.a > 0) more("▲ Önceki kanallar", function () { FSL.a = Math.max(0, FSL.a - 60); fsListRender(false); });
+    for (var i = FSL.a; i < FSL.b; i++) (function (c, i) {
+      var li = document.createElement("li"), b = document.createElement("button"); b.type = "button"; b.className = "fsl-row"; b.dataset.id = c.id;
+      var n = document.createElement("span"); n.className = "fn"; n.textContent = String(i + 1);
+      var lg = document.createElement("span"); lg.className = "fl"; lg.textContent = (c.name.trim()[0] || "?").toUpperCase();
+      if (c.logo && /^https?:/i.test(c.logo)) { var im = new Image(); im.alt = ""; im.referrerPolicy = "no-referrer"; im.onload = function () { lg.textContent = ""; lg.appendChild(im); }; im.src = c.logo; }
+      var t = document.createElement("span"); t.className = "ft"; var nb = document.createElement("b"); nb.textContent = c.name; var sm = document.createElement("small"); sm.textContent = c.group; t.append(nb, sm);
+      b.append(n, lg, t);
+      b.onclick = function () { play(c.id); fsSync(); fsListMark(); fsShow(); fsListTimer(); };
+      li.appendChild(b); ul.appendChild(li);
+      if (isLiveCh(c)) detJob(function (done) { epgNow(c).then(function (v) { if (v && sm.isConnected) sm.textContent = "▶ " + hm(v.cur.start_timestamp) + "  " + b64d(v.cur.title); done(); }); });
+    })(view[i], i);
+    if (FSL.b < view.length) more("▼ Sonraki kanallar", function () { FSL.b = Math.min(view.length, FSL.b + 60); fsListRender(false); });
+    fsListMark();
+    if (focusCur) { var cb = ul.querySelector('.fsl-row[aria-current="true"]') || ul.querySelector(".fsl-row"); if (cb) { cb.focus({ preventScroll: true }); cb.scrollIntoView({ block: "center" }); } }
+  }
+  function fsListOpen() {
+    if (!fsIsOpen() || !view.length || document.body.classList.contains("vodgrid")) return;
+    var idx = -1; for (var i = 0; i < view.length; i++) if (view[i].id === current) { idx = i; break; } if (idx < 0) idx = 0;
+    FSL.a = Math.max(0, idx - 20); FSL.b = Math.min(view.length, idx + 100); FSL.open = true; $("fsList").hidden = false; DQ.length = 0; fsListRender(true); fsListTimer();
+  }
+  $("fsLst").onclick = function () { if (FSL.open) fsListClose(); else fsListOpen(); };
+  $("fslClose").onclick = fsListClose;
+  $("fsList").addEventListener("mousemove", function () { if (FSL.open) fsListTimer(); });
+  (function () { var x0 = -1, y0 = 0; var st = $("stage");
+    st.addEventListener("touchstart", function (e) { var t = e.touches[0]; x0 = t.clientX < 40 ? t.clientX : -1; y0 = t.clientY; }, { passive: true });
+    st.addEventListener("touchend", function (e) { if (x0 < 0 || !fsIsOpen()) return; var t = e.changedTouches[0]; if (t.clientX - x0 > 60 && Math.abs(t.clientY - y0) < 80) fsListOpen(); x0 = -1; }, { passive: true });
+  })();
+
+  /* ---------- sağ üstte mini oynatıcı (tam ekranda Geri) ---------- */
+  function miniOn() { return document.body.classList.contains("mini"); }
+  function miniOff() { if (!miniOn()) return false; document.body.classList.remove("mini"); video.controls = true; return true; }
+  function miniOpen() {
+    if (!fsIsOpen()) return false;
+    if (!isLive() || document.body.classList.contains("vodgrid") || !channels[current]) return false;
+    fsClose(); document.body.classList.add("mini"); video.controls = false;
+    if (video.paused) video.play().catch(function () {});
+    setTimeout(function () { if (IS_TV && miniOn()) { var m = $("miniMax"); if (m) try { m.focus(); } catch (e) {} } }, 50);
+    return true;
+  }
+  function fsBackKey() { if (!miniOpen()) fsClose(); }
+  $("miniMax").onclick = function (e) { e.stopPropagation(); fsOpen(); };
+  $("miniX").onclick = function (e) { e.stopPropagation(); miniOff(); try { video.pause(); } catch (x) {} };
+  $("stage").addEventListener("click", function (e) { if (miniOn() && !e.target.closest("#miniBar") && !e.target.closest(".fsbar")) fsOpen(); });
+  document.addEventListener("keydown", function (e) {
+    if (!miniOn() || e.key !== "Escape") return;
+    if (!$("modal").hidden || !$("sdlg").hidden) return;
+    miniOff(); try { video.pause(); } catch (x) {} e.preventDefault(); e.stopPropagation();
+  }, true);
+
   function fsOpen() {
-    if (fsIsOpen()) return; document.body.classList.add("fsp"); video.controls = false; video.style.objectFit = ["contain", "cover", "fill"][fsFit]; $("fsAspect").textContent = ["Sığdır", "Doldur", "Uzat"][fsFit]; fsSync(); fsShow();
+    if (fsIsOpen()) return; miniOff(); document.body.classList.add("fsp"); video.controls = false; video.style.objectFit = ["contain", "cover", "fill"][fsFit]; $("fsAspect").textContent = ["Sığdır", "Doldur", "Uzat"][fsFit]; fsSync(); fsShow();
     if (IS_TV) setTimeout(function () { if (fsIsOpen()) $("fsPlay").focus(); }, 400);
   }
-  function fsClose() { if (!fsIsOpen()) return; document.body.classList.remove("fsp"); if (document.body.classList.contains("vodgrid")) { try { video.pause(); } catch (e) {} } setTimeout(function () { var a = document.activeElement; if (a && a !== document.body && a.offsetParent !== null && !a.closest(".fsbar")) return; var t = document.querySelector(".ch[aria-current=\"true\"]") || $("fsOpen"); if (t && t.offsetParent !== null) { try { t.focus(); } catch (e) {} } }, 0); $("stage").classList.remove("fsvis"); video.controls = true; clearTimeout(fsTimer); }
+  function fsClose() { if (!fsIsOpen()) return; fsListClose(); document.body.classList.remove("fsp"); if (document.body.classList.contains("vodgrid")) { try { video.pause(); } catch (e) {} } setTimeout(function () { var a = document.activeElement; if (a && a !== document.body && a.offsetParent !== null && !a.closest(".fsbar")) return; var t = document.querySelector(".ch[aria-current=\"true\"]") || $("fsOpen"); if (t && t.offsetParent !== null) { try { t.focus(); } catch (e) {} } }, 0); $("stage").classList.remove("fsvis"); video.controls = true; clearTimeout(fsTimer); }
   function fsMaybe(id, same) { var c = channels[id]; if (!c || extOn() || (HAS_DL && localFor(c.url))) return; if (document.body.classList.contains("vodgrid")) { fsOpen(); return; } if (IS_TV) { if (same) fsOpen(); return; } if (fsAuto()) fsOpen(); }
-  $("fsOpen").onclick = fsOpen; $("fsBack").onclick = fsClose;
+  $("fsOpen").onclick = fsOpen; $("fsBack").onclick = fsBackKey;
   $("fsPrev").onclick = function () { step(-1); fsShow(); }; $("fsNext").onclick = function () { step(1); fsShow(); };
   $("fsPlay").onclick = function () { if (video.paused) video.play().catch(function () {}); else video.pause(); fsSync(); fsShow(); };
   $("fsMute").onclick = function () { video.muted = !video.muted; fsShow(); };
   $("fsAspect").onclick = function () { fsFit = (fsFit + 1) % 3; var m = ["contain", "cover", "fill"][fsFit]; video.style.objectFit = m; $("fsAspect").textContent = ["Sığdır", "Doldur", "Uzat"][fsFit]; fsShow(); };
   $("fsSeek").oninput = function () { if (isFinite(video.duration)) video.currentTime = video.duration * this.value / 1000; fsShow(); };
-  $("stage").addEventListener("click", function (e) { if (!fsIsOpen() || e.target.closest(".fsbar")) return; if ($("stage").classList.contains("fsvis")) $("stage").classList.remove("fsvis"); else fsShow(); });
+  $("stage").addEventListener("click", function (e) { if (!fsIsOpen() || e.target.closest(".fsbar") || e.target.closest("#fsList")) return; if ($("stage").classList.contains("fsvis")) $("stage").classList.remove("fsvis"); else fsShow(); });
   $("stage").addEventListener("mousemove", function () { if (fsIsOpen()) fsShow(); });
   ["play", "pause", "timeupdate", "loadedmetadata"].forEach(function (ev) { video.addEventListener(ev, function () { if (fsIsOpen()) fsSync(); }); });
   document.addEventListener("keydown", function (e) {
     if (!fsIsOpen()) return;
-    if (e.key === "Escape") { fsClose(); e.preventDefault(); e.stopPropagation(); return; }
+    if (e.key === "Escape") { if (FSL.open) fsListClose(); else fsBackKey(); e.preventDefault(); e.stopPropagation(); return; }
+    if (FSL.open) {
+      var kk = e.key; fsListTimer();
+      var rows = Array.prototype.slice.call($("fsListUl").querySelectorAll("button")), ri = rows.indexOf(document.activeElement);
+      if (kk === "ArrowDown" || kk === "ArrowUp") { e.preventDefault(); e.stopImmediatePropagation(); var nx = rows[Math.max(0, Math.min(rows.length - 1, ri + (kk === "ArrowDown" ? 1 : -1)))]; if (nx) nx.focus(); return; }
+      if (kk === "ArrowRight" || kk === "ArrowLeft") { e.preventDefault(); e.stopImmediatePropagation(); fsListClose(); return; }
+      if (kk === "Enter" && ri >= 0) { e.preventDefault(); e.stopImmediatePropagation(); rows[ri].click(); return; }
+    }
     var vis = $("stage").classList.contains("fsvis"), k = e.key, inBar = !!(e.target.closest && e.target.closest(".fsbar")), free = !vis || !inBar;
     if (k === "Enter" && !inBar) { e.preventDefault(); e.stopPropagation(); if (vis) $("fsPlay").focus(); fsShow(); return; }
     if (free && (k === "ArrowUp" || k === "ArrowDown")) { e.preventDefault(); e.stopImmediatePropagation(); step(k === "ArrowDown" ? 1 : -1); fsSync(); fsShow(); return; }
+    if (free && k === "ArrowLeft" && isLive() && !document.body.classList.contains("vodgrid") && !$("fsLst").hidden) { e.preventDefault(); e.stopImmediatePropagation(); fsListOpen(); return; }
     if (free && (k === "ArrowLeft" || k === "ArrowRight")) {
       e.preventDefault(); e.stopImmediatePropagation();
       if (isFinite(video.duration) && video.duration > 0) video.currentTime = Math.max(0, video.currentTime + (k === "ArrowRight" ? 10 : -10));
@@ -3305,7 +3524,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
 
   /* ---------- oynatıcıyı etkinleştir + test ---------- */
   var TEST_URLS = ["https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8", "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"];
-  function engLabel(e) { return e === "vlc" ? "VLC" : e === "mx" ? "MX Player" : "Uygulama içi (web)"; }
+  function engLabel(e) { return e === "vlc" ? "VLC" : e === "exo" ? "ExoPlayer" : e === "mx" ? "MX Player" : "Uygulama içi (web)"; }
   function runPlayerTest(idx) {
     idx = idx || 0; var url = TEST_URLS[idx], eng = engine();
     sdClose(); hideSettings(); hideHome();
@@ -3330,6 +3549,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
       var nat = !!(window.Native && Native.hasVlc), cur = engine();
       b.appendChild(el("p", "", "Etkin oynatıcı: " + engLabel(cur)));
       var opts = [["web", "Uygulama içi (web) — her cihazda"]];
+      if (nat && Native.hasExo && Native.hasExo()) opts.unshift(["exo", "ExoPlayer — HLS / DASH / HEVC / HDR"]);
       if (nat) { opts.unshift(["mx", "MX Player" + (window.Native && Native.hasMx && !Native.hasMx() ? " (kurulu değil)" : "")]); opts.unshift(["vlc", "VLC — Dolby / DTS / 4K (önerilen)"]); }
       sdChoices(b, opts, cur, function (v) { store("sinyal.engine", v); if (window.__engSync) window.__engSync(); });
       if (!nat) b.appendChild(el("p", "hint", "VLC ve MX seçenekleri yalnızca Android uygulamasında vardır."));
@@ -3437,16 +3657,16 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
   }
   function dlgPick() { dlgExternal(true); }
   function dlgExternal(playAfter) {
-    var nat = !!(window.Native && Native.hasVlc), st0 = store("sinyal.engine"), sel = st0 === "vlc" || st0 === "mx" || st0 === "web" ? st0 : "def";
+    var nat = !!(window.Native && Native.hasVlc), st0 = store("sinyal.engine"), sel = st0 === "vlc" || st0 === "exo" || st0 === "mx" || st0 === "web" ? st0 : "def";
     sdOpen("Harici Oynatıcılar", function (b) {
-      var opts = [["def", "Varsayılan"], ["vlc", "VLC Oynatıcı"], ["mx", "MX Oynatıcı"]];
+      var opts = [["def", "Varsayılan"], ["vlc", "VLC Oynatıcı"], ["exo", "ExoPlayer"], ["mx", "MX Oynatıcı"]];
       if (st0 === "web") opts.push(["web", "Uygulama içi (web)"]);
       opts.forEach(function (o) {
         var r = document.createElement("button"); r.type = "button"; r.className = "prow2"; r.setAttribute("role", "radio"); r.setAttribute("aria-checked", String(sel === o[0]));
         var t = document.createElement("span"); t.textContent = o[1]; var cb = document.createElement("span"); cb.className = "pchk"; cb.textContent = sel === o[0] ? "✓" : "";
         r.append(t, cb);
         r.onclick = function () {
-          if (!nat && (o[0] === "vlc" || o[0] === "mx")) { say("VLC ve MX Oynatıcı yalnızca Android uygulamasında çalışır.", "Tarayıcıda varsayılan oynatıcı kullanılır."); return; }
+          if (!nat && (o[0] === "vlc" || o[0] === "exo" || o[0] === "mx")) { say("VLC, ExoPlayer ve MX Oynatıcı yalnızca Android uygulamasında çalışır.", "Tarayıcıda varsayılan oynatıcı kullanılır."); return; }
           if (o[0] === "mx" && nat && Native.hasMx && !Native.hasMx()) say("MX Oynatıcı kurulu değil.", "TAMAM'a basınca Play Store açılır.");
           sel = o[0];
           Array.prototype.forEach.call(document.querySelectorAll("#sdBody .prow2"), function (x) { var on = x.dataset.v === sel; x.setAttribute("aria-checked", String(on)); x.lastChild.textContent = on ? "\u2713" : ""; });
@@ -3463,7 +3683,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
     $("sdlg").classList.add("pdlg"); sdOnClose = function () { $("sdlg").classList.remove("pdlg"); };
   }
   $("bPlayer").onclick = dlgPick; $("fsPlayer").onclick = function () { dlgPick(); };
-  window.__engSyncBtn = function () { var n = { vlc: "VLC", mx: "MX", web: "Varsayılan" }[engine()]; $("bPlayer").textContent = "Player Değiştir (" + n + ")"; $("fsPlayer").textContent = "Player: " + n; $("lPlayerT").textContent = "Player Değiştir"; $("lPlayer").title = "Şu an: " + n; };
+  window.__engSyncBtn = function () { var n = { vlc: "VLC", exo: "Exo", mx: "MX", web: "Varsayılan" }[engine()]; $("bPlayer").textContent = "Player Değiştir (" + n + ")"; $("fsPlayer").textContent = "Player: " + n; $("lPlayerT").textContent = "Player Değiştir"; $("lPlayer").title = "Şu an: " + n; };
   $("lPlayer").onclick = function () { dlgExternal(current > -1); };
   window.__engSyncBtn();
 
@@ -3544,6 +3764,94 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
       if (extOn()) b.appendChild(el("p", "hint", "Not: VLC / MX Player kendi ekranında açıldığı için bu ayarlar yalnızca uygulama içi (web) oynatıcıda geçerlidir."));
     });
   }
+  /* ---------- yayın akışı (program rehberi) ---------- */
+  var EPGF = {};
+  function epgFull(c) {
+    var id = (c.url.match(/\/live\/[^\/]+\/[^\/]+\/(\d+)/) || [])[1]; if (!id) return Promise.resolve([]);
+    var h = EPGF[id]; if (h && Date.now() - h.t < 300000) return Promise.resolve(h.v);
+    function norm(js) { var l = (js && js.epg_listings) || []; return l.filter(function (x) { return x && x.start_timestamp && x.stop_timestamp; }).sort(function (a, b) { return a.start_timestamp - b.start_timestamp; }); }
+    return xtGet(xtApi() + "&action=get_simple_data_table&stream_id=" + id).then(norm).catch(function () { return []; }).then(function (l) {
+      if (l.length) return l;
+      return xtGet(xtApi() + "&action=get_short_epg&stream_id=" + id + "&limit=24").then(norm).catch(function () { return []; });
+    }).then(function (l) { EPGF[id] = { t: Date.now(), v: l }; return l; });
+  }
+  function dlgEpg(c) {
+    if (!c) return;
+    if (!isLiveCh(c)) { say("Bu kanal için yayın akışı yok.", "Yayın akışı Xtream sunucusundaki canlı kanallarda gösterilir."); return; }
+    var st = { l: null };
+    sdOpen("Yayın Akışı · " + c.name, function (b) {
+      if (!st.l) { b.appendChild(el("p", "", "Yayın akışı yükleniyor…")); return; }
+      var now = Date.now() / 1000, l = st.l.filter(function (x) { return Number(x.stop_timestamp) > now - 3600; });
+      if (!l.length) { b.appendChild(el("p", "", "Bu kanal için program bilgisi yok.")); return; }
+      var box = el("div", "epgfull"), lastDay = "", curRow = null;
+      l.slice(0, 80).forEach(function (n) {
+        var a = Number(n.start_timestamp), z = Number(n.stop_timestamp), d = new Date(a * 1000), day = d.toLocaleDateString("tr-TR", { weekday: "long", day: "numeric", month: "long" });
+        if (day !== lastDay) { lastDay = day; var h = el("h4", "", day); h.style.cssText = "margin:12px 0 4px;opacity:.8"; box.appendChild(h); }
+        var on = a <= now && now < z, past = z <= now;
+        var r = el("div", "", ""); r.tabIndex = 0; r.style.cssText = "display:flex;gap:12px;padding:8px 10px;border-radius:8px;margin:2px 0;" + (on ? "background:rgba(25,227,255,.18);border:1px solid #19e3ff;" : "border:1px solid transparent;") + (past ? "opacity:.5;" : "");
+        var t = el("span", "", hm(a) + " – " + hm(z)); t.style.cssText = "flex:0 0 auto;min-width:106px;font-variant-numeric:tabular-nums;opacity:.85";
+        var tx = el("span", "", ""); tx.style.cssText = "flex:1;min-width:0";
+        var ti = el("b", "", (on ? "▶ " : "") + (b64d(n.title) || "Program")); tx.appendChild(ti);
+        var ds = b64d(n.description || ""); if (ds) { var sm = el("small", "", ds.length > 160 ? ds.slice(0, 157) + "…" : ds); sm.style.cssText = "display:block;opacity:.75;margin-top:2px"; tx.appendChild(sm); }
+        r.append(t, tx); box.appendChild(r); if (on) curRow = r;
+      });
+      b.appendChild(box);
+      setTimeout(function () { if (curRow) { try { curRow.focus({ preventScroll: true }); curRow.scrollIntoView({ block: "center" }); } catch (e) {} } }, 0);
+    });
+    epgFull(c).then(function (l) { st.l = l; if (!$("sdlg").hidden && sdBuild) sdRender(); });
+  }
+  /* ---------- yayın bilgileri (teknik ayrıntılar) ---------- */
+  function siMask(u) { try { var x = new URL(u); var p = x.pathname.split("/").map(function (q, i, a) { return (/^(live|movie|series)$/.test(a[1] || "") && (i === 2 || i === 3)) ? "•••" : q; }).join("/"); return x.protocol + "//" + x.host + p; } catch (e) { return String(u || "").replace(/\/\/[^\/]*@/, "//"); } }
+  function siRows() {
+    var c = channels[current], R = [], eng = engine();
+    function add(k, v) { R.push([k, v === undefined || v === null || v === "" ? "—" : String(v)]); }
+    if (!c) { add("Yayın", "Seçili yayın yok"); return R; }
+    var vl = video.videoWidth ? video.videoWidth + "×" + video.videoHeight : null;
+    var lv = hls && hls.levels && hls.currentLevel > -1 ? hls.levels[hls.currentLevel] : (hls && hls.levels && hls.levels[0]) || null;
+    var q = video.getVideoPlaybackQuality ? video.getVideoPlaybackQuality() : null, buf = 0;
+    try { for (var i = 0; i < video.buffered.length; i++) if (video.buffered.start(i) <= video.currentTime && video.currentTime <= video.buffered.end(i)) buf = video.buffered.end(i) - video.currentTime; } catch (e) {}
+    var kind = c.kind === "movie" ? "Film" : c.kind === "series" || c.kind === "episode" ? "Dizi" : "Canlı TV";
+    add("Ad", c.name); add("Grup", c.group); add("Tür", kind);
+    add("Oynatıcı", { vlc: "VLC", exo: "ExoPlayer", mx: "MX Player", web: hls ? "Web (hls.js)" : tsp ? "Web (mpegts.js)" : "Web (yerel)" }[eng]);
+    var u = c.url || "", ext = (u.split("?")[0].match(/\.([a-z0-9]{2,5})$/i) || [])[1];
+    add("Adres", siMask(u)); add("Biçim", ext ? ext.toUpperCase() : (/\/live\//.test(u) ? "Canlı akış" : null));
+    var tg = fmtTags(c).map(function (f) { return f[0]; }); add("Kalite etiketleri", tg.join(", ") || "—");
+    if (eng === "web") {
+      add("Çözünürlük", vl || (video.paused ? "Oynatılmıyor" : "Bekleniyor"));
+      if (lv) { add("Görüntü kodeği", lv.videoCodec || (lv.codecSet || "")); add("Ses kodeği", lv.audioCodec); add("Kare hızı", lv.frameRate || (lv.attrs && lv.attrs["FRAME-RATE"])); add("Bit hızı", lv.bitrate ? (lv.bitrate / 1e6).toFixed(2) + " Mb/sn" : null); }
+      if (hls && hls.levels && hls.levels.length) add("Kalite kademeleri", hls.levels.length + " (" + hls.levels.map(function (l) { return l.height ? l.height + "p" : "?"; }).join(", ") + ")");
+      if (hls && hls.bandwidthEstimate) add("Bant genişliği", (hls.bandwidthEstimate / 1e6).toFixed(1) + " Mb/sn");
+      if (hls && hls.audioTracks && hls.audioTracks.length) add("Ses izleri", hls.audioTracks.map(function (a) { return a.name || a.lang || "?"; }).join(", "));
+      add("Tampon", buf.toFixed(1) + " sn"); if (q) add("Kare kaybı", q.droppedVideoFrames + " / " + q.totalVideoFrames);
+      add("Hız", video.playbackRate + "×"); add("Ses", video.muted ? "Sessiz" : Math.round(video.volume * 100) + "%");
+      if (isFinite(video.duration) && video.duration > 0) add("Süre", tstr2(video.currentTime) + " / " + tstr2(video.duration)); else add("Süre", "Canlı");
+      add("Durum", video.paused ? "Duraklatıldı" : video.readyState < 3 ? "Tamponlanıyor" : "Oynuyor");
+    } else add("Not", "Çözünürlük, kodek ve tampon bilgisi " + (eng === "vlc" ? "VLC" : eng === "exo" ? "ExoPlayer" : "harici oynatıcı") + " ekranında yönetilir.");
+    if (isLiveCh(c)) { var e = EPGC[(u.match(/\/live\/[^\/]+\/[^\/]+\/(\d+)/) || [])[1]], v = e && e.v; if (v) { add("Şimdi", hm(v.cur.start_timestamp) + "–" + hm(v.cur.stop_timestamp) + "  " + b64d(v.cur.title)); if (v.next) add("Sonraki", hm(v.next.start_timestamp) + "  " + b64d(v.next.title)); } }
+    return R;
+  }
+  function tstr2(t) { t = Math.max(0, Math.round(t)); var h = Math.floor(t / 3600), m = Math.floor(t % 3600 / 60), s = t % 60; return (h ? h + ":" + p2(m) : m) + ":" + p2(s); }
+  function dlgSi() {
+    var c = channels[current]; if (c && isLiveCh(c)) epgNow(c);
+    var tmr = 0, box;
+    sdOnClose = function () { clearInterval(tmr); };
+    sdOpen("Yayın Bilgileri", function (b) {
+      box = el("div", "sinfo"); b.appendChild(box);
+      function draw() {
+        var R = siRows(); box.textContent = "";
+        R.forEach(function (r) { var d = el("div", "", ""); d.style.cssText = "display:flex;gap:12px;padding:6px 4px;border-bottom:1px solid rgba(255,255,255,.1)"; var k = el("span", "", r[0]); k.style.cssText = "flex:0 0 150px;opacity:.7"; var v = el("b", "", r[1]); v.style.cssText = "flex:1;min-width:0;word-break:break-word;font-weight:600"; d.append(k, v); box.appendChild(d); });
+        box._txt = R.map(function (r) { return r[0] + ": " + r[1]; }).join("\n");
+      }
+      draw(); clearInterval(tmr); tmr = setInterval(function () { if ($("sdlg").hidden) { clearInterval(tmr); return; } draw(); }, 1000);
+      var row = el("div", "row"); row.style.marginTop = "10px";
+      row.appendChild(btn("Kopyala", function () { var t = box._txt || ""; try { navigator.clipboard.writeText(t).then(function () { toast("Kopyalandı"); }, function () { toast("Kopyalanamadı"); }); } catch (e) { toast("Kopyalanamadı"); } }, true));
+      row.appendChild(btn("İstatistik katmanı (I)", function () { toggleStats(); }, true));
+      b.appendChild(row);
+    });
+  }
+  $("bInfo").onclick = dlgSi; $("fsSi").onclick = function () { dlgSi(); fsShow(); };
+  $("bEpg").onclick = function () { dlgEpg(channels[current]); };
+  $("fsEpg").onclick = function () { dlgEpg(channels[current]); fsShow(); };
   $("fsInfoB").onclick = function () { var c = channels[current]; if (c) dlgInfo(c); };
   $("fsDl").onclick = function () { var c = channels[current]; if (!c) return; var d = dlOf(c.url); if (d && d.st === "done") { say("Bu film zaten indirildi.", "İndirilenler bölümünden izleyebilirsiniz."); return; } dlClick(c); if (!d) say("İndirme kuyruğa eklendi.", c.name); fsDlSync(); };
   $("fsPro").onclick = dlgPro;

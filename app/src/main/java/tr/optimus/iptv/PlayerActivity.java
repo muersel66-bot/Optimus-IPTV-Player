@@ -26,7 +26,6 @@ import android.widget.TextView;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
-import org.videolan.libvlc.interfaces.IMedia;
 import org.videolan.libvlc.util.VLCVideoLayout;
 
 import java.util.ArrayList;
@@ -519,7 +518,7 @@ public class PlayerActivity extends Activity {
     /** Akıştaki ses kodeklerini gösterir (örneğin "Dolby Digital Plus 5.1"). */
     private void showCodecs() {
         try {
-            IMedia m = player.getMedia();
+            Media m = player.getMedia();
             if (m == null) {
                 return;
             }
@@ -767,6 +766,32 @@ public class PlayerActivity extends Activity {
         return super.onKeyDown(keyCode, event);
     }
 
+    private boolean pipRequested = false;
+
+    /** Geri tuşu: küçük pencereye (PiP) geç; olmazsa kapat. */
+    @Override
+    public void onBackPressed() {
+        if (Pip.enter(this)) {
+            pipRequested = true;
+            return;
+        }
+        super.onBackPressed();
+    }
+
+    @Override
+    public void onPictureInPictureModeChanged(boolean inPip, android.content.res.Configuration cfg) {
+        super.onPictureInPictureModeChanged(inPip, cfg);
+        if (inPip && bar != null) {
+            bar.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        pipRequested = false;
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -781,6 +806,11 @@ public class PlayerActivity extends Activity {
         handler.removeCallbacksAndMessages(null);
         player.stop();
         player.detachViews();
+        if (pipRequested) {
+            // küçük pencere kapatıldı
+            pipRequested = false;
+            finish();
+        }
     }
 
     @Override
