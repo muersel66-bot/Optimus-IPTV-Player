@@ -272,6 +272,13 @@ public class PlayerActivity extends Activity {
                 toggleBar();
             }
         });
+        panel = new ChannelPanel(this, root, new ChannelPanel.Pick() {
+            @Override
+            public void onPick(String url, String name) {
+                load(url, name);
+                MainActivity.js("window.__nativePick&&window.__nativePick(" + org.json.JSONObject.quote(url) + ")");
+            }
+        });
         setContentView(root);
 
         ArrayList<String> options = new ArrayList<String>();
@@ -768,6 +775,13 @@ public class PlayerActivity extends Activity {
     }
 
     private boolean pipRequested = false;
+    private ChannelPanel panel;
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent e) {
+        if (panel != null && panel.handleKey(e)) return true;
+        return super.dispatchKeyEvent(e);
+    }
 
     /** Geri tuşu: küçük pencereye (PiP) geç; olmazsa kapat. */
     @Override
@@ -785,6 +799,7 @@ public class PlayerActivity extends Activity {
         if (inPip && bar != null) {
             bar.setVisibility(View.GONE);
         }
+        if (inPip && panel != null) panel.close();
     }
 
     @Override

@@ -35,6 +35,7 @@ public class ExoActivity extends Activity {
     private String curName = "";
     private boolean fellBack = false;
     private boolean pipRequested = false;
+    private ChannelPanel panel;
 
     @Override
     protected void onCreate(Bundle state) {
@@ -61,6 +62,13 @@ public class ExoActivity extends Activity {
         title.setShadowLayer(4, 0, 0, Color.BLACK);
         FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.TOP | Gravity.START);
         root.addView(title, lp);
+        panel = new ChannelPanel(this, root, new ChannelPanel.Pick() {
+            @Override
+            public void onPick(String url, String name) {
+                load(url, name);
+                MainActivity.js("window.__nativePick&&window.__nativePick(" + org.json.JSONObject.quote(url) + ")");
+            }
+        });
         setContentView(root);
 
         DefaultRenderersFactory rf = new DefaultRenderersFactory(this)
@@ -123,6 +131,7 @@ public class ExoActivity extends Activity {
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent e) {
+        if (panel != null && panel.handleKey(e)) return true;
         // Geri tuşu kapatır; diğer tuşları (yön, TAMAM, ses, oynat/duraklat) PlayerView işler.
         if (e.getKeyCode() == KeyEvent.KEYCODE_BACK) {
             if (e.getAction() == KeyEvent.ACTION_UP) {
@@ -142,6 +151,7 @@ public class ExoActivity extends Activity {
     public void onPictureInPictureModeChanged(boolean inPip, android.content.res.Configuration cfg) {
         super.onPictureInPictureModeChanged(inPip, cfg);
         if (view != null) view.setUseController(!inPip);
+        if (inPip && panel != null) panel.close();
         if (title != null) title.setVisibility(inPip ? View.GONE : View.VISIBLE);
     }
 

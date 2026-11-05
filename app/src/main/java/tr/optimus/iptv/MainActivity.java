@@ -702,6 +702,12 @@ public class MainActivity extends Activity {
         }
 
         /** ExoPlayer (Media3) ile oynatır. */
+        /** Sayfa, tam ekran oynatıcıdaki sol kanal listesi için canlı kanalları gönderir ([[ad,url],...]; boş = liste yok). */
+        @JavascriptInterface
+        public void setChannels(String json, String currentUrl) {
+            ChannelPanel.set(json, currentUrl);
+        }
+
         @JavascriptInterface
         public void playExo(final String url, final String name) {
             runOnUiThread(new Runnable() {

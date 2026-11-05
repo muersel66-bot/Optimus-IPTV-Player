@@ -356,3 +356,9 @@ Tam ekran çubuğundaki **ℹ Yayın Bilgisi** veya canlı görünümdeki **Yay�
 Android uygulaması dışında (tarayıcıda/HTML) de **⬇ İndir** düğmeleri çalışır: film ve bölüm doğrudan indirme bağlantısıyla tarayıcıya indirilir. Dizi düğmesi sezon/bölüm listesini açar; tarayıcıda bölümler tek tek indirilir.
 - Android uygulamasında eski davranış sürer: kuyruk, ilerleme, İndirilenler ekranı, toplu sezon/dizi indirme.
 - Tarayıcı, başka bir siteden gelen dosyada dosya adını sunucudan alabilir ya da videoyu yeni sekmede açabilir (sunucu izin vermiyorsa).
+
+## Android TV: Tam Ekranda Sol Kanal Listesi (VLC / ExoPlayer) (v4.60)
+VLC veya ExoPlayer ile canlı yayın tam ekran izlerken kumandanın **SOL** tuşu soldan kanal listesini açar (`ChannelPanel.java`).
+- Yukarı/aşağı ile gezilir, TAMAM kanalı açar; liste açık kalır. SAĞ/SOL/GERİ kapatır; 10 sn işlem yapılmazsa kendiliğinden kapanır.
+- Liste, uygulamada o an açık olan grup/arama listesidir; seçilen kanal uygulamada da "şu an oynayan" olarak işaretlenir.
+- Film/dizide ve küçük pencerede (PiP) liste açılmaz. Web oynatıcıdaki liste (v4.54) aynen çalışır.

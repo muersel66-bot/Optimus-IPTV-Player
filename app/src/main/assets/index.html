@@ -1699,7 +1699,29 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
   function mxOn() { return engine() === "mx"; }
   function exoOn() { return engine() === "exo"; }
   function extOn() { return engine() !== "web"; }
+  /* VLC / ExoPlayer tam ekranında sol kanal listesi: geçerli listedeki canlı kanalları yerel oynatıcıya gönder */
+  function nativeChs(url) {
+    try {
+      if (!window.Native || !Native.setChannels) return;
+      var c = channels[current], out = [];
+      if (c && c.kind === "live" && !document.body.classList.contains("vodgrid") && !seriesOpen) {
+        for (var i = 0; i < view.length && out.length < 4000; i++) if (view[i].kind === "live" && /^https?:/i.test(view[i].url)) out.push([view[i].name, view[i].url]);
+      }
+      Native.setChannels(JSON.stringify(out), url || (c ? c.url : ""));
+    } catch (e) {}
+  }
+  window.__nativePick = function (u) {
+    for (var i = 0; i < channels.length; i++) if (channels[i].url === u) {
+      var c = channels[i]; prevCh = current; current = i;
+      $("nowName").textContent = c.name; $("nowGroup").textContent = c.group; $("info").textContent = "";
+      store("sinyal.last", c.url); epgUpdate(c);
+      hist = hist.filter(function (x) { return x.url !== c.url; }); hist.unshift({ url: c.url, t: Date.now() }); hist = hist.slice(0, 50); store("sinyal.hist", JSON.stringify(hist));
+      document.querySelectorAll(".ch").forEach(function (e) { if (+e.dataset.id === i) e.setAttribute("aria-current", "true"); else e.removeAttribute("aria-current"); });
+      return;
+    }
+  };
   function openExternal(url, name) {
+    nativeChs(url);
     if (mxOn()) Native.playMx(url, name); else if (exoOn()) Native.playExo(url, name); else Native.playNative(url, name);
   }
   function liveFmt(url) {
@@ -1716,7 +1738,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
     vlcTried = lastUrl;
     try { video.pause(); } catch (e) {}
     destroyHls(); badge.hidden = true;
-    Native.playNative(lastUrl, curName());
+    nativeChs(lastUrl); Native.playNative(lastUrl, curName());
     say("Yayın VLC ile açıldı.", why + " Geri tuşu bu ekrana döndürür.");
     return true;
   }
@@ -1743,7 +1765,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
     if (extOn() || k4n) {
       try { video.pause(); } catch (e) {}
       destroyHls(); badge.hidden = true;
-      if (k4n) { Native.playNative(url, curName()); say(isHdr(channels[current]) ? "HDR yayın VLC ile açıldı." : isSurround(channels[current]) ? "Dolby / DTS yayın VLC ile açıldı." : "4K yayın VLC ile açıldı.", "Tarayıcı oynatıcısı 4K / HEVC / HDR'ı çözemeyebildiği için otomatik VLC seçildi."); return; }
+      if (k4n) { nativeChs(url); Native.playNative(url, curName()); say(isHdr(channels[current]) ? "HDR yayın VLC ile açıldı." : isSurround(channels[current]) ? "Dolby / DTS yayın VLC ile açıldı." : "4K yayın VLC ile açıldı.", "Tarayıcı oynatıcısı 4K / HEVC / HDR'ı çözemeyebildiği için otomatik VLC seçildi."); return; }
       openExternal(url, curName());
       if (mxOn()) say("MX Player'da açıldı.", "Kanal değiştirmek için MX Player'dan çıkıp bu ekrandan başka bir kanal seçin.");
       else say("Yerel oynatıcıda açıldı (VLC).", "Dolby Digital, Dolby Digital Plus (E-AC-3) ve DTS sesleri desteklenir. Geri tuşu bu ekrana döndürür.");
@@ -2381,7 +2403,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
   setInterval(tickDl, 2000);
 
   /* ---------- ayarlar: kategoriler, gizli, güncelleme, destek ---------- */
-  var APP_VERSION = "4.59";
+  var APP_VERSION = "4.60";
   var hiddenCats = {}, unlocked = false, mTab = "home", mSec = "live", mMsg = "";
   try { hiddenCats = JSON.parse(store("sinyal.hidden") || "{}") || {}; } catch (e) { hiddenCats = {}; }
   function hKey(kind, g) { return kind + "|" + g; }
