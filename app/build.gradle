@@ -10,8 +10,8 @@ android {
         applicationId 'tr.optimus.iptv'
         minSdk 26
         targetSdk 34
-        versionCode 4600
-        versionName '4.60'
+        versionCode 4650
+        versionName '4.65'
 
         // Boyutu küçültmek için yalnızca telefon/TV işlemci mimarileri
         ndk {

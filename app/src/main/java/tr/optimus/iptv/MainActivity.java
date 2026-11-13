@@ -224,6 +224,30 @@ public class MainActivity extends Activity {
         js("window.__mxMissing&&window.__mxMissing()");
     }
 
+    /** Yayını mpv (mpv-android) ile açar; kurulu değilse Play Store'u açar. */
+    private void openInMpv(String url, String name) {
+        try {
+            Intent it = new Intent(Intent.ACTION_VIEW);
+            it.setDataAndType(Uri.parse(url), "video/*");
+            it.setPackage("is.xyz.mpv");
+            it.putExtra("title", name == null ? "" : name);
+            startActivity(it);
+            return;
+        } catch (ActivityNotFoundException e) {
+            // kurulu değil
+        }
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=is.xyz.mpv")));
+        } catch (ActivityNotFoundException e) {
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=is.xyz.mpv")));
+            } catch (ActivityNotFoundException e2) {
+                // tarayıcı da yok
+            }
+        }
+        js("window.__mpvMissing&&window.__mpvMissing()");
+    }
+
     private void immersive(boolean on) {
         View d = getWindow().getDecorView();
         if (on) {
@@ -701,13 +725,32 @@ public class MainActivity extends Activity {
             return true;
         }
 
-        /** ExoPlayer (Media3) ile oynatır. */
         /** Sayfa, tam ekran oynatıcıdaki sol kanal listesi için canlı kanalları gönderir ([[ad,url],...]; boş = liste yok). */
         @JavascriptInterface
         public void setChannels(String json, String currentUrl) {
             ChannelPanel.set(json, currentUrl);
         }
 
+        @JavascriptInterface
+        public boolean hasMx() {
+            return installed("com.mxtech.videoplayer.pro") || installed("com.mxtech.videoplayer.ad");
+        }
+
+        @JavascriptInterface
+        public boolean hasMpv() {
+            return installed("is.xyz.mpv");
+        }
+
+        private boolean installed(String pkg) {
+            try {
+                getPackageManager().getPackageInfo(pkg, 0);
+                return true;
+            } catch (Throwable e) {
+                return false;
+            }
+        }
+
+        /** ExoPlayer (Media3) ile oynatır. */
         @JavascriptInterface
         public void playExo(final String url, final String name) {
             runOnUiThread(new Runnable() {
@@ -760,6 +803,17 @@ public class MainActivity extends Activity {
                 @Override
                 public void run() {
                     openInMx(url, name);
+                }
+            });
+        }
+
+        /** mpv (mpv-android) ile oynatır. */
+        @JavascriptInterface
+        public void playMpv(final String url, final String name) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    openInMpv(url, name);
                 }
             });
         }

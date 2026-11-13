@@ -23,6 +23,9 @@ final class Pip {
     static boolean enter(Activity a) {
         try {
             if (Build.VERSION.SDK_INT < 26 || !enabled(a)) return false;
+            // Android TV'de ekran içinde ekran (küçük pencere) kullanılmaz: Geri doğrudan kapatır.
+            if (a.getPackageManager().hasSystemFeature(PackageManager.FEATURE_LEANBACK)
+                    || a.getPackageManager().hasSystemFeature(PackageManager.FEATURE_TELEVISION)) return false;
             if (!a.getPackageManager().hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE)) return false;
             PictureInPictureParams p = new PictureInPictureParams.Builder().setAspectRatio(new Rational(16, 9)).build();
             return a.enterPictureInPictureMode(p);

@@ -362,3 +362,31 @@ VLC veya ExoPlayer ile canlı yayın tam ekran izlerken kumandanın **SOL** tuş
 - Yukarı/aşağı ile gezilir, TAMAM kanalı açar; liste açık kalır. SAĞ/SOL/GERİ kapatır; 10 sn işlem yapılmazsa kendiliğinden kapanır.
 - Liste, uygulamada o an açık olan grup/arama listesidir; seçilen kanal uygulamada da "şu an oynayan" olarak işaretlenir.
 - Film/dizide ve küçük pencerede (PiP) liste açılmaz. Web oynatıcıdaki liste (v4.54) aynen çalışır.
+
+## Sinema Modu Oynatıcı (v4.61)
+Film ve dizi tam ekranında otomatik açılan, sade ve büyük kontrollü oynatıcı teması (OPTİMUS markasıyla):
+- Duraklatınca ortada büyük oynat düğmesi; altta kalın ilerleme çubuğu, geçen ve kalan süre.
+- Dizide bölümün son 20 saniyesinde **Sonraki bölüm** kartı (Şimdi izle / Vazgeç); bölüm bitince sonraki otomatik başlar. ⚙ Pro > "Sonraki bölümü otomatik oynat" ile kapatılır.
+- İntroyu atla (N) kartı sonraki bölüm kartıyla çakışmaz.
+- Canlı yayında normal tam ekran oynatıcı aynen sürer.
+
+## mpv Oynatıcı (v4.62)
+Oynatıcı seçeneklerine **mpv** eklendi (Motor düğmesi, Oynatıcıyı Etkinleştir ve Harici Oynatıcılar listeleri).
+- mpv, ayrı **mpv-android** uygulaması (`is.xyz.mpv`) olarak çalışır; seçilince yayın onda açılır. Kurulu değilse Play Store açılır.
+- MX Player gibi harici bir uygulama olduğundan kanal değiştirmek için ondan çıkıp OPTİMUS'tan başka kanal seçilir; sol kanal listesi/PiP bu oynatıcıda yoktur.
+- Kodu uygulamanın içine gömülü libmpv değildir (derleme için hazır bir libmpv paketi yoktur).
+
+## TV'de Ekran İçinde Ekran Kaldırıldı (v4.63)
+Android TV'de (ve uygulamada TV görünümü seçiliyken) Geri tuşu artık küçük pencere / mini oynatıcı açmaz: VLC ve ExoPlayer'da oynatıcıyı kapatır, web oynatıcıda tam ekrandan çıkar. Telefonda ve tablette küçük pencere (PiP) ile mini oynatıcı aynen çalışır.
+
+## M3U8 Bağlantısı Yükle (v4.64)
+Üstteki **M3U bağlantısı → Yükle** alanı (ve bağlantı yapıştırınca otomatik yükleme) artık bağlantının türünü kendisi anlar:
+- Tek yayın (.m3u8 HLS, .ts, .mp4...) → doğrudan oynatılır ve kayıtlı bağlantılara eklenir. Önceden böyle bir bağlantı kanal listesi sanılıp bozuk kanallar üretebiliyordu.
+- Kanal listesi (.m3u / .m3u8 içinde birden çok kanal) → kanallar yüklenir.
+- Ayarlar > "M3U / M3U8 Oynatıcı" penceresi aynen çalışır.
+
+## Tamamlama Turu (v4.65)
+- Manifest'e `<queries>` eklendi: Android 11+ cihazlarda MX Player ve mpv'nin kurulu olup olmadığı görülebilir, harici oynatıcılar sorunsuz açılır.
+- `hasMx()` ve `hasMpv()` köprü işlevleri eklendi: oynatıcı seçim listelerinde "(kurulu değil)" uyarısı artık gerçekten çalışır.
+- Kod temizliği (yanlış yerleşmiş yorum satırı).
+- Derleme: GitHub'a gönderince `.github/workflows/apk.yml` APK'yı derler ve Releases'e koyar. Java kodlarının tamamı henüz gerçek bir Gradle derlemesinden geçmedi; derleme hatası çıkarsa hata metnini gönderin, düzelteyim.

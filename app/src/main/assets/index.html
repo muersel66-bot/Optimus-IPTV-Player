@@ -662,6 +662,28 @@ body.fsp .stage:not(.fsvis) { cursor: none; }
 #fsSeek { width: 100%; accent-color: #19e3ff; }
 body.fsp .stage video { object-fit: contain; }
 
+/* ---------- sinema modu (film / dizi tam ekran) ---------- */
+.fsseekrow { display: flex; align-items: center; gap: 12px; width: 100%; }
+.fsseekrow #fsSeek { flex: 1; }
+.fst1 { font: 600 14px var(--font-body); font-variant-numeric: tabular-nums; opacity: .9; min-width: 52px; text-align: center; }
+#fsBig, #fsNx { display: none; }
+body.fsp.cine .stage > #fsBig { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 3; width: 104px; height: 104px; border-radius: 50%; border: 3px solid rgba(255,255,255,.85); background: rgba(10,6,36,.55); color: #fff; place-items: center; opacity: 0; pointer-events: none; transition: opacity .2s; }
+body.fsp.cine .stage > #fsBig svg { width: 54px; height: 54px; fill: #fff; stroke: none; }
+body.fsp.cine.paused .stage > #fsBig { display: grid; opacity: 1; pointer-events: auto; }
+body.fsp.cine .stage.fsvis > #fsBig { display: grid; opacity: 1; pointer-events: auto; }
+body.fsp.cine #fsBig:focus { outline: 0; box-shadow: 0 0 0 4px #19e3ff; }
+body.fsp.cine #fsTop { background: linear-gradient(rgba(0,0,0,.85), transparent); }
+body.fsp.cine .fst b { font-size: clamp(20px, 2.6vw, 30px); letter-spacing: .2px; }
+body.fsp.cine #fsSeek { height: 8px; accent-color: #ff2f7e; }
+body.fsp.cine .fsbot { background: linear-gradient(transparent, rgba(0,0,0,.92)); padding-bottom: 20px; }
+body.fsp.cine .stage > #fsNx:not([hidden]) { display: block; position: absolute; right: 22px; bottom: 190px; z-index: 6; width: min(300px, 70vw); padding: 14px 16px; border-radius: 12px; background: rgba(14,8,44,.92); border: 1px solid rgba(25,227,255,.6); color: #fff; box-shadow: 0 8px 28px rgba(0,0,0,.6); }
+#fsNx small { display: block; opacity: .7; margin-bottom: 4px; }
+#fsNx b { display: block; font: 700 16px var(--font-body); margin-bottom: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#fsNx .nxr { display: flex; gap: 8px; }
+#fsNx button { flex: 1; padding: 10px 8px; border-radius: 8px; border: 0; background: rgba(255,255,255,.16); color: #fff; font: 700 14px var(--font-body); }
+#fsNx button:first-child { background: #ff2f7e; }
+#fsNx button:focus { outline: 0; box-shadow: 0 0 0 3px #19e3ff; }
+
 /* ---------- sağ üstte yüzen mini oynatıcı ---------- */
 #miniBar { display: none; }
 body.mini .stage { position: fixed; top: 12px; right: 12px; left: auto; bottom: auto; width: min(360px, 46vw); height: auto; max-height: none; aspect-ratio: 16 / 9; z-index: 900; margin: 0; border: 2px solid rgba(25,227,255,.7); border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,.65); background: #000; overflow: hidden; cursor: pointer; }
@@ -975,7 +997,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
       <video id="video" controls playsinline autoplay></video>
       <div class="badge" id="badge" hidden><i></i>Canlı</div>
       <div class="status" id="status"></div>
-      <div id="miniBar"><button type="button" id="miniMax" aria-label="Tam ekran" title="Tam ekran">⤢</button><button type="button" id="miniX" aria-label="Mini oynatıcıyı kapat" title="Kapat">✕</button></div><button type="button" id="fsSkip" hidden>İntroyu Atla ›</button><pre id="fsStats" hidden></pre><div id="fsToast" hidden></div>
+      <div id="miniBar"><button type="button" id="miniMax" aria-label="Tam ekran" title="Tam ekran">⤢</button><button type="button" id="miniX" aria-label="Mini oynatıcıyı kapat" title="Kapat">✕</button></div><button type="button" id="fsBig" aria-label="Oynat / duraklat"><svg viewBox="0 0 24 24"><path d="M7 5l12 7-12 7z"/></svg></button><div id="fsNx" hidden><small>Sonraki bölüm</small><b id="fsNxT"></b><div class="nxr"><button type="button" id="fsNxGo">▶ Şimdi izle</button><button type="button" id="fsNxNo">Vazgeç</button></div></div><button type="button" id="fsSkip" hidden>İntroyu Atla ›</button><pre id="fsStats" hidden></pre><div id="fsToast" hidden></div>
       <button type="button" class="fsopen" id="fsOpen" aria-label="Büyük ekran" title="Büyük ekran"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5 M20 9V4h-5 M4 15v5h5 M20 15v5h-5"/></svg><span>Büyük ekran</span></button>
       <aside class="fslist" id="fsList" hidden aria-label="Kanal listesi">
         <div class="fslh"><b id="fslTitle">Kanallar</b><button type="button" class="fsb" id="fslClose" aria-label="Kapat">✕</button></div>
@@ -983,7 +1005,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
       </aside>
       <div class="fsbar" id="fsTop"><button type="button" class="fsb txt" id="fsBack" aria-label="Mini ekran"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg><span>Mini ekran</span></button><div class="fst"><b id="fsName"></b><small id="fsInfo"></small></div><span id="fsClock"></span></div>
       <div class="fsbar fsbot" id="fsCtl">
-        <input type="range" id="fsSeek" min="0" max="1000" value="0" aria-label="Konum">
+        <div class="fsseekrow"><span class="fst1 vod" id="fsT1">0:00</span><input type="range" id="fsSeek" min="0" max="1000" value="0" aria-label="Konum"><span class="fst1 vod" id="fsT2">-0:00</span></div>
         <div class="fsrow">
           <button type="button" class="fsb vod" id="fsBack10" aria-label="10 sn geri"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 3-6.2"/><path d="M4 4v5h5"/></svg><i>10</i></button>
           <button type="button" class="fsb" id="fsPrev" aria-label="Önceki kanal"><svg viewBox="0 0 24 24"><path d="M6 5v14 M19 5l-9 7 9 7z"/></svg></button>
@@ -1693,10 +1715,12 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
   /* VLC motoru (yalnızca uygulamada): Dolby Digital / Dolby Digital Plus / DTS dahil tüm sesleri çözer */
   function engine() {
     if (!(window.Native && Native.hasVlc)) return "web";
-    var e = store("sinyal.engine"); if (e === "exo" && Native.hasExo && Native.hasExo()) return "exo"; return e === "web" || e === "mx" ? e : "vlc";
+    var e = store("sinyal.engine"); if (e === "exo" && Native.hasExo && Native.hasExo()) return "exo"; return e === "web" || e === "mx" || e === "mpv" ? e : "vlc";
   }
   function vlcOn() { return engine() === "vlc"; }
   function mxOn() { return engine() === "mx"; }
+  function mpvOn() { return engine() === "mpv"; }
+  function extName() { return mxOn() ? "MX Player" : mpvOn() ? "mpv" : "VLC"; }
   function exoOn() { return engine() === "exo"; }
   function extOn() { return engine() !== "web"; }
   /* VLC / ExoPlayer tam ekranında sol kanal listesi: geçerli listedeki canlı kanalları yerel oynatıcıya gönder */
@@ -1722,7 +1746,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
   };
   function openExternal(url, name) {
     nativeChs(url);
-    if (mxOn()) Native.playMx(url, name); else if (exoOn()) Native.playExo(url, name); else Native.playNative(url, name);
+    if (mxOn()) Native.playMx(url, name); else if (mpvOn() && Native.playMpv) Native.playMpv(url, name); else if (exoOn()) Native.playExo(url, name); else Native.playNative(url, name);
   }
   function liveFmt(url) {
     var f = store("sinyal.livefmt");
@@ -1767,7 +1791,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
       destroyHls(); badge.hidden = true;
       if (k4n) { nativeChs(url); Native.playNative(url, curName()); say(isHdr(channels[current]) ? "HDR yayın VLC ile açıldı." : isSurround(channels[current]) ? "Dolby / DTS yayın VLC ile açıldı." : "4K yayın VLC ile açıldı.", "Tarayıcı oynatıcısı 4K / HEVC / HDR'ı çözemeyebildiği için otomatik VLC seçildi."); return; }
       openExternal(url, curName());
-      if (mxOn()) say("MX Player'da açıldı.", "Kanal değiştirmek için MX Player'dan çıkıp bu ekrandan başka bir kanal seçin.");
+      if (mxOn() || mpvOn()) say(extName() + "'da açıldı.", "Kanal değiştirmek için " + extName() + "'dan çıkıp bu ekrandan başka bir kanal seçin.");
       else say("Yerel oynatıcıda açıldı (VLC).", "Dolby Digital, Dolby Digital Plus (E-AC-3) ve DTS sesleri desteklenir. Geri tuşu bu ekrana döndürür.");
     } else startUrl(url, tok);
   }
@@ -2138,7 +2162,13 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
     else { $("urlIn").value = "http://127.0.0.1:8787/playlist.m3u"; $("urlBtn").click(); }
   };
   $("xtForm").onsubmit = function (e) { e.preventDefault(); loadXtream($("xtSrv").value, $("xtUsr").value, $("xtPwd").value); };
-  $("m3uForm").onsubmit = function (e) { e.preventDefault(); var v = normUrl($("m3uTop").value); if (!v) { $("m3uTop").focus(); return; } $("m3uTop").value = v; $("urlIn").value = v; $("urlBtn").click(); };
+  $("m3uForm").onsubmit = function (e) {
+    e.preventDefault(); var v = normUrl($("m3uTop").value); if (!v) { $("m3uTop").focus(); return; } $("m3uTop").value = v; $("urlIn").value = v;
+    /* M3U8 bağlantısı: tek yayınsa doğrudan oynat, kanal listesiyse yükle */
+    var m = { set textContent(t) { if (/^(✗|Geçerli)/.test(t)) say(String(t).replace(/^✗\s*/, ""), "Bağlantıyı kontrol edin."); } };
+    if (!/^https?:\/\/\S+$/i.test(v)) { $("urlBtn").click(); return; }
+    say("Bağlantı denetleniyor…"); openPlayerUrl(v, m, true);
+  };
   $("m3uTop").addEventListener("paste", function () { setTimeout(function () { if (/^https?:\/\/\S+$/i.test($("m3uTop").value.trim())) $("m3uForm").requestSubmit(); }, 0); });
   $("fileIn").onchange = function (e) { loadFile(e.target.files[0]); e.target.value = ""; };
   /* dosyayı pencereye sürükleyip bırakma */
@@ -2197,7 +2227,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
     if (!local && extOn()) {
       try { video.pause(); } catch (e) {}
       openExternal(src, name);
-      say(mxOn() ? "MX Player'da açıldı." : "Yerel oynatıcıda açıldı (VLC).", "Her biçim ve ses kodeği desteklenir. Geri tuşu bu ekrana döndürür.");
+      say(mxOn() || mpvOn() ? extName() + "'da açıldı." : "Yerel oynatıcıda açıldı (VLC).", "Her biçim ve ses kodeği desteklenir. Geri tuşu bu ekrana döndürür.");
       return;
     }
     say("Yükleniyor…", name);
@@ -2247,6 +2277,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
     };
   }
 
+  window.__mpvMissing = function () { say("mpv yüklü değil.", "Play Store açıldı. mpv-android'i kurun veya Motor düğmesiyle VLC'ye geçin."); };
   window.__mxMissing = function () { say("MX Player yüklü değil.", "Play Store açıldı. MX Player Pro'yu kurun veya Motor düğmesiyle VLC'ye geçin."); };
   window.__zap = function (d) { step(d); };
   window.__vlcClosed = function () { if (current > -1) say("Yerel oynatıcı kapatıldı.", "Yeniden başlatmak için bir kanala dokunun."); };
@@ -2254,7 +2285,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
     var eb = $("engineBtn");
     if (!(window.Native && Native.hasVlc)) { window.__engSync = function () { if (window.__engSyncBtn) window.__engSyncBtn(); }; return; }
     eb.hidden = false;
-    var HX = !!(Native.hasExo && Native.hasExo()), names = { vlc: "VLC", exo: "ExoPlayer", mx: "MX Player", web: "Web" }, nextE = HX ? { vlc: "exo", exo: "mx", mx: "web", web: "vlc" } : { vlc: "mx", mx: "web", web: "vlc" };
+    var HX = !!(Native.hasExo && Native.hasExo()), names = { vlc: "VLC", exo: "ExoPlayer", mx: "MX Player", mpv: "mpv", web: "Web" }, HM = !!Native.playMpv, nextE = HX ? { vlc: "exo", exo: "mx", mx: HM ? "mpv" : "web", mpv: "web", web: "vlc" } : { vlc: "mx", mx: HM ? "mpv" : "web", mpv: "web", web: "vlc" };
     function sync() { eb.textContent = "Motor: " + names[engine()]; if (window.__engSyncBtn) window.__engSyncBtn(); }
     sync(); window.__engSync = sync;
     eb.onclick = function () { store("sinyal.engine", nextE[engine()]); sync(); if (current > -1) play(current); };
@@ -2403,7 +2434,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
   setInterval(tickDl, 2000);
 
   /* ---------- ayarlar: kategoriler, gizli, güncelleme, destek ---------- */
-  var APP_VERSION = "4.60";
+  var APP_VERSION = "4.65";
   var hiddenCats = {}, unlocked = false, mTab = "home", mSec = "live", mMsg = "";
   try { hiddenCats = JSON.parse(store("sinyal.hidden") || "{}") || {}; } catch (e) { hiddenCats = {}; }
   function hKey(kind, g) { return kind + "|" + g; }
@@ -2621,7 +2652,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
   function wrapT(pm, ms) { return new Promise(function (res, rej) { var t = setTimeout(function () { rej(new Error("timeout")); }, ms); pm.then(function (v) { clearTimeout(t); res(v); }, function (e) { clearTimeout(t); rej(e); }); }); }
   function fmtDate(sec) { var d = new Date(sec * 1000); return p2(d.getDate()) + "." + p2(d.getMonth() + 1) + "." + d.getFullYear(); }
   function chipsEl(arr) { var c = el("div", "chips"); arr.forEach(function (t) { c.appendChild(el("span", "chip", t)); }); return c; }
-  function playerName() { return NATIVE ? ({ vlc: "VLC", mx: "MX Player", web: "Web" })[engine()] : "Web"; }
+  function playerName() { return NATIVE ? ({ vlc: "VLC", exo: "ExoPlayer", mx: "MX Player", mpv: "mpv", web: "Web" })[engine()] : "Web"; }
 
   function panelHome(b) {
     b.appendChild(el("p", "", "Kaynak, hesap ve oynatıcı durumunuzun özeti."));
@@ -2886,7 +2917,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
         "Yerel oynatıcıda açıldı (VLC).": "Opened in the native player (VLC).",
         "Dolby Digital, Dolby Digital Plus (E-AC-3) ve DTS sesleri desteklenir. Geri tuşu bu ekrana döndürür.": "Dolby Digital, Dolby Digital Plus (E-AC-3) and DTS audio are supported. The back button returns to this screen.",
         "Her biçim ve ses kodeği desteklenir. Geri tuşu bu ekrana döndürür.": "All formats and audio codecs are supported. The back button returns to this screen.",
-        "MX Player'da açıldı.": "Opened in MX Player.", "MX Player yüklü değil.": "MX Player is not installed.",
+        "MX Player'da açıldı.": "Opened in MX Player.", "mpv'da açıldı.": "Opened in mpv.", "mpv yüklü değil.": "mpv is not installed.", "MX Player yüklü değil.": "MX Player is not installed.",
         "Kanal değiştirmek için MX Player'dan çıkıp bu ekrandan başka bir kanal seçin.": "To change channel, leave MX Player and pick another channel here.",
         "Play Store açıldı. MX Player Pro'yu kurun veya Motor düğmesiyle VLC'ye geçin.": "Play Store opened. Install MX Player Pro or switch to VLC with the Engine button.",
         "Yerel oynatıcı kapatıldı.": "Native player closed.", "Yeniden başlatmak için bir kanala dokunun.": "Tap a channel to start again.",
@@ -2998,7 +3029,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
         "Yerel oynatıcıda açıldı (VLC).": "Im nativen Player geöffnet (VLC).",
         "Dolby Digital, Dolby Digital Plus (E-AC-3) ve DTS sesleri desteklenir. Geri tuşu bu ekrana döndürür.": "Dolby Digital, Dolby Digital Plus (E-AC-3) und DTS werden unterstützt. Die Zurück-Taste führt zu diesem Bildschirm.",
         "Her biçim ve ses kodeği desteklenir. Geri tuşu bu ekrana döndürür.": "Alle Formate und Audiocodecs werden unterstützt. Die Zurück-Taste führt zu diesem Bildschirm.",
-        "MX Player'da açıldı.": "In MX Player geöffnet.", "MX Player yüklü değil.": "MX Player ist nicht installiert.",
+        "MX Player'da açıldı.": "In MX Player geöffnet.", "mpv'da açıldı.": "In mpv geöffnet.", "mpv yüklü değil.": "mpv ist nicht installiert.", "MX Player yüklü değil.": "MX Player ist nicht installiert.",
         "Kanal değiştirmek için MX Player'dan çıkıp bu ekrandan başka bir kanal seçin.": "Zum Kanalwechsel MX Player verlassen und hier einen anderen Kanal wählen.",
         "Play Store açıldı. MX Player Pro'yu kurun veya Motor düğmesiyle VLC'ye geçin.": "Play Store geöffnet. MX Player Pro installieren oder mit der Player-Taste zu VLC wechseln.",
         "Yerel oynatıcı kapatıldı.": "Nativer Player geschlossen.", "Yeniden başlatmak için bir kanala dokunun.": "Einen Kanal antippen, um neu zu starten.",
@@ -3276,7 +3307,35 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
     var live = isLive(); $("fsSeek").style.visibility = live ? "hidden" : "visible";
     if (!live && !$("fsSeek").matches(":active")) $("fsSeek").value = Math.round(video.currentTime / video.duration * 1000) || 0;
     $("fsClock").textContent = tstr(new Date());
+    cineSync();
   }
+  /* sinema modu: film/dizi tam ekranında sade, büyük kontroller; bölüm sonunda "Sonraki bölüm" */
+  var nxT = 0, nxOff = "";
+  function nextEp() {
+    var c = channels[current]; if (!c || c.kind !== "episode") return null;
+    for (var i = 0; i < view.length; i++) if (view[i].id === current) return view[i + 1] && view[i + 1].kind === "episode" ? view[i + 1] : null;
+    return null;
+  }
+  function autoNext() { return store("sinyal.autonext") !== "0"; }
+  function nxHide() { clearInterval(nxT); nxT = 0; $("fsNx").hidden = true; }
+  function nxGo() { nxHide(); var n = nextEp(); if (n) { play(n.id); fsSync(); fsShow(); } }
+  function cineSync() {
+    var on = fsIsOpen() && !isLive() && !!channels[current]; document.body.classList.toggle("cine", on);
+    document.body.classList.toggle("paused", on && video.paused);
+    if (!on) { nxHide(); return; }
+    var d = video.duration, t = video.currentTime || 0;
+    function f(x) { x = Math.max(0, Math.round(x)); var h = Math.floor(x / 3600), m = Math.floor(x % 3600 / 60), s = x % 60; return (h ? h + ":" + p2(m) : m) + ":" + p2(s); }
+    $("fsT1").textContent = f(t); $("fsT2").textContent = isFinite(d) ? "-" + f(d - t) : "";
+    var n = nextEp();
+    if (n && autoNext() && isFinite(d) && d > 120 && d - t < 20 && !video.paused && nxOff !== channels[current].url) {
+      if ($("fsNx").hidden) { $("fsNx").hidden = false; $("fsNxT").textContent = n.name; }
+    } else if (!$("fsNx").hidden) nxHide();
+  }
+  $("fsBig").onclick = function (e) { e.stopPropagation(); if (video.paused) video.play().catch(function () {}); else video.pause(); fsSync(); fsShow(); };
+  $("fsNxGo").onclick = function (e) { e.stopPropagation(); nxGo(); };
+  $("fsNxNo").onclick = function (e) { e.stopPropagation(); nxOff = (channels[current] || {}).url || ""; nxHide(); };
+  video.addEventListener("ended", function () { if (!fsIsOpen() && !document.body.classList.contains("mini")) return; var n = nextEp(); if (n && autoNext() && nxOff !== (channels[current] || {}).url) nxGo(); });
+  video.addEventListener("pause", cineSync); video.addEventListener("play", cineSync);
   /* ---------- tam ekranda sol kanal listesi ---------- */
   var FSL = { open: false, a: 0, b: 0, t: 0 };
   function fsListTimer() { clearTimeout(FSL.t); FSL.t = setTimeout(fsListClose, 9000); }
@@ -3318,7 +3377,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
   function miniOn() { return document.body.classList.contains("mini"); }
   function miniOff() { if (!miniOn()) return false; document.body.classList.remove("mini"); video.controls = true; return true; }
   function miniOpen() {
-    if (!fsIsOpen()) return false;
+    if (!fsIsOpen() || IS_TV) return false;
     if (!isLive() || document.body.classList.contains("vodgrid") || !channels[current]) return false;
     fsClose(); document.body.classList.add("mini"); video.controls = false;
     if (video.paused) video.play().catch(function () {});
@@ -3339,7 +3398,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
     if (fsIsOpen()) return; miniOff(); document.body.classList.add("fsp"); video.controls = false; video.style.objectFit = ["contain", "cover", "fill"][fsFit]; $("fsAspect").textContent = ["Sığdır", "Doldur", "Uzat"][fsFit]; fsSync(); fsShow();
     if (IS_TV) setTimeout(function () { if (fsIsOpen()) $("fsPlay").focus(); }, 400);
   }
-  function fsClose() { if (!fsIsOpen()) return; fsListClose(); document.body.classList.remove("fsp"); if (document.body.classList.contains("vodgrid")) { try { video.pause(); } catch (e) {} } setTimeout(function () { var a = document.activeElement; if (a && a !== document.body && a.offsetParent !== null && !a.closest(".fsbar")) return; var t = document.querySelector(".ch[aria-current=\"true\"]") || $("fsOpen"); if (t && t.offsetParent !== null) { try { t.focus(); } catch (e) {} } }, 0); $("stage").classList.remove("fsvis"); video.controls = true; clearTimeout(fsTimer); }
+  function fsClose() { if (!fsIsOpen()) return; fsListClose(); document.body.classList.remove("fsp"); document.body.classList.remove("cine", "paused"); nxHide(); if (document.body.classList.contains("vodgrid")) { try { video.pause(); } catch (e) {} } setTimeout(function () { var a = document.activeElement; if (a && a !== document.body && a.offsetParent !== null && !a.closest(".fsbar")) return; var t = document.querySelector(".ch[aria-current=\"true\"]") || $("fsOpen"); if (t && t.offsetParent !== null) { try { t.focus(); } catch (e) {} } }, 0); $("stage").classList.remove("fsvis"); video.controls = true; clearTimeout(fsTimer); }
   function fsMaybe(id, same) { var c = channels[id]; if (!c || extOn() || (HAS_DL && localFor(c.url))) return; if (document.body.classList.contains("vodgrid")) { fsOpen(); return; } if (IS_TV) { if (same) fsOpen(); return; } if (fsAuto()) fsOpen(); }
   $("fsOpen").onclick = fsOpen; $("fsBack").onclick = fsBackKey;
   $("fsPrev").onclick = function () { step(-1); fsShow(); }; $("fsNext").onclick = function () { step(1); fsShow(); };
@@ -3546,7 +3605,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
 
   /* ---------- oynatıcıyı etkinleştir + test ---------- */
   var TEST_URLS = ["https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8", "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"];
-  function engLabel(e) { return e === "vlc" ? "VLC" : e === "exo" ? "ExoPlayer" : e === "mx" ? "MX Player" : "Uygulama içi (web)"; }
+  function engLabel(e) { return e === "vlc" ? "VLC" : e === "exo" ? "ExoPlayer" : e === "mx" ? "MX Player" : e === "mpv" ? "mpv" : "Uygulama içi (web)"; }
   function runPlayerTest(idx) {
     idx = idx || 0; var url = TEST_URLS[idx], eng = engine();
     sdClose(); hideSettings(); hideHome();
@@ -3572,6 +3631,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
       b.appendChild(el("p", "", "Etkin oynatıcı: " + engLabel(cur)));
       var opts = [["web", "Uygulama içi (web) — her cihazda"]];
       if (nat && Native.hasExo && Native.hasExo()) opts.unshift(["exo", "ExoPlayer — HLS / DASH / HEVC / HDR"]);
+      if (nat && Native.playMpv) opts.unshift(["mpv", "mpv (mpv-android)" + (Native.hasMpv && !Native.hasMpv() ? " (kurulu değil)" : "")]);
       if (nat) { opts.unshift(["mx", "MX Player" + (window.Native && Native.hasMx && !Native.hasMx() ? " (kurulu değil)" : "")]); opts.unshift(["vlc", "VLC — Dolby / DTS / 4K (önerilen)"]); }
       sdChoices(b, opts, cur, function (v) { store("sinyal.engine", v); if (window.__engSync) window.__engSync(); });
       if (!nat) b.appendChild(el("p", "hint", "VLC ve MX seçenekleri yalnızca Android uygulamasında vardır."));
@@ -3679,16 +3739,16 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
   }
   function dlgPick() { dlgExternal(true); }
   function dlgExternal(playAfter) {
-    var nat = !!(window.Native && Native.hasVlc), st0 = store("sinyal.engine"), sel = st0 === "vlc" || st0 === "exo" || st0 === "mx" || st0 === "web" ? st0 : "def";
+    var nat = !!(window.Native && Native.hasVlc), st0 = store("sinyal.engine"), sel = st0 === "vlc" || st0 === "exo" || st0 === "mx" || st0 === "mpv" || st0 === "web" ? st0 : "def";
     sdOpen("Harici Oynatıcılar", function (b) {
-      var opts = [["def", "Varsayılan"], ["vlc", "VLC Oynatıcı"], ["exo", "ExoPlayer"], ["mx", "MX Oynatıcı"]];
+      var opts = [["def", "Varsayılan"], ["vlc", "VLC Oynatıcı"], ["exo", "ExoPlayer"], ["mx", "MX Oynatıcı"], ["mpv", "mpv"]];
       if (st0 === "web") opts.push(["web", "Uygulama içi (web)"]);
       opts.forEach(function (o) {
         var r = document.createElement("button"); r.type = "button"; r.className = "prow2"; r.setAttribute("role", "radio"); r.setAttribute("aria-checked", String(sel === o[0]));
         var t = document.createElement("span"); t.textContent = o[1]; var cb = document.createElement("span"); cb.className = "pchk"; cb.textContent = sel === o[0] ? "✓" : "";
         r.append(t, cb);
         r.onclick = function () {
-          if (!nat && (o[0] === "vlc" || o[0] === "exo" || o[0] === "mx")) { say("VLC, ExoPlayer ve MX Oynatıcı yalnızca Android uygulamasında çalışır.", "Tarayıcıda varsayılan oynatıcı kullanılır."); return; }
+          if (!nat && (o[0] === "vlc" || o[0] === "exo" || o[0] === "mx" || o[0] === "mpv")) { say("VLC, ExoPlayer, MX Oynatıcı ve mpv yalnızca Android uygulamasında çalışır.", "Tarayıcıda varsayılan oynatıcı kullanılır."); return; }
           if (o[0] === "mx" && nat && Native.hasMx && !Native.hasMx()) say("MX Oynatıcı kurulu değil.", "TAMAM'a basınca Play Store açılır.");
           sel = o[0];
           Array.prototype.forEach.call(document.querySelectorAll("#sdBody .prow2"), function (x) { var on = x.dataset.v === sel; x.setAttribute("aria-checked", String(on)); x.lastChild.textContent = on ? "\u2713" : ""; });
@@ -3758,6 +3818,8 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
       function row(items, cur, fn) { var r = el("div", "row"); items.forEach(function (o) { r.appendChild(btn((String(o[0]) === String(cur) ? "✓ " : "") + o[1], function () { fn(o[0]); sdRender(); }, String(o[0]) !== String(cur))); }); b.appendChild(r); }
       sect("Oynatma hızı");
       row(SPEEDS.map(function (v) { return [v, v + "×"]; }), video.playbackRate, function (v) { video.playbackRate = +v; $("speed").value = String(v); });
+      sect("Sonraki bölümü otomatik oynat");
+      row([["1", "Açık"], ["0", "Kapalı"]], autoNext() ? "1" : "0", function (v) { store("sinyal.autonext", v); });
       var lv = levelsOf();
       if (lv.length > 1) {
         sect("Kalite");
@@ -3834,7 +3896,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
     try { for (var i = 0; i < video.buffered.length; i++) if (video.buffered.start(i) <= video.currentTime && video.currentTime <= video.buffered.end(i)) buf = video.buffered.end(i) - video.currentTime; } catch (e) {}
     var kind = c.kind === "movie" ? "Film" : c.kind === "series" || c.kind === "episode" ? "Dizi" : "Canlı TV";
     add("Ad", c.name); add("Grup", c.group); add("Tür", kind);
-    add("Oynatıcı", { vlc: "VLC", exo: "ExoPlayer", mx: "MX Player", web: hls ? "Web (hls.js)" : tsp ? "Web (mpegts.js)" : "Web (yerel)" }[eng]);
+    add("Oynatıcı", { vlc: "VLC", exo: "ExoPlayer", mx: "MX Player", mpv: "mpv", web: hls ? "Web (hls.js)" : tsp ? "Web (mpegts.js)" : "Web (yerel)" }[eng]);
     var u = c.url || "", ext = (u.split("?")[0].match(/\.([a-z0-9]{2,5})$/i) || [])[1];
     add("Adres", siMask(u)); add("Biçim", ext ? ext.toUpperCase() : (/\/live\//.test(u) ? "Canlı akış" : null));
     var tg = fmtTags(c).map(function (f) { return f[0]; }); add("Kalite etiketleri", tg.join(", ") || "—");
@@ -3848,7 +3910,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
       add("Hız", video.playbackRate + "×"); add("Ses", video.muted ? "Sessiz" : Math.round(video.volume * 100) + "%");
       if (isFinite(video.duration) && video.duration > 0) add("Süre", tstr2(video.currentTime) + " / " + tstr2(video.duration)); else add("Süre", "Canlı");
       add("Durum", video.paused ? "Duraklatıldı" : video.readyState < 3 ? "Tamponlanıyor" : "Oynuyor");
-    } else add("Not", "Çözünürlük, kodek ve tampon bilgisi " + (eng === "vlc" ? "VLC" : eng === "exo" ? "ExoPlayer" : "harici oynatıcı") + " ekranında yönetilir.");
+    } else add("Not", "Çözünürlük, kodek ve tampon bilgisi " + (eng === "vlc" ? "VLC" : eng === "exo" ? "ExoPlayer" : eng === "mpv" ? "mpv" : "harici oynatıcı") + " ekranında yönetilir.");
     if (isLiveCh(c)) { var e = EPGC[(u.match(/\/live\/[^\/]+\/[^\/]+\/(\d+)/) || [])[1]], v = e && e.v; if (v) { add("Şimdi", hm(v.cur.start_timestamp) + "–" + hm(v.cur.stop_timestamp) + "  " + b64d(v.cur.title)); if (v.next) add("Sonraki", hm(v.next.start_timestamp) + "  " + b64d(v.next.title)); } }
     return R;
   }
@@ -3886,7 +3948,7 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
   var introFor = "";
   function introLen() { return +store("sinyal.introlen") || 85; }
   function introSync() {
-    var c = channels[current], show = fsIsOpen() && c && (c.kind === "episode" || c.kind === "series") && introFor !== c.url && !isLive() && video.currentTime > 2 && video.currentTime < 240;
+    var c = channels[current], show = fsIsOpen() && c && (c.kind === "episode" || c.kind === "series") && introFor !== c.url && !isLive() && video.currentTime > 2 && video.currentTime < 240 && $("fsNx").hidden;
     $("fsSkip").hidden = !show;
   }
   function skipIntro() { if (isLive()) return; introFor = (channels[current] || {}).url || ""; video.currentTime = Math.min(video.duration || 1e9, video.currentTime + introLen()); toast("İntro atlandı"); $("fsSkip").hidden = true; fsShow(); }
@@ -3918,20 +3980,20 @@ body.tv .stage { max-height: calc((100vh - 170px) / 1.2); }
     if (!extOn()) fsOpen();
     if (fsIsOpen()) { $("fsName").textContent = name; }
   }
-  function openPlayerUrl(u, msgEl) {
+  function openPlayerUrl(u, msgEl, save) {
     u = normUrl(u);
     if (!/^https?:\/\/\S+$/i.test(u)) { msgEl.textContent = "Geçerli bir bağlantı girin (http:// veya https://)."; return; }
     msgEl.textContent = "Bağlantı denetleniyor…";
     var nm = linkName(u);
     function asList() { sdClose(); hideSettings(); hideHome(); $("urlIn").value = u; $("m3uTop").value = u; $("urlBtn").click(); }
-    function asStream() { sdClose(); hideSettings(); hideHome(); playDirect(u, nm); }
+    function asStream() { sdClose(); hideSettings(); hideHome(); if (save) { try { addLink(u, true); } catch (e) {} } playDirect(u, nm); }
     var isPl = /\.m3u(\?|#|$)/i.test(u), isMedia = /\.(m3u8|ts|mp4|mkv|webm|mov|m4v|avi)(\?|#|$)/i.test(u);
     withTimeout(netFetch(u), 15000).then(function (r) {
       if (r.status < 200 || r.status >= 300) throw new Error("HTTP " + r.status);
       var t = r.text || "";
       if (/#EXT-X-(TARGETDURATION|STREAM-INF|MEDIA-SEQUENCE)/i.test(t)) return asStream();
       if (/#EXTINF/i.test(t) && parseM3U(t).length > 1) return asList();
-      if (/#EXTINF/i.test(t) && parseM3U(t).length === 1) { var c = parseM3U(t)[0]; sdClose(); hideSettings(); hideHome(); return playDirect(c.url, c.name || nm); }
+      if (/#EXTINF/i.test(t) && parseM3U(t).length === 1) { var c = parseM3U(t)[0]; sdClose(); hideSettings(); hideHome(); if (save) { try { addLink(u, true); } catch (e) {} } return playDirect(c.url, c.name || nm); }
       if (isMedia) return asStream();
       throw new Error("bağlantı bir M3U/M3U8 listesi veya yayın değil");
     }).catch(function (e) {
